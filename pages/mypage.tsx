@@ -12,6 +12,7 @@ const Home: NextPage = () => {
   const [tab, setTab] = useState(TAB.mine);
   return (
     <Layout>
+      마이페이지
       <Profile>
         <div>보호자</div>
         <div>김보호</div>
