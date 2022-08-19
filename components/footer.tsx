@@ -1,24 +1,40 @@
 import Link from "next/link";
 import styled from "styled-components";
+import {
+  ActivityIcon,
+  ListIcon,
+  MainIcon,
+  NewIcon,
+  SettingIcon,
+} from "./icons";
 
 const Footer = () => {
   return (
     <Main>
       <Link href="/">
-        <FooterItem>메인</FooterItem>
+        <FooterItem>
+          <MainIcon />
+        </FooterItem>
       </Link>
       <Link href="/diary">
         <FooterItem>
-          일기모음
-          <br />
-          (캘린더)
+          <ListIcon />
+        </FooterItem>
+      </Link>
+      <Link href="/new">
+        <FooterItem>
+          <NewIcon />
         </FooterItem>
       </Link>
       <Link href="/activities">
-        <FooterItem>액티비티</FooterItem>
+        <FooterItem>
+          <ActivityIcon />
+        </FooterItem>
       </Link>
       <Link href="/setting">
-        <FooterItem>설정</FooterItem>
+        <FooterItem>
+          <SettingIcon />
+        </FooterItem>
       </Link>
     </Main>
   );
@@ -26,7 +42,7 @@ const Footer = () => {
 
 const Main = styled.footer`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   position: fixed;
   left: 0;
   right: 0;
