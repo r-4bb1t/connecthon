@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 interface IAlertProps {
   close(): void;
-  onClose?(): void;
+  onClose?: Function;
   twoButton?: boolean;
   children: React.ReactNode;
   buttonText: string;

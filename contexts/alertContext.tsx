@@ -7,6 +7,7 @@ interface IAlert {
   message: React.ReactNode;
   twoButton?: boolean;
   buttonText: string;
+  onClose: Function;
 }
 
 interface IAlertsWithId extends IAlert {
@@ -45,12 +46,13 @@ const AlertContextProvider = ({ children }: { children: ReactNode }) => {
     >
       <aside>
         <AnimatePresence>
-          {alerts.map(({ id, message, twoButton, buttonText }) => (
+          {alerts.map(({ id, message, twoButton, buttonText, onClose }) => (
             <AlertContainer key={id}>
               <Alert
                 twoButton={twoButton}
                 buttonText={buttonText}
                 close={() => close(id)}
+                onClose={onClose}
               >
                 {message}
               </Alert>

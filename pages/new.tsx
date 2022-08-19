@@ -29,6 +29,7 @@ const New: NextPage = () => {
             ),
             twoButton: true,
             buttonText: "삭제",
+            onClose: () => {},
           });
         }}
       >
