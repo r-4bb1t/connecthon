@@ -2,12 +2,14 @@ import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import Layout from "../components/layout";
+import { useAlertContext } from "../hooks/useAlertContext";
 
 const New: NextPage = () => {
   const router = useRouter();
   const handleSubmit = () => {
     router.back();
   };
+  const { push } = useAlertContext();
 
   return (
     <Layout>
@@ -15,6 +17,23 @@ const New: NextPage = () => {
       <div>Issue 1</div>
       <Textarea />
       <SubmitButton onClick={handleSubmit}>등록</SubmitButton>
+      <CancleButton
+        onClick={() => {
+          push({
+            message: (
+              <>
+                정말 삭제하시겠어요?
+                <br />
+                작성한 내용이 모두 사라져요.
+              </>
+            ),
+            twoButton: true,
+            buttonText: "삭제",
+          });
+        }}
+      >
+        취소
+      </CancleButton>
     </Layout>
   );
 };
@@ -27,3 +46,5 @@ const Textarea = styled.textarea`
 `;
 
 const SubmitButton = styled.button``;
+
+const CancleButton = styled(SubmitButton)``;
