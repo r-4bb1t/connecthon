@@ -11,5 +11,6 @@ export default function handler(req: any, res: any) {
       "내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용",
     from_days: 10,
     is_parent_answered: true,
+    emotion: "angry",
   });
 }

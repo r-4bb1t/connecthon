@@ -6,25 +6,50 @@ import React, { useCallback, useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import Layout from "../../components/layout";
 import { THEME } from "../../constant/colors";
-import { Diary } from "../../constant/types";
+import { Diary, Message } from "../../constant/types";
 
 const DiaryDetail = () => {
   const router = useRouter();
   const id = router.query.id;
 
   const [diary, setDiary] = useState(null as unknown as Diary);
+  const [message, setMessage] = useState(null as unknown as Message);
   const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
 
   const fetchData = useCallback(async () => {
-    const result = await (
-      await fetch(`${process.env.NEXT_APP_API_HOST ?? "/api"}/diary/${id}`)
-    ).json();
-    setDiary(result);
+    try {
+      const result = await (
+        await fetch(`${process.env.NEXT_PUBLIC_API_HOST || "/api"}/diary/${id}`)
+      ).json();
+      setDiary(result);
+    } catch (e) {
+      console.log(e);
+    }
   }, []);
+
+  const getMessage = useCallback(async () => {
+    if (diary?.is_parent_answered) {
+      try {
+        const messageResult = await (
+          await fetch(
+            `${
+              process.env.NEXT_PUBLIC_API_HOST || "/api"
+            }/diary/${id}?type="open`
+          )
+        ).json();
+        setMessage(messageResult);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  }, [diary]);
 
   useEffect(() => {
     fetchData();
   }, []);
+  useEffect(() => {
+    getMessage();
+  }, [diary]);
 
   return (
     <Layout>
@@ -65,34 +90,12 @@ const DiaryDetail = () => {
             >
               <ModalTitle>부모님의 답장</ModalTitle>
               <ModalContent>
-                울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~
-                넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^
-                울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~
-                넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^
-                울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~
-                넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^
-                울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~
-                넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^
-                울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~
-                넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^
-                울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~
-                넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^
-                울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~
-                넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^
-                울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~
-                넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^
-                울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~
-                넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^
-                울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~
-                넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^
-                울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~
-                넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^
-                울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~
-                넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^
-                울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~
-                넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^
+                {message?.content}
                 <ModalDate>
-                  {format(new Date(), "yy.MM.dd hh시 MM분")}
+                  {format(
+                    new Date(message?.parent_answered_at || "1971-01-01"),
+                    "yy.MM.dd hh시 MM분"
+                  )}
                   <br />
                   <span>널 사랑하는 부모님이</span>
                 </ModalDate>

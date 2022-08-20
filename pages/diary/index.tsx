@@ -7,10 +7,14 @@ const Diary: NextPage = () => {
   const [diaries, setDiaries] = useState([] as any);
 
   const fetchData = useCallback(async () => {
-    const result = await (
-      await fetch(`${process.env.NEXT_APP_API_HOST ?? "/api"}/diary`)
-    ).json();
-    setDiaries(result);
+    try {
+      const result = await (
+        await fetch(`${process.env.NEXT_PUBLIC_API_HOST || "/api"}/diaries`)
+      ).json();
+      setDiaries(result);
+    } catch (e) {
+      console.log(e);
+    }
   }, []);
 
   useEffect(() => {

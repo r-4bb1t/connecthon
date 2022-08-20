@@ -6,5 +6,12 @@ export interface Diary {
   child_answer: string;
   from_days: number;
   is_parent_answered: boolean;
-  /* emotion:string; */
+  parent_answered_at: string;
+  emotion: string;
+}
+
+export interface Message {
+  _id: string;
+  content: string;
+  parent_answered_at: string;
 }
