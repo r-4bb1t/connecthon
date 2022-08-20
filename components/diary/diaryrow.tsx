@@ -57,7 +57,6 @@ const Container = styled.div`
 const DiaryImage = styled.img`
   object-fit: cover;
   width: 100%;
-  height: 100%;
   border-right: 2px solid #ededed;
 `;
 
