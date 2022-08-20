@@ -20,7 +20,9 @@ const Card = ({ image, title, description, type = "list" }: CardType) => {
           <Cafe />
           <PickedIcon />
         </CardDetailTop>
-        <CardTitle>{title}</CardTitle>
+        <CardTitleContainer>
+          <CardTitle>{title}</CardTitle>
+        </CardTitleContainer>
         <CardDescription>
           <CardTarget>유아(5~7)세</CardTarget>
           <CardLandmark>서울역사박물관</CardLandmark>
@@ -56,15 +58,24 @@ const CardDetailTop = styled.div`
   padding-bottom: 0px;
 `;
 
-const CardTitle = styled.p`
-  font-family: "Pretendard";
-  font-style: normal;
+const CardTitleContainer = styled.div`
+  height: 50px;
+  display: flex;
+  align-items: center;
+`;
+
+const CardTitle = styled.div`
   font-weight: 700;
   font-size: 16px;
   padding: 0 12px;
   margin-bottom: 8px;
   margin-top: 8px;
   color: #3c3c3c;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  font-size: 14px;
 `;
 
 const CardDescription = styled.div`
@@ -72,8 +83,7 @@ const CardDescription = styled.div`
   flex-direction: column;
 `;
 
-const CardTarget = styled.p`
-  font-family: "Pretendard";
+const CardTarget = styled.div`
   font-style: normal;
   font-weight: 600;
   font-size: 12px;
@@ -86,7 +96,6 @@ const CardTarget = styled.p`
 `;
 
 const CardLandmark = styled.p`
-  font-family: "Pretendard";
   font-style: normal;
   font-weight: 600;
   font-size: 12px;
