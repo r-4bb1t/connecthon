@@ -20,22 +20,8 @@ const Activities: NextPage = () => {
   const [isOpenCategory, setOpenCategory] = useState(false);
   const [isOpenDate, setOpenDate] = useState(false);
   const [showFree, setShowFree] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState([
-    "공원탐방",
-    "교육체험",
-    "문화행사",
-    "농장체험",
-    "전시관람",
-    "키즈카페",
-  ] as string[]);
-  const [realCategory, setRealCategory] = useState([
-    "공원탐방",
-    "교육체험",
-    "문화행사",
-    "농장체험",
-    "전시관람",
-    "키즈카페",
-  ] as string[]);
+  const [selectedCategory, setSelectedCategory] = useState([] as string[]);
+  const [realCategory, setRealCategory] = useState([] as string[]);
   const [startDate, setStartDate] = useState(new Date());
   const [activities, setActivities] = useState([] as any[]);
   const { token } = useToken();
