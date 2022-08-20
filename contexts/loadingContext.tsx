@@ -1,34 +1,47 @@
-import { createContext, FC, ReactNode, useState } from "react";
+import { createContext, FC, ReactNode, useEffect, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import styled from "styled-components";
 import { useAlertContext } from "../hooks/useAlertContext";
+import { useRouter } from "next/router";
 
-export const LoadingContext = createContext<{ load: Function }>({
+export const LoadingContext = createContext<{
+  load: Function;
+  endLoad: Function;
+}>({
   load: () => {},
+  endLoad: () => {},
 });
 
 const LoadingContextProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(false);
   const { closeAll } = useAlertContext();
+  const router = useRouter();
 
   const load = () => {
     closeAll();
     setLoading(true);
   };
 
+  const endLoad = () => {
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    endLoad();
+  }, [router]);
+
   return (
     <LoadingContext.Provider
       value={{
         load,
+        endLoad,
       }}
     >
-      <AnimatePresence>
-        {loading && (
-          <LoadingContainer>
-            <img src="/assets/loading.png" />
-          </LoadingContainer>
-        )}
-      </AnimatePresence>
+      {loading && (
+        <LoadingContainer>
+          <img src="/assets/loading.png" />
+        </LoadingContainer>
+      )}
       {children}
     </LoadingContext.Provider>
   );

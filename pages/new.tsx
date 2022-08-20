@@ -13,7 +13,7 @@ import { useLoading } from "../hooks/useLoadingContext";
 const New: NextPage = () => {
   const { push } = useAlertContext();
   const { token } = useToken();
-  const { load } = useLoading();
+  const { load, endLoad } = useLoading();
   const router = useRouter();
 
   const [question, setQuestion] = useState(null as any);
