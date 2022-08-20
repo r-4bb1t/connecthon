@@ -497,7 +497,7 @@ const GhostInput = styled.input`
   font-weight: 700;
   font-size: 1.2rem;
   border: none;
-  background: white;
+  background: transparent;
   text-align: right;
 `;
 
