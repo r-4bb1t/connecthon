@@ -56,7 +56,7 @@ const Home: NextPage = () => {
             <Level>
               Lv.<span>{level}</span>
             </Level>
-            키우미
+            병아리
           </LevelContainer>
           <Exp>
             <span>{exp}</span> / 100
@@ -65,7 +65,7 @@ const Home: NextPage = () => {
         <ExpGage percent={exp / 100}></ExpGage>
       </StatusContainer>
       <Today>{format(new Date(), "yyyy . MM . dd")}</Today>
-      <CharacterContainer isAnimation={isAnimation} onClick={() => gainExp(60)}>
+      <CharacterContainer isAnimation={isAnimation} onClick={() => gainExp(10)}>
         {isAnimation && <ChangeImage src={`/assets/change.gif?${level}`} />}
         <div>
           <CharacterImg level={cIndex} />
