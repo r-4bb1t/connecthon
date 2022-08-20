@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+//@ts-ignore
 import Sheet from "react-modal-sheet";
 import styled from "styled-components";
 import Datepicker from "./datepicker/datepicker";
