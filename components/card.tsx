@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { THEME } from "../constant/colors";
 import { Cafe, Culture, Education, Exhibition, Farm, Park } from "./category";
 import { PickedIcon } from "./icons";
 
@@ -7,9 +8,10 @@ interface CardType {
   image: string;
   title: string;
   description: string;
+  type: "list" | "wishlist" | "history";
 }
 
-const Card = ({ image, title, description }: CardType) => {
+const Card = ({ image, title, description, type = "list" }: CardType) => {
   return (
     <CardContainer>
       <CardImage src={image} />
@@ -23,6 +25,10 @@ const Card = ({ image, title, description }: CardType) => {
           <CardTarget>유아(5~7)세</CardTarget>
           <CardLandmark>서울역사박물관</CardLandmark>
         </CardDescription>
+        <ButtonContainer>
+          {type === "wishlist" && <WishlistButton>다녀왔어요</WishlistButton>}
+          {type === "history" && <HistoryButton>일기보기</HistoryButton>}
+        </ButtonContainer>
       </CardDetail>
     </CardContainer>
   );
@@ -90,6 +96,28 @@ const CardLandmark = styled.p`
   margin: 0;
   padding: 12px;
   padding-top: 0;
+`;
+
+const ButtonContainer = styled.div`
+  width: 100%;
+  padding: 0 2rem;
+`;
+
+const WishlistButton = styled.button`
+  border: none;
+  background: ${THEME.darker};
+  color: white;
+  font-weight: 700;
+  font-size: 14px;
+  width: 100%;
+  border-radius: 9999px;
+  padding: 0.5rem 0;
+  margin-bottom: 1rem;
+`;
+
+const HistoryButton = styled(WishlistButton)`
+  background: ${THEME.black200};
+  color: ${THEME.black700};
 `;
 
 export default Card;

@@ -211,6 +211,7 @@ const Home: NextPage = () => {
             image={`/images/dummy_activity.svg`}
             title={each.title}
             description={each.description}
+            type={["wishlist", "history"][tab] as "wishlist" | "history"}
           />
         ))}
       </LikedList>
