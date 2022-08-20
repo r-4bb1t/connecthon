@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { THEME } from "../constant/colors";
 import { ActivityTypes, CardType } from "../constant/types";
+import { useLoading } from "../hooks/useLoadingContext";
 import { useToken } from "../hooks/useTokenContext";
 import { PickedIcon } from "./icons";
 
@@ -13,13 +15,17 @@ const Card = ({
   target,
   activityType,
   location,
-  liked,
+  liked = true,
+  like = [],
   type = "list",
+  diaryId,
 }: CardType) => {
   const [localLiked, setLocalLiked] = useState(liked);
   const { token } = useToken();
+  const router = useRouter();
+  const { load } = useLoading();
 
-  const like = async () => {
+  const toggleLike = async () => {
     try {
       await fetch(
         `${process.env.NEXT_PUBLIC_API_HOST || "/api"}/activity/${_id}`,
@@ -35,6 +41,10 @@ const Card = ({
     }
   };
 
+  useEffect(() => {
+    setLocalLiked(liked);
+  }, [liked]);
+
   return (
     <CardContainer>
       <a href={url} rel="noreferrer" target="_blank">
@@ -42,14 +52,23 @@ const Card = ({
       </a>
       <CardDetail>
         <CardDetailTop>
-          <ActivityType type={activityType}>{activityType}</ActivityType>
-          {/* <PickedIcon /> */}
+          {!(type === "list") ? (
+            <LikerList>
+              {like.map((l: "child" | "parent", i) => (
+                <Liker type={l} key={i}>
+                  {{ child: "아이", parent: "부모" }[l]}
+                </Liker>
+              ))}
+            </LikerList>
+          ) : (
+            <ActivityType type={activityType}>{activityType}</ActivityType>
+          )}
           {!(type === "history") && (
             <PickedIcon
               selected={localLiked}
               onClick={() => {
                 setLocalLiked((s) => !s);
-                like();
+                toggleLike();
               }}
             />
           )}
@@ -62,8 +81,26 @@ const Card = ({
           <CardLandmark>{location}</CardLandmark>
         </CardDescription>
         <ButtonContainer>
-          {type === "wishlist" && <WishlistButton>다녀왔어요</WishlistButton>}
-          {type === "history" && <HistoryButton>일기보기</HistoryButton>}
+          {type === "wishlist" && (
+            <WishlistButton
+              onClick={() => {
+                load();
+                router.push(`/new?activity_id=${_id}&activity_name=${title}`);
+              }}
+            >
+              다녀왔어요
+            </WishlistButton>
+          )}
+          {type === "history" && (
+            <HistoryButton
+              onClick={() => {
+                load();
+                router.push(`/diary/${diaryId}`);
+              }}
+            >
+              일기보기
+            </HistoryButton>
+          )}
         </ButtonContainer>
       </CardDetail>
     </CardContainer>
@@ -197,13 +234,31 @@ const ActivityType = styled.div<{ type: ActivityTypes }>`
   width: 70px;
   height: 25px;
 
-  font-style: normal;
   font-weight: 600;
   font-size: 12px;
   line-height: 137%;
   display: flex;
   align-items: center;
   text-align: center;
+`;
+
+const LikerList = styled.div`
+  display: flex;
+  gap: 8px;
+`;
+
+const Liker = styled.div<{ type: "child" | "parent" }>`
+  background: ${(p) => (p.type === "child" ? "#FFF6D2" : "#FFE5F0")};
+  color: ${(p) => (p.type === "child" ? "#A65F00" : "#CA4980")};
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 22px;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 137%;
 `;
 
 export default Card;

@@ -163,6 +163,7 @@ const Activities: NextPage = () => {
                 activityType={each.type}
                 location={each.location}
                 liked={each.is_liked}
+                like={each.like}
                 target={each.target}
                 description={each.description}
               />
