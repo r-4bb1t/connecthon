@@ -86,7 +86,7 @@ const Home: NextPage = () => {
             fill="#D8D8D8"
           />
         </svg>
-        <QuestionContent>{question?.question_content}</QuestionContent>
+        <QuestionContent>{question?.question_content || ""}</QuestionContent>
         {question?.is_child_answered ? (
           "오늘의 질문에 답변했어요!"
         ) : (

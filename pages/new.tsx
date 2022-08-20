@@ -99,7 +99,7 @@ const New: NextPage = () => {
             </svg>
             오늘의 질문
           </TodayQuestion>
-          <QuestionContent>{question?.question_content}</QuestionContent>
+          <QuestionContent>{question?.question_content || ""}</QuestionContent>
           <Textarea
             value={answer}
             onChange={(e) => setAnswer(e.target.value)}

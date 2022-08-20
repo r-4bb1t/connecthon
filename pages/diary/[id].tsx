@@ -59,8 +59,8 @@ const DiaryDetail = () => {
             </svg>
             오늘의 질문
           </TodayQuestion>
-          <QuestionContent>{diary?.question_content}</QuestionContent>
-          <Answer>{diary?.child_answer}</Answer>
+          <QuestionContent>{diary?.question_content || ""}</QuestionContent>
+          <Answer>{diary?.child_answer || ""}</Answer>
         </Content>
         {diary?.is_parent_answered && (
           <StampContainer
@@ -85,7 +85,7 @@ const DiaryDetail = () => {
               <ModalContent>
                 {diary.parent_answer}
                 <ModalDate>
-                  {diary?.parent_answered_at}
+                  {diary?.parent_answered_at || ""}
                   <br />
                   <span>널 사랑하는 부모님이</span>
                 </ModalDate>
