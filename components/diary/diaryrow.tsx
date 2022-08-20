@@ -25,9 +25,7 @@ const DiaryRow = ({ diary }: { diary: Diary }) => {
               </svg>
               <div>{diary.question_content}</div>
             </DiaryTitle>
-            <DiaryDate>
-              {diary.from_day}일 전<DiaryAlarm />
-            </DiaryDate>
+            <DiaryDate>{diary.from_day}일 전</DiaryDate>
           </DiaryDetailTop>
           <DiaryDescription>{diary.child_answer}</DiaryDescription>
         </DiaryDetail>
