@@ -26,9 +26,7 @@ const DiaryRow = ({ diary }: { diary: Diary }) => {
               <div>{diary.question_content}</div>
             </DiaryTitle>
             <DiaryDate>
-
               {diary.from_today === 0 ? "오늘" : `${diary.from_today}일 전`}
-
             </DiaryDate>
           </DiaryDetailTop>
           <DiaryDescription>{diary.child_answer}</DiaryDescription>
@@ -58,7 +56,6 @@ const Container = styled.div`
 const DiaryImage = styled.img`
   object-fit: cover;
   width: 100%;
-  height: 100%;
   border-right: 2px solid #ededed;
 `;
 
