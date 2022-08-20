@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import styled from "styled-components";
+import { THEME } from "../constant/colors";
 
 interface IAlertProps {
   close(): void;
@@ -40,8 +41,21 @@ export function Alert({
 const AlertCard = styled(motion.div)`
   background: white;
   padding: 2rem;
+  border-radius: 20px;
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+  gap: 2rem;
+  button {
+    background: ${THEME.darker};
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 9999px;
+    font-weight: 700;
+    width: 100%;
+  }
 `;

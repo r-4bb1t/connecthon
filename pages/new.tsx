@@ -10,11 +10,16 @@ import { THEME } from "../constant/colors";
 import { Emoji } from "../components/icons";
 
 const New: NextPage = () => {
-  const router = useRouter();
-  const handleSubmit = (emoji: string) => {
-    router.back();
-  };
   const { push } = useAlertContext();
+  const router = useRouter();
+
+  const handleSubmit = (emoji: string) => {
+    push({
+      message: "일기를 작성했어요!",
+      onClose: () => router.back(),
+      buttonText: "확인",
+    });
+  };
 
   const todayQuestion = useTodayQuestion();
 
