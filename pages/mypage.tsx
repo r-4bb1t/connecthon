@@ -7,56 +7,6 @@ import Layout from "../components/layout";
 import { THEME } from "../constant/colors";
 import { useLoading } from "../hooks/useLoadingContext";
 import { useToken } from "../hooks/useTokenContext";
-const Data: any = [
-  {
-    id: "1",
-    image: "https://picsum.photos/200",
-    title: "강릉 수영장",
-    description: "아이들과 부모들이 함꼐 즐길 수 있는 신나는 액티비티",
-  },
-  {
-    id: "2",
-    image: "https://picsum.photos/200",
-    title: "레고랜드",
-    description: "아이들이 좋아하는 레고로 만들어진 꿈같은 놀이동산",
-  },
-  {
-    id: "3",
-    image: "https://picsum.photos/200",
-    title: "강릉 수영장",
-    description: "아이들과 부모들이 함꼐 즐길 수 있는 신나는 액티비티",
-  },
-  {
-    id: "4",
-    image: "https://picsum.photos/200",
-    title: "레고랜드",
-    description: "아이들이 좋아하는 레고로 만들어진 꿈같은 놀이동산",
-  },
-  {
-    id: "5",
-    image: "https://picsum.photos/200",
-    title: "강릉 수영장",
-    description: "아이들과 부모들이 함꼐 즐길 수 있는 신나는 액티비티",
-  },
-  {
-    id: "6",
-    image: "https://picsum.photos/200",
-    title: "레고랜드",
-    description: "아이들이 좋아하는 레고로 만들어진 꿈같은 놀이동산",
-  },
-  {
-    id: "7",
-    image: "https://picsum.photos/200",
-    title: "강릉 수영장",
-    description: "아이들과 부모들이 함꼐 즐길 수 있는 신나는 액티비티",
-  },
-  {
-    id: "8",
-    image: "https://picsum.photos/200",
-    title: "레고랜드",
-    description: "아이들이 좋아하는 레고로 만들어진 꿈같은 놀이동산",
-  },
-];
 
 enum TAB {
   wishlist,
@@ -67,7 +17,7 @@ const Home: NextPage = () => {
   const [tab, setTab] = useState(TAB.wishlist);
   const [activities, setActivities] = useState([] as any[]);
   const [title, setTitle] = useState("즐거운 우리집");
-  const { token } = useToken();
+  const token = localStorage.getItem("token");
   const { load } = useLoading();
   const router = useRouter();
 
@@ -80,7 +30,7 @@ const Home: NextPage = () => {
           }`,
           {
             headers: {
-              Authorization: token,
+              Authorization: `${token}`,
             },
           }
         )
