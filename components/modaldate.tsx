@@ -41,7 +41,7 @@ const Modaldate = ({
 
 const DatePicker = styled.div``;
 
-const DatePickerTitle = styled.p`
+const DatePickerTitle = styled.div`
   text-align: center;
   font-size: 20px;
 `;

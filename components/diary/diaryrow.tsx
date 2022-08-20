@@ -90,7 +90,7 @@ const DiaryAlarm = styled.div`
   right: -10px;
 `;
 
-const DiaryTitle = styled.p`
+const DiaryTitle = styled.div`
   margin: 0;
   color: #999999;
   display: flex;
@@ -107,7 +107,7 @@ const DiaryTitle = styled.p`
   }
 `;
 
-const DiaryDescription = styled.p`
+const DiaryDescription = styled.div`
   margin-top: 10px;
   margin-bottom: 0;
   color: #515151;

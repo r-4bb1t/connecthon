@@ -389,7 +389,7 @@ const FreeColumn = styled.div`
   gap: 10px;
 `;
 
-const ToggleText = styled.p`
+const ToggleText = styled.div`
   font-style: normal;
   font-weight: 500;
   font-size: 15px;
