@@ -3,6 +3,7 @@ import axios from "axios";
 import styled from "styled-components";
 import { useRouter } from "next/router";
 import { useLoading } from "../hooks/useLoadingContext";
+import { useToken } from "../hooks/useTokenContext";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -14,6 +15,7 @@ const Login = () => {
   const { load } = useLoading();
 
   const router = useRouter();
+  const { setToken } = useToken();
 
   const fetchToken = async (e: any) => {
     e.preventDefault();
@@ -29,7 +31,7 @@ const Login = () => {
       console.log(result);
 
       if (result.data.data.length > 0) {
-        localStorage.setItem("token", result.data.data);
+        setToken(result.data.data);
         load();
         router.push("/main");
       }

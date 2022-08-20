@@ -18,8 +18,6 @@ const DiaryDetail = () => {
   const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
 
   const fetchData = useCallback(async () => {
-    const token = localStorage.getItem("token") || "";
-
     if (!id) return;
     try {
       const result = await (

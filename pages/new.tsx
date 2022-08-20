@@ -15,8 +15,7 @@ const New: NextPage = () => {
   const { load } = useLoading();
   const router = useRouter();
   const [question, setQuestion] = useState(null as any);
-
-  const token = localStorage.getItem("token") || "";
+  const { token } = useToken();
 
   const fetchData = useCallback(async () => {
     try {

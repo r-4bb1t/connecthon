@@ -7,6 +7,7 @@ import { NewIcon } from "../components/icons";
 import Layout from "../components/layout";
 import { THEME } from "../constant/colors";
 import { useCallback, useEffect, useState } from "react";
+import { useToken } from "../hooks/useTokenContext";
 
 const Home: NextPage = () => {
   const [level, setLevel] = useState(1);
@@ -14,7 +15,7 @@ const Home: NextPage = () => {
   const [exp, setExp] = useState(0);
   const [isAnimation, setIsAnimation] = useState(false);
 
-  const token = localStorage.getItem("token") || "";
+  const { token } = useToken();
   const [question, setQuestion] = useState(null as any);
 
   const fetchData = useCallback(async () => {
@@ -49,8 +50,9 @@ const Home: NextPage = () => {
     }
   }, [exp]);
 
-  localStorage.setItem("level", level.toString());
-  useEffect(() => {}, [level]);
+  useEffect(() => {
+    localStorage.setItem("level", level.toString());
+  }, [level]);
 
   return (
     <Layout>
