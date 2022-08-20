@@ -1,11 +1,19 @@
 import React, { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
+import { useRouter } from "next/router";
+import { useLoading } from "../hooks/useLoadingContext";
+
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
   const [focus, setFocus] = useState("none" as "none" | "id" | "pw");
   const [px, setPx] = useState(0);
+
+  const { load } = useLoading();
+
+  const router = useRouter();
 
   const fetchToken = async (e: any) => {
     e.preventDefault();
@@ -20,7 +28,11 @@ const Login = () => {
       console.log(username, password);
       console.log(result);
 
-      localStorage.setItem("token", result.data.data);
+      if (result.data.data.length > 0) {
+        localStorage.setItem("token", result.data.data);
+        load();
+        router.push("/main");
+      }
     } catch (e) {
       console.log(e);
     }

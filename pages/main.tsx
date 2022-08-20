@@ -7,7 +7,6 @@ import { NewIcon } from "../components/icons";
 import Layout from "../components/layout";
 import { THEME } from "../constant/colors";
 import { useCallback, useEffect, useState } from "react";
-import { useToken } from "../hooks/useTokenContext";
 
 const Home: NextPage = () => {
   const [level, setLevel] = useState(1);
@@ -28,6 +27,8 @@ const Home: NextPage = () => {
         })
       ).json();
       setQuestion(result.data);
+      setExp(parseInt(localStorage.getItem("exp") || "0"));
+      setLevel(parseInt(localStorage.getItem("level") || "1"));
     } catch (e) {
       console.log(e);
     }
@@ -44,8 +45,12 @@ const Home: NextPage = () => {
       setIsAnimation(true);
       setTimeout(() => setCIndex(level), 500);
       setTimeout(() => setIsAnimation(false), 1000);
+      localStorage.setItem("exp", exp.toString());
     }
   }, [exp]);
+
+  localStorage.setItem("level", level.toString());
+  useEffect(() => {}, [level]);
 
   return (
     <Layout>
