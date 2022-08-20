@@ -66,7 +66,7 @@ const Home: NextPage = () => {
   ];
 
   return (
-    <Layout>
+    <Layout title="활동">
       <Filters>
         <MenuFilter>
           {/* <MenuIcon /> */}

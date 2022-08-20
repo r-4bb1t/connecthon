@@ -8,7 +8,7 @@ interface CardType {
   image: string;
   title: string;
   description: string;
-  type: "list" | "wishlist" | "history";
+  type?: "list" | "wishlist" | "history";
 }
 
 const Card = ({ image, title, description, type = "list" }: CardType) => {
@@ -91,7 +91,7 @@ const CardTarget = styled.div`
   align-items: center;
   color: #999999;
   margin: 0;
-  padding: 12px;
+  padding: 5px 12px;
   padding-top: 0;
 `;
 
