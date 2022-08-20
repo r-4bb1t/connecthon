@@ -4,12 +4,12 @@ import styled, { css } from "styled-components";
 import Layout from "../components/layout";
 
 enum TAB {
-  mine,
-  family,
+  wishlist,
+  history,
 }
 
 const Home: NextPage = () => {
-  const [tab, setTab] = useState(TAB.mine);
+  const [tab, setTab] = useState(TAB.wishlist);
   return (
     <Layout>
       마이페이지
@@ -20,14 +20,17 @@ const Home: NextPage = () => {
         <div>김애깅</div>
       </Profile>
       <Tab>
-        <TabItem selected={tab === TAB.mine} onClick={() => setTab(TAB.mine)}>
-          내가 찜한 활동
+        <TabItem
+          selected={tab === TAB.wishlist}
+          onClick={() => setTab(TAB.wishlist)}
+        >
+          함께 해요
         </TabItem>
         <TabItem
-          selected={tab === TAB.family}
-          onClick={() => setTab(TAB.family)}
+          selected={tab === TAB.history}
+          onClick={() => setTab(TAB.history)}
         >
-          가족이 찜한 활동
+          함께 했어요
         </TabItem>
       </Tab>
       <LikedList>
