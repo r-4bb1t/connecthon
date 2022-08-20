@@ -12,18 +12,18 @@ import { useLoading } from "../hooks/useLoadingContext";
 
 const New: NextPage = () => {
   const { push } = useAlertContext();
-  const { token } = useToken();
   const { load, endLoad } = useLoading();
   const router = useRouter();
-
   const [question, setQuestion] = useState(null as any);
+
+  const token = localStorage.getItem("token");
 
   const fetchData = useCallback(async () => {
     try {
       const result = await (
         await fetch(`${process.env.NEXT_PUBLIC_API_HOST || "/api"}/question`, {
           headers: {
-            Authorization: token,
+            Authorization: `${token}`,
           },
         })
       ).json();

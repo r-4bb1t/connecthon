@@ -18,6 +18,8 @@ const DiaryDetail = () => {
   const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
 
   const fetchData = useCallback(async () => {
+    const token = localStorage.getItem("token");
+
     if (!id) return;
     try {
       const result = await (
@@ -25,7 +27,7 @@ const DiaryDetail = () => {
           `${process.env.NEXT_PUBLIC_API_HOST || "/api"}/diary/${id}`,
           {
             headers: {
-              Authorization: token,
+              Authorization: `${token}`,
             },
           }
         )

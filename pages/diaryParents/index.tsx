@@ -13,18 +13,23 @@ import { Diary } from "../../constant/types";
 
 const DiaryParents = () => {
   const [name, setName] = useState("지현이");
-  const Moods = [HappyIcon, SurprisedIcon, NeutralIcon, SadIcon, AngryIcon];
-  const MoodCounts = [0, 1, 2, 1, 2];
-
+  const [MoodCounts, setMoodCounts] = useState([0, 0, 0, 0, 0]);
   const [diaries, setDiaries] = useState([] as Diary[]);
+
+  const token = localStorage.getItem("token");
+
+  const IncrementMoodCount = (id: any) => {
+    let temp = Array.from(MoodCounts);
+    temp[id]++;
+    setMoodCounts(temp);
+  };
 
   const fetchData = useCallback(async () => {
     try {
       const result = await (
-        await fetch(`/api/diaries`, {
+        await fetch(`${process.env.NEXT_PUBLIC_API_HOST || "/api"}/diaries`, {
           headers: {
-            Authorization:
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3R5cGUiOiJwYXJlbnQiLCJ1c2VyX2lkIjoiNjMwMDZmMmU1ZjY1NzAyMmM2YWVlZjI2Iiwib3RoZXJfdHlwZSI6ImNoaWxkIiwib3RoZXJfaWQiOiI2MzAwNmJjNzY5MjMxMDZlODU1NGIzYTgifQ.YqjzsB7Gq8D7OYJxLD8pdYJt_0kbPiZmEkpFvcx70P8",
+            Authorization: `${token}`,
           },
         })
       ).json();
@@ -37,6 +42,22 @@ const DiaryParents = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  useEffect(() => {
+    diaries.map((diary) => {
+      if (diary.emotion === "happy") {
+        IncrementMoodCount(0);
+      } else if (diary.emotion == "surprised") {
+        IncrementMoodCount(1);
+      } else if (diary.emotion == "neutral") {
+        IncrementMoodCount(2);
+      } else if (diary.emotion == "sad") {
+        IncrementMoodCount(3);
+      } else if (diary.emotion == "angry") {
+        IncrementMoodCount(4);
+      }
+    });
+  }, [diaries]);
 
   return (
     <Layout title="아이의 일기">
