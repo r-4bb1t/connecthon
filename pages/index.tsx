@@ -118,8 +118,8 @@ const BetweenEnd = styled.div`
 `;
 
 const LevelContainer = styled.div`
-  display: grid;
-  grid-template-columns: 4rem 1fr;
+  display: flex;
+  gap: 1rem;
   font-size: 1.8rem;
   color: ${THEME.black900};
   font-weight: 700;
@@ -129,7 +129,6 @@ const Level = styled.div`
   color: ${THEME.black400};
   font-weight: 500;
   font-size: 1.8rem;
-  font-size: inherit;
   span {
     font-size: inherit;
     color: ${THEME.darker};
