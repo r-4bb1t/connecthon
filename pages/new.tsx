@@ -179,6 +179,7 @@ const Content = styled.main`
 `;
 
 const Textarea = styled.textarea`
+  background-color: white;
   background-image: -moz-linear-gradient(
     top,
     transparent,

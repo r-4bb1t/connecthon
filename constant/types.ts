@@ -10,6 +10,7 @@ export interface Diary {
   parent_answered_at: string;
   from_today: number;
   emotion: string;
+  diary_type: "activity" | "answer";
 }
 
 export type ActivityTypes =
