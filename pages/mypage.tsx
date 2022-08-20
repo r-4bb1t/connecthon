@@ -187,7 +187,7 @@ const Home: NextPage = () => {
             함께 했어요
           </TabItem>
         </Tab>
-        {activities?.length < 0 ? (
+        {activities?.length > 0 ? (
           <LikedList>
             {activities.map((each: any) => (
               <Card
