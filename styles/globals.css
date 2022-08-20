@@ -18,6 +18,7 @@ a {
   font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto,
     "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR",
     "Malgun Gothic", sans-serif;
+  font-size: 16px;
 }
 
 @media (prefers-color-scheme: dark) {
