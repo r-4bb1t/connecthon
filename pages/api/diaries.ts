@@ -38,7 +38,7 @@ export default function handler(req: any, res: any) {
         question_content: "부모님에게 서운함을 느꼈던 순간이 언제인가요?",
         child_answer: " 바로 어제 서운했던 것 같기도 하네요",
         child_answered_at: "2022-08-19",
-        emotion: "neutral",
+        emotion: "ordinary",
       },
       {
         id: "6",

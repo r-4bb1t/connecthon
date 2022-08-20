@@ -138,8 +138,8 @@ const WishlistButton = styled.button`
 `;
 
 const HistoryButton = styled(WishlistButton)`
-  background: ${THEME.black200};
-  color: ${THEME.black700};
+  background: #fdf2e1;
+  color: #e8a034;
 `;
 
 const activityTypes = {

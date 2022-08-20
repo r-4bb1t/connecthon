@@ -446,6 +446,7 @@ const Home: NextPage = () => {
               {["아직 찜한 활동이 없어요.", "아직 함께한 활동이 없어요."][tab]}
               <div>재미있는 활동을 찜해보세요!</div>
             </NoneTitle>
+            <NoneButton>활동 찜하러가기</NoneButton>
           </None>
         )}
       </Content>
@@ -540,7 +541,8 @@ const None = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
+  padding-top: 4rem;
   align-items: center;
   svg {
     @keyframes swing {
@@ -581,4 +583,16 @@ const NoneTitle = styled.div`
     color: #dfdfdf;
     font-size: 17px;
   }
+`;
+
+const NoneButton = styled.button`
+  background: #fcba58;
+  border-radius: 9999px;
+  color: white;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  padding: 1rem 2rem;
+  border: none;
+  margin-top: 1rem;
 `;

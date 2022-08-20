@@ -182,7 +182,7 @@ export const Emoji = {
       />
     </svg>
   ),
-  neutral: ({ onClick }: { onClick: Function }) => (
+  ordinary: ({ onClick }: { onClick: Function }) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="54"

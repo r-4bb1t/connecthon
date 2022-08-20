@@ -15,7 +15,6 @@ const New: NextPage = () => {
   const router = useRouter();
 
   const [question, setQuestion] = useState(null as any);
-  const [diaryId, setDiaryId] = useState("");
 
   const fetchData = useCallback(async () => {
     try {
@@ -27,7 +26,6 @@ const New: NextPage = () => {
         })
       ).json();
       setQuestion(result.data);
-      setDiaryId(result.diary_id);
     } catch (e) {
       console.log(e);
     }
@@ -39,28 +37,35 @@ const New: NextPage = () => {
 
   const handleSubmit = async (emoticon: string) => {
     try {
-      const result = await (
-        await fetch(
-          `${process.env.NEXT_PUBLIC_API_HOST || "/api"}/diary/${diaryId}`,
-          {
-            method: "POST",
-            body: JSON.stringify({
-              emoticon: emoticon,
-              answer: answer,
-            }),
-            headers: {
-              Authorization:
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3R5cGUiOiJjaGlsZCIsInVzZXJfaWQiOiI2MzAwNmJjNzY5MjMxMDZlODU1NGIzYTgiLCJvdGhlcl90eXBlIjoicGFyZW50Iiwib3RoZXJfaWQiOiI2MzAwNmYyZTVmNjU3MDIyYzZhZWVmMjYifQ.b4mlsM_a77N6lq8D3rC-rEPwEzFpLJ6tIvCcT3bqV_c",
-            },
-          }
-        )
-      ).json();
+      const result = await fetch(
+        `${process.env.NEXT_PUBLIC_API_HOST || "/api"}/diary/${
+          question.diary_id
+        }`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            emotion: emoticon,
+            answer: answer,
+          }),
+          headers: {
+            Authorization:
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3R5cGUiOiJjaGlsZCIsInVzZXJfaWQiOiI2MzAwNmJjNzY5MjMxMDZlODU1NGIzYTgiLCJvdGhlcl90eXBlIjoicGFyZW50Iiwib3RoZXJfaWQiOiI2MzAwNmYyZTVmNjU3MDIyYzZhZWVmMjYifQ.b4mlsM_a77N6lq8D3rC-rEPwEzFpLJ6tIvCcT3bqV_c",
+          },
+        }
+      );
 
-      push({
-        message: "일기를 작성했어요!",
-        onClose: () => router.push("/diary"),
-        buttonText: "확인",
-      });
+      if (result.ok)
+        push({
+          message: "일기를 작성했어요!",
+          onClose: () => router.push("/diary"),
+          buttonText: "확인",
+        });
+      else
+        push({
+          message: "일기 작성에 실패했어요. 다시 시도해주세요.",
+          onClose: () => {},
+          buttonText: "확인",
+        });
     } catch (e) {
       console.log(e);
     }
@@ -129,7 +134,7 @@ const New: NextPage = () => {
                       <Emoji.surprised
                         onClick={() => handleSubmit("surprised")}
                       />
-                      <Emoji.neutral onClick={() => handleSubmit("newtral")} />
+                      <Emoji.ordinary onClick={() => handleSubmit("newtral")} />
                       <Emoji.sad onClick={() => handleSubmit("sad")} />
                       <Emoji.angry onClick={() => handleSubmit("angry")} />
                     </EmojiTable>
