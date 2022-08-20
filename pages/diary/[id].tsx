@@ -43,7 +43,7 @@ const DiaryDetail = () => {
   }, [router.query]);
 
   return (
-    <Layout title="일기" hasBackButton>
+    <Layout title="일기 보기" hasBackButton>
       <Main>
         <Content>
           <TodayQuestion>
