@@ -94,7 +94,7 @@ const Activities: NextPage = () => {
         </MenuFilter>
       </Filters>
       <ActivityCards>
-        {activities.filter(
+        {activities?.filter(
           (a) =>
             realCategory.includes(a.type) &&
             new Date(
