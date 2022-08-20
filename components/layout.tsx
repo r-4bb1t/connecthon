@@ -3,12 +3,18 @@ import Footer from "./footer";
 import Header from "./header";
 import styled from "styled-components";
 
-const Layout = ({ children }: { children: ReactNode }) => {
+const Layout = ({
+  preventRouterChange,
+  children,
+}: {
+  preventRouterChange?: boolean;
+  children: ReactNode;
+}) => {
   return (
     <Main>
       <Header />
       <Children>{children}</Children>
-      <Footer />
+      <Footer preventRouterChange={preventRouterChange} />
     </Main>
   );
 };
