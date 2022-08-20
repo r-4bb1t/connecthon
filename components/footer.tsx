@@ -1,30 +1,63 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import styled from "styled-components";
+import { THEME } from "../constant/colors";
+import { useAlertContext } from "../hooks/useAlertContext";
 import { ActivityIcon, ListIcon, MainIcon, NewIcon, MypageIcon } from "./icons";
 
-const Footer = () => {
+const Footer = ({ preventRouterChange }: { preventRouterChange: boolean }) => {
+  const { push, alerts, close } = useAlertContext();
+  const router = useRouter();
+  const goto = (href: string) => {
+    if (preventRouterChange) {
+      alerts.map((a) => close(a.id));
+      push({
+        message: (
+          <>
+            정말 삭제하시겠어요?
+            <br />
+            작성한 내용이 모두 사라져요.
+          </>
+        ),
+        twoButton: true,
+        buttonText: "삭제",
+        onClose: () => {
+          router.push(href);
+        },
+      });
+    }
+    if (!preventRouterChange) {
+      router.push(href);
+    }
+  };
+
   return (
     <Main>
-      <Link href="/">
-        <FooterItem>
-          <MainIcon />
-        </FooterItem>
-      </Link>
-      <Link href="/diary">
-        <FooterItem>
-          <ListIcon />
-        </FooterItem>
-      </Link>
-      <Link href="/activities">
-        <FooterItem>
-          <ActivityIcon />
-        </FooterItem>
-      </Link>
-      <Link href="/mypage">
-        <FooterItem>
-          <MypageIcon />
-        </FooterItem>
-      </Link>
+      <FooterItem onClick={() => goto("/")} selected={router.asPath === "/"}>
+        <MainIcon selected={router.asPath === "/"} />
+        메인
+      </FooterItem>
+      <FooterItem
+        onClick={() => goto("/diary")}
+        selected={router.asPath.startsWith("/diary")}
+      >
+        <ListIcon selected={router.asPath.startsWith("/diary")} />
+        일기
+      </FooterItem>
+      <FooterItem
+        onClick={() => goto("/activities")}
+        selected={router.asPath === "/activities"}
+      >
+        <ActivityIcon selected={router.asPath === "/activities"} />
+        활동
+      </FooterItem>
+      <FooterItem
+        onClick={() => goto("/mypage")}
+        selected={router.asPath === "/mypage"}
+      >
+        <MypageIcon selected={router.asPath === "/mypage"} />
+        마이름
+      </FooterItem>
     </Main>
   );
 };
@@ -41,13 +74,18 @@ const Main = styled.footer`
   background-color: white;
 `;
 
-const FooterItem = styled.a`
+const FooterItem = styled.button<{ selected: boolean }>`
   text-align: center;
   padding: 1rem 0;
-  border-top: 1px solid black;
+  border: none;
+  background: none;
+  border-radius: 10px 10px 0 0;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-end;
   align-items: center;
+  font-size: 0.8rem;
+  color: ${(p) => (p.selected ? THEME.primary : THEME.black400)};
 `;
 
 export default Footer;

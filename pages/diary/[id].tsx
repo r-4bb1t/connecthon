@@ -1,94 +1,145 @@
+import { AnimatePresence, motion } from "framer-motion";
+import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
-import Footer from "../../components/footer";
+import React, { useCallback, useEffect, useState } from "react";
+import styled, { css } from "styled-components";
+import Layout from "../../components/layout";
+import { Diary } from "../../constant/types";
 
 const DiaryDetail = () => {
-  const Data: any = [
-    {
-      id: "1",
-      question: "부모님에게 서운함을 느꼈던 순간이 언제인가요?",
-      answer: " 바로 어제 서운했던 것 같기도 하네요",
-      created: "2022-07-25",
-      emotion: "https://picsum.photos/100",
-    },
-    {
-      id: "2",
-      question: "부모님과 함께 먹고 싶은 음식이 있다면?",
-      answer: "부모님이 잘하시는 김치볶음밥을 먹고 싶습니다",
-      created: "2022-07-26",
-      emotion: "https://picsum.photos/100",
-    },
-    {
-      id: "3",
-      question: "부모님이 모르는 학교에서의 일이 있다면?",
-      answer: "얼마전에 학교에서 게임 몰래 했어요",
-      created: "2022-07-27",
-      emotion: "https://picsum.photos/100",
-    },
-    {
-      id: "4",
-      question: "부모님이 최근에 미웠던 순간은 언제였나요?",
-      answer: "모니터 새거 갖고싶은데 안사주셔서 삐졌습니다",
-      created: "2022-07-28",
-      emotion: "https://picsum.photos/100",
-    },
-    {
-      id: "5",
-      question: "부모님에게 서운함을 느꼈던 순간이 언제인가요?",
-      answer: " 바로 어제 서운했던 것 같기도 하네요",
-      created: "2022-07-25",
-      emotion: "https://picsum.photos/100",
-    },
-    {
-      id: "6",
-      question: "부모님과 함께 먹고 싶은 음식이 있다면?",
-      answer: "부모님이 잘하시는 김치볶음밥을 먹고 싶습니다",
-      created: "2022-07-26",
-      emotion: "https://picsum.photos/100",
-    },
-    {
-      id: "7",
-      question: "부모님이 모르는 학교에서의 일이 있다면?",
-      answer: "얼마전에 학교에서 게임 몰래 했어요",
-      created: "2022-07-27",
-      emotion: "https://picsum.photos/100",
-    },
-    {
-      id: "8",
-      question: "부모님이 최근에 미웠던 순간은 언제였나요?",
-      answer: "모니터 새거 갖고싶은데 안사주셔서 삐졌습니다",
-      created: "2022-07-28",
-      emotion: "https://picsum.photos/100",
-    },
-    {
-      id: "9",
-      question: "부모님이 최근에 미웠던 순간은 언제였나요?",
-      answer: "모니터 새거 갖고싶은데 안사주셔서 삐졌습니다",
-      created: "2022-07-28",
-      emotion: "https://picsum.photos/100",
-    },
-    {
-      id: "10",
-      question: "부모님이 최근에 미웠던 순간은 언제였나요?",
-      answer: "모니터 새거 갖고싶은데 안사주셔서 삐졌습니다",
-      created: "2022-07-28",
-      emotion: "https://picsum.photos/100",
-    },
-  ];
-
   const router = useRouter();
   const id = router.query.id;
 
-  const cur_diary = Data.find((diary: any) => diary.id === id);
+  const [diary, setDiary] = useState(null as unknown as Diary);
+  const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
+
+  const fetchData = useCallback(async () => {
+    const result = await (
+      await fetch(`${process.env.NEXT_APP_API_HOST ?? "/api"}/diary/${id}`)
+    ).json();
+    setDiary(result);
+  }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
-    <>
-      <img src={cur_diary.emotion} alt="emotion" />
-      <div>{cur_diary.question}</div>
-      <div>{cur_diary.answer}</div>
-      <Footer />
-    </>
+    <Layout>
+      <Main>
+        {/* <img src={diary?.emotion} alt="emotion" /> */}
+        <div>{diary?.question_content}</div>
+        <div>{diary?.child_answer}</div>
+        <StampContainer
+          isOpened={diary?.is_read}
+          onClick={() => setIsMessageModalOpen(true)}
+        >
+          <img src="/assets/stamp.png" />
+        </StampContainer>
+      </Main>
+      <AnimatePresence>
+        {isMessageModalOpen && (
+          <ModalBackground onClick={() => setIsMessageModalOpen(false)}>
+            <Modal
+              initial={{ opacity: 0, y: 100, scale: 0.9 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 100, scale: 0.9 }}
+            >
+              울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~
+              넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^
+              울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~
+              넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^
+              울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~
+              넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^
+              울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~
+              넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^
+              울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~
+              넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^
+              울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~
+              넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^
+              울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~
+              넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^
+              울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~
+              넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^
+              울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~
+              넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^
+              울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~
+              넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^
+              울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~
+              넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^
+              울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~
+              넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^
+              울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~
+              넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^
+              <div>2022년 8월 21일</div>
+            </Modal>
+          </ModalBackground>
+        )}
+      </AnimatePresence>
+    </Layout>
   );
 };
 
 export default DiaryDetail;
+
+const Main = styled.main`
+  position: relative;
+  padding-bottom: 12rem;
+`;
+
+const StampContainer = styled.div<{ isOpened: boolean }>`
+  position: fixed;
+  right: 0;
+  bottom: 4rem;
+  width: 10rem;
+  height: 10rem;
+  padding: 2rem;
+  @keyframes bounce2 {
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+      transform: translateY(0);
+    }
+    40% {
+      transform: translateY(-15px);
+    }
+    60% {
+      transform: translateY(-10px);
+    }
+  }
+  ${(p) =>
+    !p.isOpened &&
+    css`
+      animation: bounce2 2s ease infinite;
+    `}
+  img {
+    width: 100%;
+  }
+`;
+
+const ModalBackground = styled.div`
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+`;
+
+const Modal = styled(motion.div)`
+  height: 100vh;
+  overflow-y: auto;
+  padding-bottom: 10rem;
+  background-color: white;
+  position: fixed;
+  top: 5rem;
+  bottom: 0;
+  left: 1rem;
+  right: 1rem;
+`;
