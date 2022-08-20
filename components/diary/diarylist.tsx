@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 import Divider from "../divider";
 import DiaryRow from "./diaryrow";
@@ -11,10 +12,11 @@ const DiaryList = ({ diaries }: any) => {
     // </>
     <>
       {diaries.map((diary: any) => (
-        <>
-          <DiaryRow key={diary.id} diary={diary} />
-          <Divider />
-        </>
+        <Link href={`/diary/${diary.id}`} key={diary.id}>
+          <a>
+            <DiaryRow key={diary.id} diary={diary} />
+          </a>
+        </Link>
       ))}
     </>
   );

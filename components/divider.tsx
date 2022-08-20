@@ -7,6 +7,8 @@ const Divider: any = () => {
 
 const NewHr = styled.hr`
   width: 100vw;
+  height: 1px;
+  margin: 0px 0;
 `;
 
 export default Divider;
