@@ -1,5 +1,5 @@
 import { createContext, FC, ReactNode, useEffect, useState } from "react";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import styled from "styled-components";
 import { useAlertContext } from "../hooks/useAlertContext";
 import { useRouter } from "next/router";
@@ -37,11 +37,17 @@ const LoadingContextProvider = ({ children }: { children: ReactNode }) => {
         endLoad,
       }}
     >
-      {loading && (
-        <LoadingContainer>
-          <img src="/assets/loading.png" />
-        </LoadingContainer>
-      )}
+      <AnimatePresence>
+        {loading && (
+          <LoadingContainer
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, transition: { duration: 0.2 } }}
+          >
+            <img src="/assets/loading.png" />
+          </LoadingContainer>
+        )}
+      </AnimatePresence>
       {children}
     </LoadingContext.Provider>
   );
@@ -49,7 +55,7 @@ const LoadingContextProvider = ({ children }: { children: ReactNode }) => {
 
 export default LoadingContextProvider;
 
-const LoadingContainer = styled.div`
+const LoadingContainer = styled(motion.div)`
   width: 100vw;
   height: 100vh;
   position: fixed;
