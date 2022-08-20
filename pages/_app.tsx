@@ -3,6 +3,7 @@ import type { AppProps } from "next/app";
 import AlertContextProvider from "../contexts/alertContext";
 import Head from "next/head";
 import TokenContextProvider from "../contexts/tokenContext";
+import LoadingContextProvider from "../contexts/loadingContext";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -27,9 +28,11 @@ function MyApp({ Component, pageProps }: AppProps) {
         />
       </Head>
       <AlertContextProvider>
-        <TokenContextProvider>
-          <Component {...pageProps} />
-        </TokenContextProvider>
+        <LoadingContextProvider>
+          <TokenContextProvider>
+            <Component {...pageProps} />
+          </TokenContextProvider>
+        </LoadingContextProvider>
       </AlertContextProvider>
     </>
   );

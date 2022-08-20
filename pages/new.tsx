@@ -48,11 +48,14 @@ const New: NextPage = () => {
             answer: answer,
           }),
           headers: {
+            ContentType: "application/json",
             Authorization:
               "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3R5cGUiOiJjaGlsZCIsInVzZXJfaWQiOiI2MzAwNmJjNzY5MjMxMDZlODU1NGIzYTgiLCJvdGhlcl90eXBlIjoicGFyZW50Iiwib3RoZXJfaWQiOiI2MzAwNmYyZTVmNjU3MDIyYzZhZWVmMjYifQ.b4mlsM_a77N6lq8D3rC-rEPwEzFpLJ6tIvCcT3bqV_c",
           },
         }
       );
+
+      console.log(await result.json());
 
       if (result.ok)
         push({
