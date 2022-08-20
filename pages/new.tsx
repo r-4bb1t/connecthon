@@ -57,8 +57,6 @@ const New: NextPage = () => {
         }
       );
 
-      console.log(await result.json());
-
       if (result.ok)
         push({
           message: "일기를 작성했어요!",

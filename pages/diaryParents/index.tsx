@@ -28,7 +28,6 @@ const DiaryParents = () => {
           },
         })
       ).json();
-      console.log(result);
       setDiaries(result.data);
     } catch (e) {
       console.log(e);
