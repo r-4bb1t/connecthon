@@ -9,6 +9,7 @@ const ModalCategory = ({
   setOpenCategory,
   selectedCategory,
   setSelectedCategory,
+  setRealCategory,
 }: any) => {
   const category = [
     "공원탐방",
@@ -60,6 +61,7 @@ const ModalCategory = ({
           <ModalFooter>
             <ModalButton
               onClick={() => {
+                setRealCategory(selectedCategory);
                 setOpenCategory(false);
               }}
             >
