@@ -105,6 +105,7 @@ const Home: NextPage = () => {
                 title={each.title}
                 activityType={each.type}
                 location={each.location}
+                liked={each.is_liked}
                 target={each.target}
                 description={each.description}
               />

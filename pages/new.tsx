@@ -13,7 +13,7 @@ import { useLoading } from "../hooks/useLoadingContext";
 const New: NextPage = () => {
   const { push } = useAlertContext();
   const { token } = useToken();
-  const { load, endLoad } = useLoading();
+  const { load } = useLoading();
   const router = useRouter();
 
   const [question, setQuestion] = useState(null as any);
@@ -38,6 +38,14 @@ const New: NextPage = () => {
   }, []);
 
   const handleSubmit = async (emoticon: string) => {
+    if (!answer) {
+      push({
+        message: "내용을 입력해주세요.",
+        onClose: () => {},
+        buttonText: "확인",
+      });
+      return;
+    }
     try {
       const result = await fetch(
         `${process.env.NEXT_PUBLIC_API_HOST || "/api"}/diary/${
@@ -81,7 +89,7 @@ const New: NextPage = () => {
   const [emojiOpen, setEmojiOpen] = useState(false);
 
   return (
-    <Layout preventRouterChange title="일기쓰기" hasBackButton>
+    <Layout preventRouterChange={answer !== ""} title="일기쓰기" hasBackButton>
       <Main>
         <Content>
           <TodayQuestion>

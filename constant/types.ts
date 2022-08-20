@@ -26,6 +26,7 @@ export interface CardType {
   description: string;
   url: string;
   location: string;
+  liked: boolean;
   target: string;
   activityType: ActivityTypes;
   type?: "list" | "wishlist" | "history";

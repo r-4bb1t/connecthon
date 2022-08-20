@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { THEME } from "../constant/colors";
 import { ActivityTypes, CardType } from "../constant/types";
-import { PickedIcon, PickedIconToggled } from "./icons";
+import { PickedIcon } from "./icons";
 
 const Card = ({
   image,
@@ -11,6 +11,7 @@ const Card = ({
   target,
   activityType,
   location,
+  liked,
   type = "list",
 }: CardType) => {
   return (
@@ -22,7 +23,7 @@ const Card = ({
         <CardDetailTop>
           <ActivityType type={activityType}>{activityType}</ActivityType>
           {/* <PickedIcon /> */}
-          {!(type === "history") && <PickedIconToggled />}
+          {!(type === "history") && <PickedIcon selected={liked} />}
         </CardDetailTop>
         <CardTitleContainer>
           <CardTitle dangerouslySetInnerHTML={{ __html: title }} />
