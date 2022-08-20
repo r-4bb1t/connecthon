@@ -16,7 +16,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="msapplication-TileColor" content="#FBFBFB" />
         <meta name="msapplication-tap-highlight" content="no" />
-        <meta name="theme-color" content="#FBFBFB" />
+        <meta name="theme-color" content="#FCDE58" />
         <link rel="apple-touch-icon" href="/icon.png" />
         <link rel="icon" type="image/png" sizes="192x192" href="/icon.png" />
         <link rel="manifest" href="/manifest.json" />
