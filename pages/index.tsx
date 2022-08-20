@@ -2,11 +2,20 @@ import React, { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import { useRouter } from "next/router";
+import { useLoading } from "../hooks/useLoadingContext";
+import { useToken } from "../hooks/useTokenContext";
+
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  const [focus, setFocus] = useState("none" as "none" | "id" | "pw");
+  const [px, setPx] = useState(0);
+
+  const { load } = useLoading();
+
   const router = useRouter();
+  const { setToken } = useToken();
 
   const fetchToken = async (e: any) => {
     e.preventDefault();
@@ -20,8 +29,10 @@ const Login = () => {
       );
       console.log(username, password);
       console.log(result);
+
       if (result.data.data.length > 0) {
-        localStorage.setItem("token", result.data.data);
+        setToken(result.data.data);
+        load();
         router.push("/main");
       }
     } catch (e) {
@@ -29,10 +40,19 @@ const Login = () => {
     }
   };
 
+  useEffect(() => {
+    if (focus === "none") setPx(0);
+    if (focus === "pw") setPx(Math.min(password.length - 10, 10) * 0.5);
+    if (focus === "id") setPx(Math.min(username.length - 10, 10) * 0.5);
+  }, [username, password, focus]);
+
   return (
     <Background>
       <Header>
-        <LogoCharacter src="/images/Logo.svg" />
+        <CharacterContainer>
+          <LogoCharacter src="/images/Logo.svg" />
+          <LogoEyes src="/assets/eyes.png" px={px} down={focus !== "none"} />
+        </CharacterContainer>
       </Header>
       <BottomModal>
         <UpperModal>
@@ -47,6 +67,12 @@ const Login = () => {
               console.log(username);
               setUsername(e.target.value);
             }}
+            onFocus={() => {
+              setFocus("id");
+            }}
+            onBlur={() => {
+              if (focus === "id") setFocus("none");
+            }}
           ></ID>
           <PW
             type="password"
@@ -55,6 +81,12 @@ const Login = () => {
             onChange={(e) => {
               console.log(password);
               setPassword(e.target.value);
+            }}
+            onFocus={() => {
+              setFocus("pw");
+            }}
+            onBlur={() => {
+              if (focus === "pw") setFocus("none");
             }}
           ></PW>
           <LoginButton>로그인</LoginButton>
@@ -85,8 +117,22 @@ const Header = styled.div`
   justify-content: center;
 `;
 
-const LogoCharacter = styled.img`
+const CharacterContainer = styled.div`
   margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`;
+
+const LogoCharacter = styled.img``;
+
+const LogoEyes = styled.img<{ px: number; down: boolean }>`
+  position: absolute;
+  top: 6rem;
+  left: calc(50% - 38px);
+  transform: ${(p) =>
+    `translate(${p.px}px, ${p.down ? `${5 - Math.abs(p.px) / 2}px` : "0px"})`};
+  transition: transform 0.2s;
 `;
 
 const UpperModal = styled.div`

@@ -1,60 +1,12 @@
 import type { NextPage } from "next";
+import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import Card from "../components/card";
 import Layout from "../components/layout";
 import { THEME } from "../constant/colors";
+import { useLoading } from "../hooks/useLoadingContext";
 import { useToken } from "../hooks/useTokenContext";
-const Data: any = [
-  {
-    id: "1",
-    image: "https://picsum.photos/200",
-    title: "강릉 수영장",
-    description: "아이들과 부모들이 함꼐 즐길 수 있는 신나는 액티비티",
-  },
-  {
-    id: "2",
-    image: "https://picsum.photos/200",
-    title: "레고랜드",
-    description: "아이들이 좋아하는 레고로 만들어진 꿈같은 놀이동산",
-  },
-  {
-    id: "3",
-    image: "https://picsum.photos/200",
-    title: "강릉 수영장",
-    description: "아이들과 부모들이 함꼐 즐길 수 있는 신나는 액티비티",
-  },
-  {
-    id: "4",
-    image: "https://picsum.photos/200",
-    title: "레고랜드",
-    description: "아이들이 좋아하는 레고로 만들어진 꿈같은 놀이동산",
-  },
-  {
-    id: "5",
-    image: "https://picsum.photos/200",
-    title: "강릉 수영장",
-    description: "아이들과 부모들이 함꼐 즐길 수 있는 신나는 액티비티",
-  },
-  {
-    id: "6",
-    image: "https://picsum.photos/200",
-    title: "레고랜드",
-    description: "아이들이 좋아하는 레고로 만들어진 꿈같은 놀이동산",
-  },
-  {
-    id: "7",
-    image: "https://picsum.photos/200",
-    title: "강릉 수영장",
-    description: "아이들과 부모들이 함꼐 즐길 수 있는 신나는 액티비티",
-  },
-  {
-    id: "8",
-    image: "https://picsum.photos/200",
-    title: "레고랜드",
-    description: "아이들이 좋아하는 레고로 만들어진 꿈같은 놀이동산",
-  },
-];
 
 enum TAB {
   wishlist,
@@ -65,13 +17,17 @@ const Home: NextPage = () => {
   const [tab, setTab] = useState(TAB.wishlist);
   const [activities, setActivities] = useState([] as any[]);
   const [title, setTitle] = useState("즐거운 우리집");
-  const token = localStorage.getItem("token");
+  const { token } = useToken();
+  const { load } = useLoading();
+  const router = useRouter();
 
   const fetchData = useCallback(async () => {
     try {
       const result = await (
         await fetch(
-          `${process.env.NEXT_PUBLIC_API_HOST || "/api"}/activities`,
+          `${process.env.NEXT_PUBLIC_API_HOST || "/api"}/user/activities${
+            tab === TAB.history ? "?type=visited" : ""
+          }`,
           {
             headers: {
               Authorization: `${token}`,
@@ -83,7 +39,7 @@ const Home: NextPage = () => {
     } catch (e) {
       console.log(e);
     }
-  }, []);
+  }, [tab]);
 
   useEffect(() => {
     fetchData();
@@ -235,6 +191,8 @@ const Home: NextPage = () => {
           <LikedList>
             {activities.map((each: any) => (
               <Card
+                liked={each.is_liked}
+                _id={each._id}
                 key={each.id}
                 image={each.image_url}
                 url={each.page_url}
@@ -446,7 +404,14 @@ const Home: NextPage = () => {
               {["아직 찜한 활동이 없어요.", "아직 함께한 활동이 없어요."][tab]}
               <div>재미있는 활동을 찜해보세요!</div>
             </NoneTitle>
-            <NoneButton>활동 찜하러가기</NoneButton>
+            <NoneButton
+              onClick={() => {
+                load();
+                router.push("/activities");
+              }}
+            >
+              활동 찜하러가기
+            </NoneButton>
           </None>
         )}
       </Content>

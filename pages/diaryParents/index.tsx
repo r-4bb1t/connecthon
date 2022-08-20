@@ -10,13 +10,14 @@ import {
   AngryIcon,
 } from "../../components/icons";
 import { Diary } from "../../constant/types";
+import { useToken } from "../../hooks/useTokenContext";
 
 const DiaryParents = () => {
   const [name, setName] = useState("지현이");
   const [MoodCounts, setMoodCounts] = useState([0, 0, 0, 0, 0]);
   const [diaries, setDiaries] = useState([] as Diary[]);
 
-  const token = localStorage.getItem("token");
+  const { token } = useToken();
 
   const IncrementMoodCount = (id: any) => {
     let temp = Array.from(MoodCounts);
