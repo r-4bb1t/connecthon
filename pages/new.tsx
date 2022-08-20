@@ -26,7 +26,7 @@ const New: NextPage = () => {
   const [emojiOpen, setEmojiOpen] = useState(false);
 
   return (
-    <Layout preventRouterChange title="일기쓰기">
+    <Layout preventRouterChange title="일기쓰기" hasBackButton>
       <Main>
         <Content>
           <TodayQuestion>

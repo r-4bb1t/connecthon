@@ -6,53 +6,41 @@ import React, { useCallback, useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import Layout from "../../components/layout";
 import { THEME } from "../../constant/colors";
-import { Diary, Message } from "../../constant/types";
+import { Diary } from "../../constant/types";
 
 const DiaryDetail = () => {
   const router = useRouter();
   const id = router.query.id;
 
   const [diary, setDiary] = useState(null as unknown as Diary);
-  const [message, setMessage] = useState(null as unknown as Message);
   const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
 
   const fetchData = useCallback(async () => {
+    if (!id) return;
     try {
       const result = await (
-        await fetch(`${process.env.NEXT_PUBLIC_API_HOST || "/api"}/diary/${id}`)
+        await fetch(
+          `${process.env.NEXT_PUBLIC_API_HOST || "/api"}/diary/${id}`,
+          {
+            headers: {
+              Authorization:
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3R5cGUiOiJjaGlsZCIsInVzZXJfaWQiOiI2MzAwNmJjNzY5MjMxMDZlODU1NGIzYTgifQ.ysDkiIZJ1bpHvtQji_nNjtUwX4exrp_85MaqGKRHv5Q",
+            },
+          }
+        )
       ).json();
-      setDiary(result);
+      setDiary(result.data);
     } catch (e) {
       console.log(e);
     }
-  }, []);
-
-  const getMessage = useCallback(async () => {
-    if (diary?.is_parent_answered) {
-      try {
-        const messageResult = await (
-          await fetch(
-            `${
-              process.env.NEXT_PUBLIC_API_HOST || "/api"
-            }/diary/${id}?type="open`
-          )
-        ).json();
-        setMessage(messageResult);
-      } catch (e) {
-        console.log(e);
-      }
-    }
-  }, [diary]);
+  }, [router.query]);
 
   useEffect(() => {
     fetchData();
-  }, []);
-  useEffect(() => {
-    getMessage();
-  }, [diary]);
+  }, [router.query]);
 
   return (
-    <Layout>
+    <Layout title="일기" hasBackButton>
       <Main>
         <Content>
           <TodayQuestion>
@@ -73,12 +61,14 @@ const DiaryDetail = () => {
           <QuestionContent>{diary?.question_content}</QuestionContent>
           <Answer>{diary?.child_answer}</Answer>
         </Content>
-        <StampContainer
-          isOpened={diary?.is_read}
-          onClick={() => setIsMessageModalOpen(true)}
-        >
-          <img src="/assets/stamp.png" />
-        </StampContainer>
+        {diary?.is_parent_answered && (
+          <StampContainer
+            isOpened={diary?.is_child_read}
+            onClick={() => setIsMessageModalOpen(true)}
+          >
+            <img src="/assets/stamp.png" />
+          </StampContainer>
+        )}
       </Main>
       <AnimatePresence>
         {isMessageModalOpen && (
@@ -90,12 +80,9 @@ const DiaryDetail = () => {
             >
               <ModalTitle>부모님의 답장</ModalTitle>
               <ModalContent>
-                {message?.content}
+                {diary.parent_answer}
                 <ModalDate>
-                  {format(
-                    new Date(message?.parent_answered_at || "1971-01-01"),
-                    "yy.MM.dd hh시 MM분"
-                  )}
+                  {diary?.parent_answered_at}
                   <br />
                   <span>널 사랑하는 부모님이</span>
                 </ModalDate>
@@ -127,7 +114,7 @@ const Content = styled.main`
   flex-direction: column;
 `;
 
-const Answer = styled.textarea`
+const Answer = styled.div`
   background-image: -moz-linear-gradient(
     top,
     transparent,
