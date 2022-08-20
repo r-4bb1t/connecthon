@@ -42,6 +42,7 @@ const Body = styled.div`
   justify-content: center;
   align-items: center;
   margin-bottom: 16px;
+  overflow: hidden;
 `;
 
 const Container = styled.div`

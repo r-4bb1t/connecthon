@@ -182,6 +182,7 @@ const ID = styled.input`
   font-size: 16px;
   line-height: 19px;
   opacity: 60%;
+  background: white;
   padding-left: 20px;
   :focus {
     outline: none;
@@ -202,6 +203,7 @@ const PW = styled.input`
   line-height: 19px;
   opacity: 60%;
   padding-left: 20px;
+  background: white;
   :focus {
     outline: none;
     color: black;
