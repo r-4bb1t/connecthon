@@ -8,7 +8,10 @@ interface Token {
   setToken: Function;
 }
 
-export const TokenContext = createContext<Token>({ token: "" });
+export const TokenContext = createContext<Token>({
+  token: "",
+  setToken: () => {},
+});
 
 const TokenContextProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useState(
