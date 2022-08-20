@@ -24,3 +24,70 @@ a {
     background: black;
   }
 }
+
+.react-datepicker {
+  width: 100vw;
+  border: transparent !important;
+  font-size: 18px !important;
+}
+
+.react-datepicker__navigation {
+  margin: 0 16px;
+}
+
+.react-datepicker__month-container {
+  width: 100vw;
+}
+
+.react-datepicker__header {
+  padding: 6px 0 !important;
+}
+
+.react-datepicker__current-month {
+  margin-bottom: 30px !important;
+  font-size: 20px !important;
+}
+
+.react-datepicker__month {
+}
+
+.react-datepicker__day-names {
+  margin: 0px 5px !important;
+  text-align: center !important;
+}
+
+.react-datepicker__day-name {
+  margin: 10px 16px !important;
+  text-align: center !important;
+}
+
+.react-datepicker__day {
+  margin: 10px 16px !important;
+}
+
+.react-datepicker__input-container > input:focus {
+  outline: white;
+}
+
+.react-datepicker__header {
+  background-color: white !important;
+  border-bottom: none !important;
+}
+
+.react-datepicker__close-icon::after {
+  position: fixed;
+  right: 870px;
+  top: 110px;
+  width: 10px;
+  height: 10px;
+  font-size: 10px;
+  background-color: #a3a2a2;
+}
+
+.react-datepicker__day--selected {
+  background-color: #fcba58 !important;
+}
+
+.react-datepicker__day--keyboard-selected {
+  background-color: #fcba58 !important;
+}
