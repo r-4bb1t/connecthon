@@ -30,6 +30,7 @@ const Footer = ({ preventRouterChange }: { preventRouterChange: boolean }) => {
       });
     }
     if (!preventRouterChange) {
+      load();
       router.push(href);
     }
   };

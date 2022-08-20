@@ -60,7 +60,10 @@ const New: NextPage = () => {
       if (result.ok)
         push({
           message: "일기를 작성했어요!",
-          onClose: () => router.push("/diary"),
+          onClose: () => {
+            load();
+            router.push("/diary");
+          },
           buttonText: "확인",
         });
       else
