@@ -3,8 +3,8 @@ import { useRouter } from "next/router";
 import styled from "styled-components";
 import Layout from "../components/layout";
 import { useAlertContext } from "../hooks/useAlertContext";
-import question from "../constant/question.json";
 import { useEffect } from "react";
+import { useTodayQuestion } from "../hooks/useTodayQuestion";
 
 const New: NextPage = () => {
   const router = useRouter();
@@ -13,8 +13,7 @@ const New: NextPage = () => {
   };
   const { push } = useAlertContext();
 
-  const todayQuestion =
-    question[Math.floor(new Date().getTime() / 3600) % question.length];
+  const todayQuestion = useTodayQuestion();
 
   return (
     <Layout>
