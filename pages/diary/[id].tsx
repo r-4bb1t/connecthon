@@ -144,6 +144,7 @@ const Content = styled.main`
 `;
 
 const Answer = styled.div`
+  background-color: white;
   background-image: -moz-linear-gradient(
     top,
     transparent,
@@ -259,6 +260,7 @@ const ModalTitle = styled.div`
 `;
 
 const ModalContent = styled.div`
+  background-color: white;
   background-image: -moz-linear-gradient(
     top,
     transparent,
