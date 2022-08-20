@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import styled, { css } from "styled-components";
 import Card from "../components/card";
 import Layout from "../components/layout";
@@ -62,7 +62,32 @@ enum TAB {
 
 const Home: NextPage = () => {
   const [tab, setTab] = useState(TAB.wishlist);
+  const [activities, setActivities] = useState([] as any[]);
   const [title, setTitle] = useState("즐거운 우리집");
+
+  const fetchData = useCallback(async () => {
+    try {
+      const result = await (
+        await fetch(
+          `${process.env.NEXT_PUBLIC_API_HOST || "/api"}/activities`,
+          {
+            headers: {
+              Authorization:
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3R5cGUiOiJjaGlsZCIsInVzZXJfaWQiOiI2MzAwNmJjNzY5MjMxMDZlODU1NGIzYTgifQ.ysDkiIZJ1bpHvtQji_nNjtUwX4exrp_85MaqGKRHv5Q",
+            },
+          }
+        )
+      ).json();
+      setActivities(result.data);
+    } catch (e) {
+      console.log(e);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <Layout title="마이홈">
       <Content>
@@ -206,13 +231,16 @@ const Home: NextPage = () => {
           </TabItem>
         </Tab>
         <LikedList>
-          {Data.map((each: any) => (
+          {activities.map((each: any) => (
             <Card
               key={each.id}
-              image={`/images/dummy_activity.svg`}
+              image={each.image_url}
+              url={each.page_url}
               title={each.title}
+              activityType={each.type}
+              location={each.location}
+              target={each.target}
               description={each.description}
-              type={["wishlist", "history"][tab] as "wishlist" | "history"}
             />
           ))}
         </LikedList>
