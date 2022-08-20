@@ -22,11 +22,11 @@ const DiaryPage: NextPage = () => {
     } catch (e) {
       console.log(e);
     }
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [token]);
 
   return (
     <Layout title="일기">

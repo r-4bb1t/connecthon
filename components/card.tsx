@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { THEME } from "../constant/colors";
 import { ActivityTypes, CardType } from "../constant/types";
+import { useToken } from "../hooks/useTokenContext";
 import { PickedIcon } from "./icons";
 
 const Card = ({
@@ -16,6 +17,7 @@ const Card = ({
   type = "list",
 }: CardType) => {
   const [localLiked, setLocalLiked] = useState(liked);
+  const { token } = useToken();
 
   const like = async () => {
     try {
@@ -24,8 +26,7 @@ const Card = ({
         {
           method: "POST",
           headers: {
-            Authorization:
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3R5cGUiOiJjaGlsZCIsInVzZXJfaWQiOiI2MzAwNmJjNzY5MjMxMDZlODU1NGIzYTgiLCJvdGhlcl90eXBlIjoicGFyZW50Iiwib3RoZXJfaWQiOiI2MzAwNmYyZTVmNjU3MDIyYzZhZWVmMjYifQ.b4mlsM_a77N6lq8D3rC-rEPwEzFpLJ6tIvCcT3bqV_c",
+            Authorization: token,
           },
         }
       );
@@ -108,6 +109,7 @@ const CardTitle = styled.div`
   margin-top: 8px;
   color: #3c3c3c;
   overflow: hidden;
+  display: block;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
@@ -132,6 +134,7 @@ const CardTarget = styled.div`
   padding-top: 0;
 
   overflow: hidden;
+  display: block;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;

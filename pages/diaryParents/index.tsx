@@ -38,11 +38,11 @@ const DiaryParents = () => {
     } catch (e) {
       console.log(e);
     }
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     diaries.map((diary) => {

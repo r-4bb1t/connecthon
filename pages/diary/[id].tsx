@@ -34,11 +34,11 @@ const DiaryDetail = () => {
     } catch (e) {
       console.log(e);
     }
-  }, [router.query]);
+  }, [router.query, token]);
 
   useEffect(() => {
     fetchData();
-  }, [router.query]);
+  }, [router.query, token]);
 
   return (
     <Layout title="일기 보기" hasBackButton>

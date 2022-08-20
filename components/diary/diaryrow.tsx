@@ -26,9 +26,7 @@ const DiaryRow = ({ diary }: { diary: Diary }) => {
               <div>{diary.question_content}</div>
             </DiaryTitle>
             <DiaryDate>
-
               {diary.from_today === 0 ? "오늘" : `${diary.from_today}일 전`}
-
             </DiaryDate>
           </DiaryDetailTop>
           <DiaryDescription>{diary.child_answer}</DiaryDescription>
@@ -83,16 +81,6 @@ const DiaryDetailTop = styled.div`
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 4rem;
-`;
-
-const DiaryAlarm = styled.div`
-  background-color: #fcba58;
-  border-radius: 100%;
-  position: relative;
-  width: 6px;
-  height: 6px;
-  top: -15px;
-  right: -10px;
 `;
 
 const DiaryTitle = styled.div`

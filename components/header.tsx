@@ -12,7 +12,7 @@ const Header = ({
   const router = useRouter();
   return (
     <Main>
-      {router.asPath === "/" ? (
+      {router.asPath === "/main" ? (
         <Logo>
           <img src="/icon.png" />
           <svg

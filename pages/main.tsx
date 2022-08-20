@@ -33,11 +33,11 @@ const Home: NextPage = () => {
     } catch (e) {
       console.log(e);
     }
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     if (exp >= 100) {
