@@ -145,9 +145,9 @@ const HistoryButton = styled(WishlistButton)`
 const activityTypes = {
   공원탐방: { background: "#d3f7e5", color: "#06592e" },
   교육체험: { background: "#fff5d0", color: "#ca9d00" },
-  "전시/관람": { background: "#d3f7f4", color: "#065945" },
+  전시관람: { background: "#d3f7f4", color: "#065945" },
   문화행사: { background: "#ffe3e3", color: "#c15151" },
-  농장: { background: "#efd7bb", color: "#987041" },
+  농장체험: { background: "#efd7bb", color: "#987041" },
   키즈카페: { background: "#d3daf7", color: "#31469b" },
 };
 

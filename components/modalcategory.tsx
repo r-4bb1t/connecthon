@@ -16,15 +16,15 @@ const ModalCategory = ({
     "문화행사",
     "농장체험",
     "전시관람",
-    "서울형키즈카페",
+    "키즈카페",
   ];
 
   const handleSelectCategory = (current: string) => {
     if (!selectedCategory.includes(current)) {
-      let temp: any = [...selectedCategory, current];
+      let temp = [...selectedCategory, current];
       setSelectedCategory(temp);
     } else {
-      let temp: any = selectedCategory.filter((e) => e !== current);
+      let temp = selectedCategory.filter((e: string) => e != current);
       setSelectedCategory(temp);
     }
   };

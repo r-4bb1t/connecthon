@@ -19,7 +19,14 @@ const Home: NextPage = () => {
   const [isOpenCategory, setOpenCategory] = useState(false);
   const [isOpenDate, setOpenDate] = useState(false);
   const [showFree, setShowFree] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState([] as string[]);
+  const [selectedCategory, setSelectedCategory] = useState([
+    "공원탐방",
+    "교육체험",
+    "문화행사",
+    "농장체험",
+    "전시관람",
+    "키즈카페",
+  ] as string[]);
   const [startDate, setStartDate] = useState(new Date());
   const [activities, setActivities] = useState([] as any[]);
 
@@ -46,7 +53,6 @@ const Home: NextPage = () => {
     fetchData();
   }, []);
 
-  console.log(startDate);
   return (
     <Layout title="활동">
       <Filters>
@@ -79,18 +85,20 @@ const Home: NextPage = () => {
         </MenuFilter>
       </Filters>
       <ActivityCards>
-        {activities.map((each: any) => (
-          <Card
-            key={each.id}
-            image={each.image_url}
-            url={each.page_url}
-            title={each.title}
-            activityType={each.type}
-            location={each.location}
-            target={each.target}
-            description={each.description}
-          />
-        ))}
+        {activities
+          .filter((a) => selectedCategory.includes(a.type))
+          .map((each: any) => (
+            <Card
+              key={each.id}
+              image={each.image_url}
+              url={each.page_url}
+              title={each.title}
+              activityType={each.type}
+              location={each.location}
+              target={each.target}
+              description={each.description}
+            />
+          ))}
       </ActivityCards>
       <ModalCategory
         isOpenCategory={isOpenCategory}
