@@ -17,7 +17,6 @@ const DiaryPage: NextPage = () => {
           },
         })
       ).json();
-      console.log(result);
       setDiaries(result.data);
     } catch (e) {
       console.log(e);

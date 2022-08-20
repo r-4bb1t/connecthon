@@ -8,9 +8,11 @@ import { AnimatePresence, motion } from "framer-motion";
 import { THEME } from "../constant/colors";
 import { Emoji } from "../components/icons";
 import { useToken } from "../hooks/useTokenContext";
+import { useLoading } from "../hooks/useLoadingContext";
 
 const New: NextPage = () => {
   const { push } = useAlertContext();
+  const { load, endLoad } = useLoading();
   const router = useRouter();
   const [question, setQuestion] = useState(null as any);
 
@@ -48,19 +50,20 @@ const New: NextPage = () => {
             answer: answer,
           }),
           headers: {
-            ContentType: "application/json",
+            "Content-Type": "application/json",
             Authorization:
               "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3R5cGUiOiJjaGlsZCIsInVzZXJfaWQiOiI2MzAwNmJjNzY5MjMxMDZlODU1NGIzYTgiLCJvdGhlcl90eXBlIjoicGFyZW50Iiwib3RoZXJfaWQiOiI2MzAwNmYyZTVmNjU3MDIyYzZhZWVmMjYifQ.b4mlsM_a77N6lq8D3rC-rEPwEzFpLJ6tIvCcT3bqV_c",
           },
         }
       );
 
-      console.log(await result.json());
-
       if (result.ok)
         push({
           message: "일기를 작성했어요!",
-          onClose: () => router.push("/diary"),
+          onClose: () => {
+            load();
+            router.push("/diary");
+          },
           buttonText: "확인",
         });
       else
@@ -96,7 +99,7 @@ const New: NextPage = () => {
             </svg>
             오늘의 질문
           </TodayQuestion>
-          <QuestionContent>{question?.question_content}</QuestionContent>
+          <QuestionContent>{question?.question_content || ""}</QuestionContent>
           <Textarea
             value={answer}
             onChange={(e) => setAnswer(e.target.value)}

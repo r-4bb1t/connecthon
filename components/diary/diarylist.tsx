@@ -8,13 +8,15 @@ const DiaryList = ({ diaries }: { diaries: Diary[] }) => {
   return (
     <>
       {diaries.length > 0 ? (
-        diaries.map((diary) => (
-          <Link href={`/diary/${diary._id}`} key={diary._id}>
-            <a>
-              <DiaryRow key={diary._id} diary={diary} />
-            </a>
-          </Link>
-        ))
+        <Content>
+          {diaries.map((diary) => (
+            <Link href={`/diary/${diary._id}`} key={diary._id}>
+              <a>
+                <DiaryRow key={diary._id} diary={diary} />
+              </a>
+            </Link>
+          ))}
+        </Content>
       ) : (
         <None>
           <svg
@@ -82,6 +84,11 @@ const DiaryList = ({ diaries }: { diaries: Diary[] }) => {
 };
 
 export default DiaryList;
+
+const Content = styled.div`
+  padding-top: 1rem;
+  padding-bottom: 6rem;
+`;
 
 const None = styled.div`
   height: 100%;

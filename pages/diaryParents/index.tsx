@@ -115,7 +115,7 @@ const MoodContainer = styled.div`
   margin-bottom: 20px;
 `;
 
-const MoodDescription = styled.p`
+const MoodDescription = styled.div`
   margin: 0;
   color: #999999;
   margin-top: 20px;
@@ -131,7 +131,7 @@ const MoodDescription = styled.p`
   }
 `;
 
-const MoodPeriod = styled.p`
+const MoodPeriod = styled.div`
   margin: 0;
   color: #d8d8d8;
   margin-top: 10px;
@@ -155,7 +155,7 @@ const MoodStats = styled.div`
 
 const Mood = styled.div``;
 
-const MoodCount = styled.p`
+const MoodCount = styled.div`
   text-align: center;
   margin-top: 5px;
   font-family: "Pretendard";
