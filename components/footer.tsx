@@ -65,13 +65,14 @@ const Footer = ({ preventRouterChange }: { preventRouterChange: boolean }) => {
 const Main = styled.footer`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  height: 4rem;
+  height: 5rem;
   position: fixed;
   z-index: 100000;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: 0px;
   background-color: white;
+  padding-bottom: 10px;
 `;
 
 const FooterItem = styled.button<{ selected: boolean }>`

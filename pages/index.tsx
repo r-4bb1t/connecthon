@@ -82,8 +82,10 @@ const LevelContainer = styled.div`
 const Level = styled.div`
   color: ${THEME.black400};
   font-weight: 500;
+  font-size: 24px;
   span {
     color: ${THEME.darker};
+    font-size: 24px;
   }
 `;
 
