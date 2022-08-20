@@ -3,8 +3,7 @@ import DatePicker from "react-datepicker";
 import { ko } from "date-fns/locale";
 import "react-datepicker/dist/react-datepicker.css";
 
-const Datepicker = () => {
-  const [startDate, setStartDate] = useState(new Date());
+const Datepicker = ({ startDate, setStartDate }: any) => {
   return (
     <DatePicker
       selected={startDate}

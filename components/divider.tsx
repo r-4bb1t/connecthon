@@ -9,6 +9,7 @@ const NewHr = styled.hr`
   width: 100vw;
   height: 1px;
   margin: 0px 0;
+  border: 1px solid #ededed;
 `;
 
 export default Divider;

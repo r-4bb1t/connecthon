@@ -13,18 +13,23 @@ import ModalCategory from "../components/modalcategory";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import "react-spring-bottom-sheet/dist/style.css";
 import Modaldate from "../components/modaldate";
+import Modalcity from "../components/modalcity";
 
 const Home: NextPage = () => {
   const [isOpenCategory, setOpenCategory] = useState(false);
   const [isOpenDate, setOpenDate] = useState(false);
+  const [isOpenCity, setOpenCity] = useState(false);
   const [showFree, setShowFree] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState([] as string[]);
+  const [selectedCity, setSelectedCity] = useState([] as string[]);
   const [startDate, setStartDate] = useState(new Date());
+  const [curColumn, setCurColumn] = useState(0);
+
   const Data: any = [
     {
       id: "1",
       image: "https://picsum.photos/200",
-      title: "강릉 수영장장장장장자앚아자자자자자자자자자자장",
+      title: "강릉 수영장",
       description: "아이들과 부모들이 함꼐 즐길 수 있는 신나는 액티비티",
     },
     {
@@ -72,56 +77,81 @@ const Home: NextPage = () => {
   ];
   console.log(startDate);
   return (
-    <Layout title="활동">
+    <Layout>
       <Filters>
-        <MenuFilter>
-          <MenuOpen
-            onClick={() => {
-              setOpenCategory(!isOpenCategory);
-            }}
-          >
-            {selectedCategory.length > 1 ? (
-              <>
-                {selectedCategory[0]}외 {selectedCategory.length - 1}
-              </>
-            ) : selectedCategory.length == 1 ? (
-              <>{selectedCategory[0]}</>
-            ) : (
-              <>분류</>
-            )}
-            <MenuIcon />
-          </MenuOpen>
-
-          <DateShow
-            onClick={() => {
-              setOpenDate(!isOpenDate);
-            }}
-          >
-            {startDate.getFullYear()}.{startDate.getMonth() + 1}.
-            {startDate.getDate()}
-          </DateShow>
-        </MenuFilter>
-        {/* <FreeColumn>
-          {!showFree ? (
-            <span
+        <OuterFilter>
+          <MenuFilter>
+            <MenuOpen
               onClick={() => {
-                setShowFree(!showFree);
+                setOpenCategory(!isOpenCategory);
               }}
             >
-              <ToggleIcon />
-            </span>
-          ) : (
-            <span
+              {selectedCategory.length > 1 ? (
+                <>
+                  {selectedCategory[0]}외 {selectedCategory.length - 1}
+                </>
+              ) : selectedCategory.length == 1 ? (
+                <>{selectedCategory[0]}</>
+              ) : (
+                <>분류</>
+              )}
+              <MenuIcon />
+            </MenuOpen>
+            <MenuOpenCity
               onClick={() => {
-                setShowFree(!showFree);
+                setOpenCity(!isOpenCity);
+                setCurColumn(0);
               }}
             >
-              <ToggleIconToggled />
-            </span>
-          )}
+              {selectedCity.length > 1 ? (
+                <>
+                  {selectedCity[0]}외 {selectedCity.length - 1}
+                </>
+              ) : selectedCity.length == 1 ? (
+                <>{selectedCity[0]}</>
+              ) : (
+                <>분류</>
+              )}
+              <MenuIcon />
+            </MenuOpenCity>
+            <DateShow
+              onClick={() => {
+                setOpenCity(!isOpenCity);
+                setCurColumn(1);
+              }}
+            >
+              {startDate.getFullYear()}.{startDate.getMonth() + 1}.
+              {startDate.getDate()}
+            </DateShow>
+          </MenuFilter>
 
-          <ToggleText>무료체험</ToggleText>
-        </FreeColumn> */}
+          <SecondRow>
+            <TotalNumText>
+              총 <span>45</span>개
+            </TotalNumText>
+            <FreeColumn>
+              {!showFree ? (
+                <span
+                  onClick={() => {
+                    setShowFree(!showFree);
+                  }}
+                >
+                  <ToggleIcon />
+                </span>
+              ) : (
+                <span
+                  onClick={() => {
+                    setShowFree(!showFree);
+                  }}
+                >
+                  <ToggleIconToggled />
+                </span>
+              )}
+
+              <ToggleText>무료체험</ToggleText>
+            </FreeColumn>
+          </SecondRow>
+        </OuterFilter>
       </Filters>
       <ActivityCards>
         {Data.map((each: any) => (
@@ -145,6 +175,16 @@ const Home: NextPage = () => {
         isOpenDate={isOpenDate}
         setOpenDate={setOpenDate}
       />
+      <Modalcity
+        isOpenCity={isOpenCity}
+        setOpenCity={setOpenCity}
+        selectedCity={selectedCity}
+        setSelectedCity={setSelectedCity}
+        startDate={startDate}
+        setStartDate={setStartDate}
+        curColumn={curColumn}
+        setCurColumn={setCurColumn}
+      />
     </Layout>
   );
 };
@@ -164,10 +204,22 @@ const MenuFilter = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-top: 10px;
 `;
 
 const MenuOpen = styled.div`
+  display: flex;
+  border: 1px solid #dedede;
+  border-radius: 20px;
+  width: auto;
+  padding: 10px;
+  height: 34px;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  color: #999999;
+`;
+
+const MenuOpenCity = styled.div`
   display: flex;
   border: 1px solid #dedede;
   border-radius: 20px;
@@ -207,6 +259,7 @@ const FreeColumn = styled.div`
 `;
 
 const ToggleText = styled.p`
+  font-family: "Pretendard";
   font-style: normal;
   font-weight: 500;
   font-size: 15px;
@@ -214,6 +267,35 @@ const ToggleText = styled.p`
   display: flex;
   align-items: center;
   color: #999999;
+`;
+
+const OuterFilter = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const SecondRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100vw;
+  padding-right: 3rem;
+`;
+
+const TotalNumText = styled.p`
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 18px;
+  display: flex;
+  align-items: center;
+
+  color: #999999;
+  span {
+    padding-left: 5px;
+    color: #515151;
+  }
 `;
 
 export default Home;
