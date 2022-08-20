@@ -25,7 +25,13 @@ const DiaryRow = ({ diary }: { diary: Diary }) => {
               </svg>
               <div>{diary.question_content}</div>
             </DiaryTitle>
-            <DiaryDate>{diary.from_day}일 전</DiaryDate>
+            <DiaryDate>
+              {diary.from_today === 0 ? (
+                <>오늘</>
+              ) : (
+                <>{diary.from_today}일 전</>
+              )}
+            </DiaryDate>
           </DiaryDetailTop>
           <DiaryDescription>{diary.child_answer}</DiaryDescription>
         </DiaryDetail>
@@ -48,7 +54,7 @@ const Container = styled.div`
   border: 2px solid #ededed;
   border-radius: 24px;
   align-items: center;
-  width: 90%;
+  width: 90vw;
 `;
 
 const DiaryImage = styled.img`

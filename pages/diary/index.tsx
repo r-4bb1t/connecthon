@@ -8,13 +8,17 @@ import { useToken } from "../../hooks/useTokenContext";
 const DiaryPage: NextPage = () => {
   const { token } = useToken();
   const [diaries, setDiaries] = useState([] as Diary[]);
-
+  const token = localStorage.getItem("token");
   const fetchData = useCallback(async () => {
     try {
       const result = await (
         await fetch(`${process.env.NEXT_PUBLIC_API_HOST || "/api"}/diaries`, {
           headers: {
+<<<<<<< HEAD
             Authorization: token,
+=======
+            Authorization: `${token}`,
+>>>>>>> ff12220 (token setting changed)
           },
         })
       ).json();

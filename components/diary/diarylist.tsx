@@ -2,7 +2,6 @@ import Link from "next/link";
 import React from "react";
 import styled from "styled-components";
 import { Diary } from "../../constant/types";
-import Divider from "../divider";
 import DiaryRow from "./diaryrow";
 
 const DiaryList = ({ diaries }: { diaries: Diary[] }) => {

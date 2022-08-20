@@ -8,7 +8,7 @@ export interface Diary {
   is_parent_answered: boolean;
   parent_answer: string;
   parent_answered_at: string;
-  from_day: number;
+  from_today: number;
   emotion: string;
 }
 
