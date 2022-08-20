@@ -5,6 +5,7 @@ import styled, { css } from "styled-components";
 import Card from "../components/card";
 import Layout from "../components/layout";
 import { THEME } from "../constant/colors";
+import { CardType } from "../constant/types";
 import { useLoading } from "../hooks/useLoadingContext";
 import { useToken } from "../hooks/useTokenContext";
 
@@ -192,6 +193,7 @@ const Home: NextPage = () => {
             {activities.map((each: any) => (
               <Card
                 liked={each.is_liked}
+                like={each.like}
                 _id={each._id}
                 key={each.id}
                 image={each.image_url}
@@ -201,6 +203,7 @@ const Home: NextPage = () => {
                 location={each.location}
                 target={each.target}
                 description={each.description}
+                type={["wishlist", "history"][tab] as CardType["type"]}
               />
             ))}
           </LikedList>
