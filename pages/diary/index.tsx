@@ -13,7 +13,7 @@ const DiaryPage: NextPage = () => {
         await fetch(`${process.env.NEXT_PUBLIC_API_HOST || "/api"}/diaries`, {
           headers: {
             Authorization:
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3R5cGUiOiJjaGlsZCIsInVzZXJfaWQiOiI2MzAwNmJjNzY5MjMxMDZlODU1NGIzYTgifQ.ysDkiIZJ1bpHvtQji_nNjtUwX4exrp_85MaqGKRHv5Q",
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3R5cGUiOiJwYXJlbnQiLCJ1c2VyX2lkIjoiNjMwMDZmMmU1ZjY1NzAyMmM2YWVlZjI2In0._iNvcBUO27VY58ghU_ktWZzjKMt1HRTRXdl_dumWvqU",
           },
         })
       ).json();
