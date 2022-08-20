@@ -20,6 +20,22 @@ const New: NextPage = () => {
   const [activityId, setActivityId] = useState("");
   const [activityName, setActivityName] = useState("");
 
+  const toggleLike = async () => {
+    try {
+      await fetch(
+        `${process.env.NEXT_PUBLIC_API_HOST || "/api"}/activity/${activityId}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const fetchData = useCallback(async () => {
     if (mode === "activity") return;
     try {
@@ -80,7 +96,8 @@ const New: NextPage = () => {
         }
       );
 
-      if (result.ok)
+      if (result.ok) {
+        await toggleLike();
         push({
           message: "일기를 작성했어요!",
           onClose: () => {
@@ -89,7 +106,7 @@ const New: NextPage = () => {
           },
           buttonText: "확인",
         });
-      else
+      } else
         push({
           message: "일기 작성에 실패했어요. 다시 시도해주세요.",
           onClose: () => {},

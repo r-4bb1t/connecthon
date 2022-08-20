@@ -78,16 +78,16 @@ const Card = ({
           <CardLandmark>{location}</CardLandmark>
         </CardDescription>
         <ButtonContainer>
-          {type === "wishlist" && <WishlistButton>다녀왔어요</WishlistButton>}
-          {type === "history" && (
-            <HistoryButton
+          {type === "wishlist" && (
+            <WishlistButton
               onClick={() => {
                 router.push(`/new?activity_id=${_id}&activity_name=${title}`);
               }}
             >
-              일기쓰기
-            </HistoryButton>
+              다녀왔어요
+            </WishlistButton>
           )}
+          {type === "history" && <HistoryButton>일기보기</HistoryButton>}
         </ButtonContainer>
       </CardDetail>
     </CardContainer>
