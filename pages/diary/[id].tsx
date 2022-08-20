@@ -27,11 +27,7 @@ const DiaryDetail = () => {
           `${process.env.NEXT_PUBLIC_API_HOST || "/api"}/diary/${id}`,
           {
             headers: {
-<<<<<<< HEAD
-              Authorization: token,
-=======
               Authorization: `${token}`,
->>>>>>> ff12220 (token setting changed)
             },
           }
         )

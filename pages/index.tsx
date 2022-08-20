@@ -15,7 +15,7 @@ const Home: NextPage = () => {
   const [exp, setExp] = useState(0);
   const [isAnimation, setIsAnimation] = useState(false);
 
-  const { token } = useToken();
+  const token = localStorage.getItem("token");
   const [question, setQuestion] = useState(null as any);
 
   const fetchData = useCallback(async () => {
@@ -23,7 +23,7 @@ const Home: NextPage = () => {
       const result = await (
         await fetch(`${process.env.NEXT_PUBLIC_API_HOST || "/api"}/question`, {
           headers: {
-            Authorization: token,
+            Authorization: `${token}`,
           },
         })
       ).json();
