@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+//@ts-ignore
 import Sheet from "react-modal-sheet";
 import styled from "styled-components";
 import Datepicker from "./datepicker/datepicker";
@@ -41,10 +42,10 @@ const Modal = ({ isOpen, setOpen }: any) => {
     "서울형키즈카페",
   ];
 
-  const [selectedCity, setSelectedCity] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState([]);
+  const [selectedCity, setSelectedCity] = useState([] as string[]);
+  const [selectedCategory, setSelectedCategory] = useState([] as string[]);
 
-  const handleSelectCity = (current: any) => {
+  const handleSelectCity = (current: string) => {
     if (!selectedCity.includes(current)) {
       let temp: any = [...selectedCity, current];
       setSelectedCity(temp);
@@ -54,7 +55,7 @@ const Modal = ({ isOpen, setOpen }: any) => {
     }
   };
 
-  const handleSelectCategory = (current: any) => {
+  const handleSelectCategory = (current: string) => {
     if (!selectedCategory.includes(current)) {
       let temp: any = [...selectedCategory, current];
       setSelectedCategory(temp);

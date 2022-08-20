@@ -75,15 +75,16 @@ const LevelContainer = styled.div`
   display: grid;
   grid-template-columns: 4rem 1fr;
   font-size: 1.8rem;
-  color: ${THEME.black700};
+  color: ${THEME.black900};
   font-weight: 700;
 `;
 
 const Level = styled.div`
   color: ${THEME.black400};
   font-weight: 500;
-  font-size: 24px;
+  font-size: inherit;
   span {
+    font-size: inherit;
     color: ${THEME.darker};
     font-size: 24px;
   }
