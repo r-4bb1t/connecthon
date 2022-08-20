@@ -62,6 +62,7 @@ enum TAB {
 
 const Home: NextPage = () => {
   const [tab, setTab] = useState(TAB.wishlist);
+  const [title, setTitle] = useState("즐거운 우리집");
   return (
     <Layout title="마이홈">
       <Profile>
@@ -181,7 +182,12 @@ const Home: NextPage = () => {
         </svg>
         <Title>
           <div>이름</div>
-          즐거운 우리집
+          <GhostInput
+            value={title}
+            onChange={(e) => {
+              setTitle(e.target.value);
+            }}
+          />
         </Title>
       </Profile>
       <Tab>
@@ -273,10 +279,19 @@ const Title = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  font-weight: 700;
-  font-size: 1.2rem;
   div {
     font-size: 1.2rem;
     color: ${THEME.darker};
+    flex-shrink: 0;
   }
+`;
+
+const GhostInput = styled.input`
+  width: 100%;
+  outline: none;
+  font-weight: 700;
+  font-size: 1.2rem;
+  border: none;
+  background: none;
+  text-align: right;
 `;

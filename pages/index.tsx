@@ -1,15 +1,30 @@
 import type { NextPage } from "next";
 import Link from "next/link";
 import { format } from "date-fns";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { CharacterImg } from "../components/characters";
 import { NewIcon } from "../components/icons";
 import Layout from "../components/layout";
 import { THEME } from "../constant/colors";
 import { useTodayQuestion } from "../hooks/useTodayQuestion";
+import { useEffect, useState } from "react";
 
 const Home: NextPage = () => {
   const todayQuestion = useTodayQuestion();
+  const [level, setLevel] = useState(1);
+  const [cIndex, setCIndex] = useState(0);
+  const [exp, setExp] = useState(0);
+  const [isAnimation, setIsAnimation] = useState(false);
+
+  useEffect(() => {
+    if (exp >= 100) {
+      setExp(exp - 100);
+      setLevel((l) => l + 1);
+      setIsAnimation(true);
+      setTimeout(() => setCIndex(level), 500);
+      setTimeout(() => setIsAnimation(false), 1000);
+    }
+  }, [exp]);
 
   return (
     <Layout>
@@ -17,19 +32,25 @@ const Home: NextPage = () => {
         <BetweenEnd>
           <LevelContainer>
             <Level>
-              Lv.<span>1</span>
+              Lv.<span>{level}</span>
             </Level>
             키우미
           </LevelContainer>
           <Exp>
-            <span>30</span> / 100
+            <span>{exp}</span> / 100
           </Exp>
         </BetweenEnd>
-        <ExpGage percent={0.3}></ExpGage>
+        <ExpGage percent={exp / 100}></ExpGage>
       </StatusContainer>
       <Today>{format(new Date(), "yyyy . MM . dd")}</Today>
-      <CharacterContainer>
-        <CharacterImg level={0} />
+      <CharacterContainer
+        isAnimation={isAnimation}
+        onClick={() => setExp((e) => e + 30)}
+      >
+        {isAnimation && <ChangeImage src={`/assets/change.gif?${level}`} />}
+        <div>
+          <CharacterImg level={cIndex} />
+        </div>
       </CharacterContainer>
       <TodayQuestion>
         <svg
@@ -82,10 +103,12 @@ const LevelContainer = styled.div`
 const Level = styled.div`
   color: ${THEME.black400};
   font-weight: 500;
+  font-size: 1.8rem;
   font-size: inherit;
   span {
     font-size: inherit;
     color: ${THEME.darker};
+    font-size: 1.8rem;
     font-size: 24px;
   }
 `;
@@ -110,9 +133,19 @@ const ExpGage = styled.div<{ percent: number }>`
     top: 0;
     left: 0;
     border-radius: 9999px;
-    width: ${(p) => p.percent * 100}%;
     height: 100%;
+    width: ${(p) => p.percent * 100}%;
     background: ${THEME.primary};
+    transition: width 0.5s ease;
+    @keyframes w {
+      from {
+        max-width: 0;
+      }
+      to {
+        max-width: ${(p) => p.percent * 100}%;
+      }
+    }
+    animation: w 0.5s ease forwards;
   }
 `;
 
@@ -135,12 +168,24 @@ const Today = styled.div`
   }
 `;
 
-const CharacterContainer = styled.div`
+const CharacterContainer = styled.div<{ isAnimation: boolean }>`
   position: relative;
   display: flex;
   justify-content: center;
   padding: 3rem 5rem;
+  div,
+  :after {
+    transition: transform 0.2s;
+  }
   margin-top: 2rem;
+  ${(p) =>
+    p.isAnimation &&
+    css`
+      div,
+      :after {
+        transform: scale(0.5);
+      }
+    `}
   :after {
     position: absolute;
     bottom: 0;
@@ -184,6 +229,13 @@ const CharacterContainer = styled.div`
     }
     animation: gelatine 1s infinite;
   }
+`;
+
+const ChangeImage = styled.img`
+  position: absolute;
+  z-index: 2;
+  width: 80%;
+  bottom: 1rem;
 `;
 
 const TodayQuestion = styled.div`
