@@ -8,10 +8,12 @@ import { AnimatePresence, motion } from "framer-motion";
 import { THEME } from "../constant/colors";
 import { Emoji } from "../components/icons";
 import { useToken } from "../hooks/useTokenContext";
+import { useLoading } from "../hooks/useLoadingContext";
 
 const New: NextPage = () => {
   const { push } = useAlertContext();
   const { token } = useToken();
+  const { load } = useLoading();
   const router = useRouter();
 
   const [question, setQuestion] = useState(null as any);
