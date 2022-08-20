@@ -16,7 +16,7 @@ import Modaldate from "../components/modaldate";
 import { ActivityTypes, CardType } from "../constant/types";
 import { useToken } from "../hooks/useTokenContext";
 
-const Home: NextPage = () => {
+const Activities: NextPage = () => {
   const [isOpenCategory, setOpenCategory] = useState(false);
   const [isOpenDate, setOpenDate] = useState(false);
   const [showFree, setShowFree] = useState(false);
@@ -138,7 +138,7 @@ const Home: NextPage = () => {
             .map((each: any) => (
               <Card
                 _id={each._id}
-                key={each.id}
+                key={each._id}
                 image={each.image_url}
                 url={each.page_url}
                 title={each.title}
@@ -369,7 +369,7 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default Activities;
 
 const Filters = styled.div`
   display: flex;
