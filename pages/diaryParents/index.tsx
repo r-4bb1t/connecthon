@@ -1,15 +1,15 @@
 import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
-import Layout from "../components/layout";
-import DiaryList from "../components/diary/diarylist";
+import Layout from "../../components/layout";
+import DiaryList from "../../components/diary/diarylist";
 import {
   HappyIcon,
   SurprisedIcon,
   NeutralIcon,
   SadIcon,
   AngryIcon,
-} from "../components/icons";
-import { Diary } from "../constant/types";
+} from "../../components/icons";
+import { Diary } from "../../constant/types";
 
 const DiaryParents = () => {
   const [name, setName] = useState("지현이");
@@ -24,10 +24,11 @@ const DiaryParents = () => {
         await fetch(`/api/diaries`, {
           headers: {
             Authorization:
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3R5cGUiOiJwYXJlbnQiLCJ1c2VyX2lkIjoiNjMwMDZmMmU1ZjY1NzAyMmM2YWVlZjI2In0._iNvcBUO27VY58ghU_ktWZzjKMt1HRTRXdl_dumWvqU",
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3R5cGUiOiJwYXJlbnQiLCJ1c2VyX2lkIjoiNjMwMDZmMmU1ZjY1NzAyMmM2YWVlZjI2Iiwib3RoZXJfdHlwZSI6ImNoaWxkIiwib3RoZXJfaWQiOiI2MzAwNmJjNzY5MjMxMDZlODU1NGIzYTgifQ.YqjzsB7Gq8D7OYJxLD8pdYJt_0kbPiZmEkpFvcx70P8",
           },
         })
       ).json();
+      console.log(result);
       setDiaries(result.data);
     } catch (e) {
       console.log(e);

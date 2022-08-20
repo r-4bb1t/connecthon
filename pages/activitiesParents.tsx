@@ -77,7 +77,7 @@ const Home: NextPage = () => {
   ];
   console.log(startDate);
   return (
-    <Layout>
+    <Layout title="활동">
       <Filters>
         <OuterFilter>
           <MenuFilter>
