@@ -2,12 +2,11 @@ import React, { useState } from "react";
 //@ts-ignore
 import Sheet from "react-modal-sheet";
 import styled from "styled-components";
-import Datepicker from "./datepicker/datepicker";
 import { ToggleIcon, ToggleIconToggled } from "./icons";
 
-const Modal = ({
-  isOpen,
-  setOpen,
+const ModalCategory = ({
+  isOpenCategory,
+  setOpenCategory,
   selectedCategory,
   setSelectedCategory,
 }: any) => {
@@ -71,75 +70,37 @@ const Modal = ({
   };
 
   return (
-    <Sheet isOpen={isOpen} snapPoints={[550]} onClose={() => setOpen(false)}>
+    <Sheet
+      isOpen={isOpenCategory}
+      snapPoints={[550]}
+      onClose={() => setOpenCategory(false)}
+    >
       <Sheet.Container>
         <Sheet.Header />
         <Sheet.Content>
-          <ThemesTitle></ThemesTitle>
+          <ThemesTitle>분류</ThemesTitle>
           <ThemesList>
-            {category.map((each: string) => {
-              if (selectedCategory.includes(each)) {
-                return (
-                  <Theme
-                    onClick={() => {
-                      handleSelectCategory(each);
-                    }}
-                  >
-                    <ThemeTitle key={each}>{each}</ThemeTitle>
-                    <ToggleIconToggled />
-                  </Theme>
-                );
-              } else {
-                return (
-                  <Theme
-                    onClick={() => {
-                      handleSelectCategory(each);
-                    }}
-                  >
-                    <ThemeTitle key={each}>{each}</ThemeTitle>
-                    <ToggleIcon />
-                  </Theme>
-                );
-              }
-            })}
+            {category.map((each: string) => (
+              <Theme
+                key={each}
+                onClick={() => {
+                  handleSelectCategory(each);
+                }}
+              >
+                <ThemeTitle>{each}</ThemeTitle>
+                {!selectedCategory.includes(each) ? (
+                  <ToggleIcon />
+                ) : (
+                  <ToggleIconToggled />
+                )}
+              </Theme>
+            ))}
           </ThemesList>
-          {/* 
-          <LocationsTitle>지역</LocationsTitle>
-          <LocationsList>
-            {city.map((each: string) => {
-              if (selectedCity.includes(each)) {
-                return (
-                  <SelectedLocation
-                    onClick={() => {
-                      handleSelectCity(each);
-                    }}
-                    key={each}
-                  >
-                    {each}
-                  </SelectedLocation>
-                );
-              } else {
-                return (
-                  <Theme
-                    onClick={() => {
-                      handleSelectCity(each);
-                    }}
-                    key={each}
-                  >
-                    {each}
-                  </Theme>
-                );
-              }
-            })}
-          </LocationsList>
-          <DatePicker>
-            <DatePickerTitle>날짜 선택</DatePickerTitle>
-            <Datepicker />
-          </DatePicker> */}
+
           <ModalFooter>
             <ModalButton
               onClick={() => {
-                setOpen(false);
+                setOpenCategory(false);
               }}
             >
               적용하기
@@ -212,11 +173,36 @@ const ModalButton = styled.div`
   font-size: 18px;
 `;
 
-const DatePicker = styled.div``;
-
-const DatePickerTitle = styled.p`
-  text-align: center;
-  font-size: 20px;
-`;
-
-export default Modal;
+export default ModalCategory;
+{
+  /*
+                <LocationsTitle>지역</LocationsTitle>
+                <LocationsList>
+                  {city.map((each: string) => {
+                    if (selectedCity.includes(each)) {
+                      return (
+                        <SelectedLocation
+                          onClick={() => {
+                            handleSelectCity(each);
+                          }}
+                          key={each}
+                        >
+                          {each}
+                        </SelectedLocation>
+                      );
+                    } else {
+                      return (
+                        <Theme
+                          onClick={() => {
+                            handleSelectCity(each);
+                          }}
+                          key={each}
+                        >
+                          {each}
+                        </Theme>
+                      );
+                    }
+                  })}
+                </LocationsList>
+                 */
+}

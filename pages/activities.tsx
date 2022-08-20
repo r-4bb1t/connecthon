@@ -9,14 +9,17 @@ import {
   ToggleIconToggled,
 } from "../components/icons";
 import Layout from "../components/layout";
-import Modal from "../components/modal";
+import ModalCategory from "../components/modalcategory";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import "react-spring-bottom-sheet/dist/style.css";
+import Modaldate from "../components/modaldate";
 
 const Home: NextPage = () => {
-  const [isOpen, setOpen] = useState(false);
+  const [isOpenCategory, setOpenCategory] = useState(false);
+  const [isOpenDate, setOpenDate] = useState(false);
   const [showFree, setShowFree] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState([] as string[]);
+  const [startDate, setStartDate] = useState(new Date());
   const Data: any = [
     {
       id: "1",
@@ -67,16 +70,14 @@ const Home: NextPage = () => {
       description: "아이들이 좋아하는 레고로 만들어진 꿈같은 놀이동산",
     },
   ];
-
+  console.log(startDate);
   return (
     <Layout>
       <Filters>
         <MenuFilter>
-          {/* <MenuIcon /> */}
-          {/* <MenuText>무료만 보기</MenuText> */}
           <MenuOpen
             onClick={() => {
-              setOpen(!isOpen);
+              setOpenCategory(!isOpenCategory);
             }}
           >
             {selectedCategory.length > 1 ? (
@@ -90,13 +91,17 @@ const Home: NextPage = () => {
             )}
             <MenuIcon />
           </MenuOpen>
-          <DateShow>2022.08.20</DateShow>
+
+          <DateShow
+            onClick={() => {
+              setOpenDate(!isOpenDate);
+            }}
+          >
+            {startDate.getFullYear()}.{startDate.getMonth() + 1}.
+            {startDate.getDate()}
+          </DateShow>
         </MenuFilter>
-        <FreeColumn
-        // onClick={() => {
-        //   setOpen(!isOpen);
-        // }}
-        >
+        {/* <FreeColumn>
           {!showFree ? (
             <span
               onClick={() => {
@@ -116,7 +121,7 @@ const Home: NextPage = () => {
           )}
 
           <ToggleText>무료체험</ToggleText>
-        </FreeColumn>
+        </FreeColumn> */}
       </Filters>
       <ActivityCards>
         {Data.map((each: any) => (
@@ -128,13 +133,18 @@ const Home: NextPage = () => {
           />
         ))}
       </ActivityCards>
-      <Modal
-        isOpen={isOpen}
-        setOpen={setOpen}
+      <ModalCategory
+        isOpenCategory={isOpenCategory}
+        setOpenCategory={setOpenCategory}
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
       />
-      {/* <BottomSheet open={isOpen}>My awesome content here</BottomSheet> */}
+      <Modaldate
+        startDate={startDate}
+        setStartDate={setStartDate}
+        isOpenDate={isOpenDate}
+        setOpenDate={setOpenDate}
+      />
     </Layout>
   );
 };
@@ -154,6 +164,7 @@ const MenuFilter = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
+  margin-top: 10px;
 `;
 
 const MenuOpen = styled.div`
