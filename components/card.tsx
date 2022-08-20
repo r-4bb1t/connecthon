@@ -109,6 +109,7 @@ const CardTitle = styled.div`
   margin-top: 8px;
   color: #3c3c3c;
   overflow: hidden;
+  display: block;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
@@ -133,6 +134,7 @@ const CardTarget = styled.div`
   padding-top: 0;
 
   overflow: hidden;
+  display: block;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
