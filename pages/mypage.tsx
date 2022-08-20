@@ -27,7 +27,7 @@ const Home: NextPage = () => {
       const result = await (
         await fetch(
           `${process.env.NEXT_PUBLIC_API_HOST || "/api"}/user/activities${
-            tab === TAB.history ? "?type=visited" : ""
+            tab == TAB.history ? "?type=visited" : ""
           }`,
           {
             headers: {
@@ -44,7 +44,7 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     fetchData();
-  }, [token]);
+  }, [tab, token]);
 
   return (
     <Layout title="마이홈">

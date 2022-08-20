@@ -63,7 +63,7 @@ const Footer = ({ preventRouterChange }: { preventRouterChange: boolean }) => {
         selected={router.asPath === "/mypage"}
       >
         <MypageIcon selected={router.asPath === "/mypage"} />
-        마이룸
+        마이홈
       </FooterItem>
     </Main>
   );

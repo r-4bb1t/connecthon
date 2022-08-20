@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { THEME } from "../constant/colors";
@@ -19,6 +20,7 @@ const Card = ({
 }: CardType) => {
   const [localLiked, setLocalLiked] = useState(liked);
   const { token } = useToken();
+  const router = useRouter();
 
   const toggleLike = async () => {
     try {
@@ -47,7 +49,7 @@ const Card = ({
       </a>
       <CardDetail>
         <CardDetailTop>
-          {type === "wishlist" ? (
+          {!(type === "list") ? (
             <LikerList>
               {like.map((l: "child" | "parent", i) => (
                 <Liker type={l} key={i}>
@@ -77,7 +79,15 @@ const Card = ({
         </CardDescription>
         <ButtonContainer>
           {type === "wishlist" && <WishlistButton>다녀왔어요</WishlistButton>}
-          {type === "history" && <HistoryButton>일기보기</HistoryButton>}
+          {type === "history" && (
+            <HistoryButton
+              onClick={() => {
+                router.push(`/new?activity_id=${_id}&activity_name=${title}`);
+              }}
+            >
+              일기쓰기
+            </HistoryButton>
+          )}
         </ButtonContainer>
       </CardDetail>
     </CardContainer>
