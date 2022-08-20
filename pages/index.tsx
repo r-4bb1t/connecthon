@@ -86,6 +86,7 @@ const Level = styled.div`
   span {
     font-size: inherit;
     color: ${THEME.darker};
+    font-size: 24px;
   }
 `;
 

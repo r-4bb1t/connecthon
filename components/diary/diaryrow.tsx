@@ -1,22 +1,22 @@
 import React from "react";
 import styled from "styled-components";
-import Divider from "../divider";
 
 const DiaryRow = ({ diary }: any) => {
-  console.log(diary);
   return (
     <Body>
       <Container>
-        <DiaryImage src={diary.emotion} />
-
+        <DiaryImage src="/images/dummy.svg" />
         <DiaryDetail>
           <DiaryDetailTop>
             <DiaryTitle>Q 선물</DiaryTitle>
-            <DiaryDate>1일전</DiaryDate>
+            <DiaryDate>
+              1일전
+              <DiaryAlarm />
+            </DiaryDate>
           </DiaryDetailTop>
+
           <DiaryDescription>
             산타클로스가 크리스마스때 주신 선물이 가장 기억에 남는데, 알고보니
-            엄마가 ...
           </DiaryDescription>
         </DiaryDetail>
       </Container>
@@ -36,9 +36,8 @@ const Container = styled.div`
   display: flex;
   flex-direction: row;
   border: 2px solid #ededed;
-  border-radius: 20px;
+  border-radius: 24px;
   align-items: center;
-
   width: 90%;
 `;
 
@@ -72,15 +71,26 @@ const DiaryDetailTop = styled.div`
   justify-content: space-between;
 `;
 
+const DiaryAlarm = styled.div`
+  background-color: #fcba58;
+  border-radius: 100%;
+  position: relative;
+  width: 6px;
+  height: 6px;
+  top: -15px;
+  right: -10px;
+`;
+
 const DiaryTitle = styled.p`
   margin: 0;
   color: #999999;
 `;
 
 const DiaryDescription = styled.p`
-  margin-top: 5px;
+  margin-top: 10px;
   margin-bottom: 0;
   color: #515151;
+  font-size: 14px;
 `;
 
 export default DiaryRow;
