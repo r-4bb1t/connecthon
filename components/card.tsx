@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { THEME } from "../constant/colors";
 import { ActivityTypes, CardType } from "../constant/types";
+import { useLoading } from "../hooks/useLoadingContext";
 import { useToken } from "../hooks/useTokenContext";
 import { PickedIcon } from "./icons";
 
@@ -17,10 +18,12 @@ const Card = ({
   liked = true,
   like = [],
   type = "list",
+  diaryId,
 }: CardType) => {
   const [localLiked, setLocalLiked] = useState(liked);
   const { token } = useToken();
   const router = useRouter();
+  const { load } = useLoading();
 
   const toggleLike = async () => {
     try {
@@ -81,13 +84,23 @@ const Card = ({
           {type === "wishlist" && (
             <WishlistButton
               onClick={() => {
+                load();
                 router.push(`/new?activity_id=${_id}&activity_name=${title}`);
               }}
             >
               다녀왔어요
             </WishlistButton>
           )}
-          {type === "history" && <HistoryButton>일기보기</HistoryButton>}
+          {type === "history" && (
+            <HistoryButton
+              onClick={() => {
+                load();
+                router.push(`/diary/${diaryId}`);
+              }}
+            >
+              일기보기
+            </HistoryButton>
+          )}
         </ButtonContainer>
       </CardDetail>
     </CardContainer>

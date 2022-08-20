@@ -33,4 +33,5 @@ export interface CardType {
   activityType: ActivityTypes;
   type?: "list" | "wishlist" | "history";
   like?: ("child" | "parent")[];
+  diaryId?: string;
 }

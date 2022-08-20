@@ -203,6 +203,7 @@ const Home: NextPage = () => {
                 location={each.location}
                 target={each.target}
                 description={each.description}
+                diaryId={each.diary_id}
                 type={["wishlist", "history"][tab] as CardType["type"]}
               />
             ))}
