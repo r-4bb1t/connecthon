@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import Card from "../components/card";
 import {
@@ -13,6 +13,7 @@ import ModalCategory from "../components/modalcategory";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import "react-spring-bottom-sheet/dist/style.css";
 import Modaldate from "../components/modaldate";
+import { ActivityTypes, CardType } from "../constant/types";
 
 const Home: NextPage = () => {
   const [isOpenCategory, setOpenCategory] = useState(false);
@@ -20,56 +21,31 @@ const Home: NextPage = () => {
   const [showFree, setShowFree] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState([] as string[]);
   const [startDate, setStartDate] = useState(new Date());
-  const Data: any = [
-    {
-      id: "1",
-      image: "https://picsum.photos/200",
-      title: "강릉 수영장장장장장자앚아자자자자자자자자자자장",
-      description: "아이들과 부모들이 함꼐 즐길 수 있는 신나는 액티비티",
-    },
-    {
-      id: "2",
-      image: "https://picsum.photos/200",
-      title: "레고랜드",
-      description: "아이들이 좋아하는 레고로 만들어진 꿈같은 놀이동산",
-    },
-    {
-      id: "3",
-      image: "https://picsum.photos/200",
-      title: "강릉 수영장",
-      description: "아이들과 부모들이 함꼐 즐길 수 있는 신나는 액티비티",
-    },
-    {
-      id: "4",
-      image: "https://picsum.photos/200",
-      title: "레고랜드",
-      description: "아이들이 좋아하는 레고로 만들어진 꿈같은 놀이동산",
-    },
-    {
-      id: "5",
-      image: "https://picsum.photos/200",
-      title: "강릉 수영장",
-      description: "아이들과 부모들이 함꼐 즐길 수 있는 신나는 액티비티",
-    },
-    {
-      id: "6",
-      image: "https://picsum.photos/200",
-      title: "레고랜드",
-      description: "아이들이 좋아하는 레고로 만들어진 꿈같은 놀이동산",
-    },
-    {
-      id: "7",
-      image: "https://picsum.photos/200",
-      title: "강릉 수영장",
-      description: "아이들과 부모들이 함꼐 즐길 수 있는 신나는 액티비티",
-    },
-    {
-      id: "8",
-      image: "https://picsum.photos/200",
-      title: "레고랜드",
-      description: "아이들이 좋아하는 레고로 만들어진 꿈같은 놀이동산",
-    },
-  ];
+  const [activities, setActivities] = useState([] as any[]);
+
+  const fetchData = useCallback(async () => {
+    try {
+      const result = await (
+        await fetch(
+          `${process.env.NEXT_PUBLIC_API_HOST || "/api"}/activities`,
+          {
+            headers: {
+              Authorization:
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3R5cGUiOiJjaGlsZCIsInVzZXJfaWQiOiI2MzAwNmJjNzY5MjMxMDZlODU1NGIzYTgifQ.ysDkiIZJ1bpHvtQji_nNjtUwX4exrp_85MaqGKRHv5Q",
+            },
+          }
+        )
+      ).json();
+      setActivities(result.data);
+    } catch (e) {
+      console.log(e);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   console.log(startDate);
   return (
     <Layout title="활동">
@@ -101,34 +77,17 @@ const Home: NextPage = () => {
             {startDate.getDate()}
           </DateShow>
         </MenuFilter>
-        {/* <FreeColumn>
-          {!showFree ? (
-            <span
-              onClick={() => {
-                setShowFree(!showFree);
-              }}
-            >
-              <ToggleIcon />
-            </span>
-          ) : (
-            <span
-              onClick={() => {
-                setShowFree(!showFree);
-              }}
-            >
-              <ToggleIconToggled />
-            </span>
-          )}
-
-          <ToggleText>무료체험</ToggleText>
-        </FreeColumn> */}
       </Filters>
       <ActivityCards>
-        {Data.map((each: any) => (
+        {activities.map((each: any) => (
           <Card
             key={each.id}
-            image={`/images/dummy_activity.svg`}
+            image={each.image_url}
+            url={each.page_url}
             title={each.title}
+            activityType={each.type}
+            location={each.location}
+            target={each.target}
             description={each.description}
           />
         ))}
@@ -158,6 +117,7 @@ const Filters = styled.div`
   background-color: #fbfbfb;
   width: 100%;
   padding: 0 25px;
+  padding-bottom: 12px;
 `;
 
 const MenuFilter = styled.div`

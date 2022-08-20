@@ -1,33 +1,35 @@
 import React from "react";
 import styled from "styled-components";
 import { THEME } from "../constant/colors";
-import { Cafe, Culture, Education, Exhibition, Farm, Park } from "./category";
+import { ActivityTypes, CardType } from "../constant/types";
 import { PickedIcon, PickedIconToggled } from "./icons";
 
-interface CardType {
-  image: string;
-  title: string;
-  description: string;
-  type?: "list" | "wishlist" | "history";
-}
-
-const Card = ({ image, title, description, type = "list" }: CardType) => {
+const Card = ({
+  image,
+  title,
+  url,
+  target,
+  activityType,
+  location,
+  type = "list",
+}: CardType) => {
   return (
     <CardContainer>
-      <CardImage src={image} />
+      <a href={url} rel="noreferrer" target="_blank">
+        <CardImage src={image} />
+      </a>
       <CardDetail>
         <CardDetailTop>
-          <Cafe />
-
+          <ActivityType type={activityType}>{activityType}</ActivityType>
           {/* <PickedIcon /> */}
-          <PickedIconToggled />
+          {!(type === "history") && <PickedIconToggled />}
         </CardDetailTop>
         <CardTitleContainer>
-          <CardTitle>{title}</CardTitle>
+          <CardTitle dangerouslySetInnerHTML={{ __html: title }} />
         </CardTitleContainer>
         <CardDescription>
-          <CardTarget>유아(5~7)세</CardTarget>
-          <CardLandmark>서울역사박물관</CardLandmark>
+          <CardTarget>{target}</CardTarget>
+          <CardLandmark>{location}</CardLandmark>
         </CardDescription>
         <ButtonContainer>
           {type === "wishlist" && <WishlistButton>다녀왔어요</WishlistButton>}
@@ -48,6 +50,9 @@ const CardContainer = styled.div`
 
 const CardImage = styled.img`
   width: 100%;
+  border-radius: 20px 20px 0 0;
+  height: 8rem;
+  object-fit: cover;
 `;
 
 const CardDetail = styled.div``;
@@ -93,8 +98,14 @@ const CardTarget = styled.div`
   align-items: center;
   color: #999999;
   margin: 0;
-  padding: 5px 12px;
+  padding: 0 12px;
+  margin-bottom: 5px;
   padding-top: 0;
+
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
 `;
 
 const CardLandmark = styled.p`
@@ -129,6 +140,38 @@ const WishlistButton = styled.button`
 const HistoryButton = styled(WishlistButton)`
   background: ${THEME.black200};
   color: ${THEME.black700};
+`;
+
+const activityTypes = {
+  공원탐방: { background: "#d3f7e5", color: "#06592e" },
+  교육체험: { background: "#fff5d0", color: "#ca9d00" },
+  "전시/관람": { background: "#d3f7f4", color: "#065945" },
+  문화행사: { background: "#ffe3e3", color: "#c15151" },
+  농장: { background: "#efd7bb", color: "#987041" },
+  키즈카페: { background: "#d3daf7", color: "#31469b" },
+};
+
+const ActivityType = styled.div<{ type: ActivityTypes }>`
+  //@ts-ignore
+  background: ${(p) =>
+    p.type in activityTypes ? activityTypes[p.type].background : "#fefefe"};
+  //@ts-ignore
+  color: ${(p) =>
+    p.type in activityTypes ? activityTypes[p.type].color : "#777777"};
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70px;
+  height: 25px;
+
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 137%;
+  display: flex;
+  align-items: center;
+  text-align: center;
 `;
 
 export default Card;
