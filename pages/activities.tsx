@@ -94,9 +94,47 @@ const Home: NextPage = () => {
         </MenuFilter>
       </Filters>
       <ActivityCards>
-        {activities.filter((a) => realCategory.includes(a.type)).length > 0 ? (
+        {activities.filter(
+          (a) =>
+            realCategory.includes(a.type) &&
+            new Date(
+              a.event_start_date.substring(0, 10) +
+                " " +
+                a.event_start_date
+                  .substring(11, a.event_start_date.length)
+                  .split("-")
+                  .join(":")
+            ).getTime() <= new Date(startDate).getTime() &&
+            new Date(
+              a.event_end_date.substring(0, 10) +
+                " " +
+                a.event_end_date
+                  .substring(11, a.event_end_date.length)
+                  .split("-")
+                  .join(":")
+            ).getTime() >= new Date(startDate).getTime()
+        ).length > 0 ? (
           activities
-            .filter((a) => realCategory.includes(a.type))
+            .filter(
+              (a) =>
+                realCategory.includes(a.type) &&
+                new Date(
+                  a.event_start_date.substring(0, 10) +
+                    " " +
+                    a.event_start_date
+                      .substring(11, a.event_start_date.length)
+                      .split("-")
+                      .join(":")
+                ).getTime() <= new Date(startDate).getTime() &&
+                new Date(
+                  a.event_end_date.substring(0, 10) +
+                    " " +
+                    a.event_end_date
+                      .substring(11, a.event_end_date.length)
+                      .split("-")
+                      .join(":")
+                ).getTime() >= new Date(startDate).getTime()
+            )
             .map((each: any) => (
               <Card
                 _id={each._id}
