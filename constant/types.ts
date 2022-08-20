@@ -21,11 +21,13 @@ export type ActivityTypes =
   | "키즈카페";
 
 export interface CardType {
+  _id: string;
   image: string;
   title: string;
   description: string;
   url: string;
   location: string;
+  liked: boolean;
   target: string;
   activityType: ActivityTypes;
   type?: "list" | "wishlist" | "history";

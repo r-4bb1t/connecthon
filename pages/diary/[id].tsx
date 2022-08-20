@@ -18,8 +18,6 @@ const DiaryDetail = () => {
   const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
 
   const fetchData = useCallback(async () => {
-    const token = localStorage.getItem("token");
-
     if (!id) return;
     try {
       const result = await (
@@ -43,7 +41,7 @@ const DiaryDetail = () => {
   }, [router.query]);
 
   return (
-    <Layout title="일기" hasBackButton>
+    <Layout title="일기 보기" hasBackButton>
       <Main>
         <Content>
           <TodayQuestion>

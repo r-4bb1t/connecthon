@@ -16,7 +16,7 @@ import Modaldate from "../components/modaldate";
 import { ActivityTypes, CardType } from "../constant/types";
 import { useToken } from "../hooks/useTokenContext";
 
-const Home: NextPage = () => {
+const Activities: NextPage = () => {
   const [isOpenCategory, setOpenCategory] = useState(false);
   const [isOpenDate, setOpenDate] = useState(false);
   const [showFree, setShowFree] = useState(false);
@@ -94,17 +94,57 @@ const Home: NextPage = () => {
         </MenuFilter>
       </Filters>
       <ActivityCards>
-        {activities.filter((a) => realCategory.includes(a.type)).length > 0 ? (
+        {activities.filter(
+          (a) =>
+            realCategory.includes(a.type) &&
+            new Date(
+              a.event_start_date.substring(0, 10) +
+                " " +
+                a.event_start_date
+                  .substring(11, a.event_start_date.length)
+                  .split("-")
+                  .join(":")
+            ).getTime() <= new Date(startDate).getTime() &&
+            new Date(
+              a.event_end_date.substring(0, 10) +
+                " " +
+                a.event_end_date
+                  .substring(11, a.event_end_date.length)
+                  .split("-")
+                  .join(":")
+            ).getTime() >= new Date(startDate).getTime()
+        ).length > 0 ? (
           activities
-            .filter((a) => realCategory.includes(a.type))
+            .filter(
+              (a) =>
+                realCategory.includes(a.type) &&
+                new Date(
+                  a.event_start_date.substring(0, 10) +
+                    " " +
+                    a.event_start_date
+                      .substring(11, a.event_start_date.length)
+                      .split("-")
+                      .join(":")
+                ).getTime() <= new Date(startDate).getTime() &&
+                new Date(
+                  a.event_end_date.substring(0, 10) +
+                    " " +
+                    a.event_end_date
+                      .substring(11, a.event_end_date.length)
+                      .split("-")
+                      .join(":")
+                ).getTime() >= new Date(startDate).getTime()
+            )
             .map((each: any) => (
               <Card
-                key={each.id}
+                _id={each._id}
+                key={each._id}
                 image={each.image_url}
                 url={each.page_url}
                 title={each.title}
                 activityType={each.type}
                 location={each.location}
+                liked={each.is_liked}
                 target={each.target}
                 description={each.description}
               />
@@ -329,7 +369,7 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default Activities;
 
 const Filters = styled.div`
   display: flex;
@@ -379,7 +419,8 @@ const ActivityCards = styled.div`
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  padding: 4rem 0;
+  padding-top: 4rem;
+  padding-bottom: 6rem;
 `;
 
 const FreeColumn = styled.div`

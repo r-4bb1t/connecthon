@@ -14,7 +14,8 @@ const Home: NextPage = () => {
   const [cIndex, setCIndex] = useState(0);
   const [exp, setExp] = useState(0);
   const [isAnimation, setIsAnimation] = useState(false);
-  const token = localStorage.getItem("token");
+
+  const { token } = useToken();
   const [question, setQuestion] = useState(null as any);
 
   const fetchData = useCallback(async () => {
@@ -42,13 +43,16 @@ const Home: NextPage = () => {
     if (exp >= 100) {
       setExp(exp - 100);
       setLevel((l) => l + 1);
-      localStorage.setItem("exp", exp.toString());
-      localStorage.setItem("level", level.toString());
       setIsAnimation(true);
       setTimeout(() => setCIndex(level), 500);
       setTimeout(() => setIsAnimation(false), 1000);
+      localStorage.setItem("exp", exp.toString());
     }
   }, [exp]);
+
+  useEffect(() => {
+    localStorage.setItem("level", level.toString());
+  }, [level]);
 
   return (
     <Layout>

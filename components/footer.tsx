@@ -9,7 +9,7 @@ import { ActivityIcon, ListIcon, MainIcon, NewIcon, MypageIcon } from "./icons";
 const Footer = ({ preventRouterChange }: { preventRouterChange: boolean }) => {
   const { push, alerts, close } = useAlertContext();
   const router = useRouter();
-  const { load, endLoad } = useLoading();
+  const { load } = useLoading();
   const goto = (href: string) => {
     if (preventRouterChange) {
       alerts.map((a) => close(a.id));
@@ -39,7 +39,7 @@ const Footer = ({ preventRouterChange }: { preventRouterChange: boolean }) => {
     <Main>
       <FooterItem
         onClick={() => goto("/main")}
-        selected={router.asPath === "/"}
+        selected={router.asPath === "/main"}
       >
         <MainIcon selected={router.asPath === "/main"} />
         메인
@@ -63,7 +63,7 @@ const Footer = ({ preventRouterChange }: { preventRouterChange: boolean }) => {
         selected={router.asPath === "/mypage"}
       >
         <MypageIcon selected={router.asPath === "/mypage"} />
-        마이름
+        마이룸
       </FooterItem>
     </Main>
   );
