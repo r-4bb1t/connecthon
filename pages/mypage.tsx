@@ -58,7 +58,7 @@ const TabItem = styled.div<{ selected: Boolean }>`
   ${(p) =>
     p.selected &&
     css`
-      font-weight: bold;
+      font-weight: 700;
     `}
 `;
 
@@ -71,6 +71,6 @@ const Profile = styled.div`
   grid-template-columns: 5rem 1fr;
   padding: 2rem;
   div:nth-child(odd) {
-    font-weight: bold;
+    font-weight: 700;
   }
 `;
