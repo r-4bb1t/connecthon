@@ -10,6 +10,7 @@ export interface Diary {
   parent_answered_at: string;
   from_today: number;
   emotion: string;
+  diary_type: "activity" | "answer";
 }
 
 export type ActivityTypes =
@@ -27,8 +28,10 @@ export interface CardType {
   description: string;
   url: string;
   location: string;
-  liked: boolean;
+  liked?: boolean;
   target: string;
   activityType: ActivityTypes;
   type?: "list" | "wishlist" | "history";
+  like?: ("child" | "parent")[];
+  diaryId?: string;
 }

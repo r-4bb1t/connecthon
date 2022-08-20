@@ -42,6 +42,7 @@ const Body = styled.div`
   justify-content: center;
   align-items: center;
   margin-bottom: 16px;
+  overflow: hidden;
 `;
 
 const Container = styled.div`
@@ -80,16 +81,6 @@ const DiaryDetailTop = styled.div`
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 4rem;
-`;
-
-const DiaryAlarm = styled.div`
-  background-color: #fcba58;
-  border-radius: 100%;
-  position: relative;
-  width: 6px;
-  height: 6px;
-  top: -15px;
-  right: -10px;
 `;
 
 const DiaryTitle = styled.div`

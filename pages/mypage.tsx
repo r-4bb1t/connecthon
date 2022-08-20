@@ -5,6 +5,7 @@ import styled, { css } from "styled-components";
 import Card from "../components/card";
 import Layout from "../components/layout";
 import { THEME } from "../constant/colors";
+import { CardType } from "../constant/types";
 import { useLoading } from "../hooks/useLoadingContext";
 import { useToken } from "../hooks/useTokenContext";
 
@@ -26,7 +27,7 @@ const Home: NextPage = () => {
       const result = await (
         await fetch(
           `${process.env.NEXT_PUBLIC_API_HOST || "/api"}/user/activities${
-            tab === TAB.history ? "?type=visited" : ""
+            tab == TAB.history ? "?type=visited" : ""
           }`,
           {
             headers: {
@@ -39,11 +40,11 @@ const Home: NextPage = () => {
     } catch (e) {
       console.log(e);
     }
-  }, [tab]);
+  }, [tab, token]);
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [tab, token]);
 
   return (
     <Layout title="마이홈">
@@ -187,11 +188,12 @@ const Home: NextPage = () => {
             함께 했어요
           </TabItem>
         </Tab>
-        {activities.length < 0 ? (
+        {activities?.length > 0 ? (
           <LikedList>
             {activities.map((each: any) => (
               <Card
                 liked={each.is_liked}
+                like={each.like}
                 _id={each._id}
                 key={each.id}
                 image={each.image_url}
@@ -201,6 +203,8 @@ const Home: NextPage = () => {
                 location={each.location}
                 target={each.target}
                 description={each.description}
+                diaryId={each.diary_id}
+                type={["wishlist", "history"][tab] as CardType["type"]}
               />
             ))}
           </LikedList>
@@ -497,7 +501,7 @@ const GhostInput = styled.input`
   font-weight: 700;
   font-size: 1.2rem;
   border: none;
-  background: none;
+  background: transparent;
   text-align: right;
 `;
 

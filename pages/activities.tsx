@@ -42,11 +42,11 @@ const Activities: NextPage = () => {
     } catch (e) {
       console.log(e);
     }
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [token]);
 
   return (
     <Layout title="활동">
@@ -85,7 +85,7 @@ const Activities: NextPage = () => {
       </Filters>
       <ActivityCards>
         {
-          activities.filter(
+          activities?.filter(
             (a) =>
               realCategory.includes(a.type) &&
               new Date(
@@ -140,7 +140,7 @@ const Activities: NextPage = () => {
                     description={each.description}
                   />
                 ))
-            : activities.map((each: any) => (
+            : activities?.map((each: any) => (
                 <Card
                   _id={each._id}
                   key={each._id}
@@ -150,6 +150,7 @@ const Activities: NextPage = () => {
                   activityType={each.type}
                   location={each.location}
                   liked={each.is_liked}
+                  like={each.like}
                   target={each.target}
                   description={each.description}
                 />

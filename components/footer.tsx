@@ -63,7 +63,7 @@ const Footer = ({ preventRouterChange }: { preventRouterChange: boolean }) => {
         selected={router.asPath === "/mypage"}
       >
         <MypageIcon selected={router.asPath === "/mypage"} />
-        마이룸
+        마이홈
       </FooterItem>
     </Main>
   );
@@ -93,6 +93,7 @@ const FooterItem = styled.button<{ selected: boolean }>`
   justify-content: flex-end;
   align-items: center;
   height: 4rem;
+  gap: 4px;
   font-size: 0.8rem;
   color: ${(p) => (p.selected ? THEME.primary : THEME.black400)};
 `;

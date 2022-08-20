@@ -8,15 +8,16 @@ import Layout from "../components/layout";
 import { THEME } from "../constant/colors";
 import { useCallback, useEffect, useState } from "react";
 import { useToken } from "../hooks/useTokenContext";
+import { useGame } from "../hooks/useGameContext";
 
 const Home: NextPage = () => {
-  const [level, setLevel] = useState(1);
-  const [cIndex, setCIndex] = useState(0);
-  const [exp, setExp] = useState(0);
   const [isAnimation, setIsAnimation] = useState(false);
 
   const { token } = useToken();
   const [question, setQuestion] = useState(null as any);
+
+  const { exp, gainExp, level, levelUp } = useGame();
+  const [cIndex, setCIndex] = useState(level - 1);
 
   const fetchData = useCallback(async () => {
     try {
@@ -28,31 +29,24 @@ const Home: NextPage = () => {
         })
       ).json();
       setQuestion(result.data);
-      setExp(parseInt(localStorage.getItem("exp") || "0"));
-      setLevel(parseInt(localStorage.getItem("level") || "1"));
     } catch (e) {
       console.log(e);
     }
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     if (exp >= 100) {
-      setExp(exp - 100);
-      setLevel((l) => l + 1);
+      gainExp(-100);
+      levelUp();
       setIsAnimation(true);
       setTimeout(() => setCIndex(level), 500);
       setTimeout(() => setIsAnimation(false), 1000);
-      localStorage.setItem("exp", exp.toString());
     }
   }, [exp]);
-
-  useEffect(() => {
-    localStorage.setItem("level", level.toString());
-  }, [level]);
 
   return (
     <Layout>
@@ -71,10 +65,7 @@ const Home: NextPage = () => {
         <ExpGage percent={exp / 100}></ExpGage>
       </StatusContainer>
       <Today>{format(new Date(), "yyyy . MM . dd")}</Today>
-      <CharacterContainer
-        isAnimation={isAnimation}
-        onClick={() => setExp((e) => e + 30)}
-      >
+      <CharacterContainer isAnimation={isAnimation} onClick={() => gainExp(60)}>
         {isAnimation && <ChangeImage src={`/assets/change.gif?${level}`} />}
         <div>
           <CharacterImg level={cIndex} />
