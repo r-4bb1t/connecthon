@@ -9,6 +9,7 @@ import { THEME } from "../constant/colors";
 import { Emoji } from "../components/icons";
 import { useToken } from "../hooks/useTokenContext";
 import { useLoading } from "../hooks/useLoadingContext";
+import { useGame } from "../hooks/useGameContext";
 
 const New: NextPage = () => {
   const { push } = useAlertContext();
@@ -19,6 +20,7 @@ const New: NextPage = () => {
   const [mode, setMode] = useState("answer" as "activity" | "answer");
   const [activityId, setActivityId] = useState("");
   const [activityName, setActivityName] = useState("");
+  const { gainExp } = useGame();
 
   const toggleLike = async () => {
     try {
@@ -98,6 +100,7 @@ const New: NextPage = () => {
 
       if (result.ok) {
         await toggleLike();
+        gainExp(30);
         push({
           message: "일기를 작성했어요!",
           onClose: () => {
@@ -210,7 +213,9 @@ const New: NextPage = () => {
                       <Emoji.surprised
                         onClick={() => handleSubmit("surprised")}
                       />
-                      <Emoji.ordinary onClick={() => handleSubmit("newtral")} />
+                      <Emoji.ordinary
+                        onClick={() => handleSubmit("ordinary")}
+                      />
                       <Emoji.sad onClick={() => handleSubmit("sad")} />
                       <Emoji.angry onClick={() => handleSubmit("angry")} />
                     </EmojiTable>

@@ -4,6 +4,7 @@ import AlertContextProvider from "../contexts/alertContext";
 import Head from "next/head";
 import TokenContextProvider from "../contexts/tokenContext";
 import LoadingContextProvider from "../contexts/loadingContext";
+import GameContextProvider from "../contexts/gameContext";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -30,7 +31,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       <AlertContextProvider>
         <LoadingContextProvider>
           <TokenContextProvider>
-            <Component {...pageProps} />
+            <GameContextProvider>
+              <Component {...pageProps} />
+            </GameContextProvider>
           </TokenContextProvider>
         </LoadingContextProvider>
       </AlertContextProvider>
