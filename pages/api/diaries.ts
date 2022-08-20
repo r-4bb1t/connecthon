@@ -47,6 +47,20 @@ export default function handler(req: any, res: any) {
         child_answered_at: "2022-08-19",
         emotion: "angry",
       },
+      {
+        id: "7",
+        question_content: "부모님에게 서운함을 느꼈던 순간이 언제인가요?",
+        child_answer: " 바로 어제 서운했던 것 같기도 하네요",
+        child_answered_at: "2022-08-19",
+        emotion: "neutral",
+      },
+      {
+        id: "8",
+        question_content: "부모님과 함께 먹고 싶은 음식이 있다면?",
+        child_answer: "부모님이 잘하시는 김치볶음밥을 먹고 싶습니다",
+        child_answered_at: "2022-08-19",
+        emotion: "angry",
+      },
     ],
   });
 }
