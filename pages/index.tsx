@@ -15,7 +15,7 @@ const Login = () => {
   const { load } = useLoading();
 
   const router = useRouter();
-  const { setToken } = useToken();
+  const { token, storeToken } = useToken();
 
   const fetchToken = async (e: any) => {
     e.preventDefault();
@@ -27,11 +27,9 @@ const Login = () => {
           password: password,
         }
       );
-      console.log(username, password);
-      console.log(result);
 
       if (result.data.data.length > 0) {
-        setToken(result.data.data);
+        storeToken(result.data.data);
         load();
         router.push("/main");
       }
@@ -45,6 +43,13 @@ const Login = () => {
     if (focus === "pw") setPx(Math.min(password.length - 10, 10) * 0.5);
     if (focus === "id") setPx(Math.min(username.length - 10, 10) * 0.5);
   }, [username, password, focus]);
+
+  useEffect(() => {
+    if (token) {
+      load();
+      router.push("/main");
+    }
+  }, []);
 
   return (
     <Background>
@@ -64,7 +69,6 @@ const Login = () => {
             placeholder="아이디"
             value={username}
             onChange={(e) => {
-              console.log(username);
               setUsername(e.target.value);
             }}
             onFocus={() => {
@@ -79,7 +83,6 @@ const Login = () => {
             placeholder="비밀번호"
             value={password}
             onChange={(e) => {
-              console.log(password);
               setPassword(e.target.value);
             }}
             onFocus={() => {

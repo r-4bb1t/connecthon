@@ -39,11 +39,11 @@ const Home: NextPage = () => {
     } catch (e) {
       console.log(e);
     }
-  }, [tab]);
+  }, [tab, token]);
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [token]);
 
   return (
     <Layout title="마이홈">

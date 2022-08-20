@@ -30,11 +30,11 @@ const New: NextPage = () => {
     } catch (e) {
       console.log(e);
     }
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [token]);
 
   const handleSubmit = async (emoticon: string) => {
     if (!answer) {
