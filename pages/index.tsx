@@ -115,7 +115,7 @@ const LogoCharacter = styled.img``;
 const LogoEyes = styled.img<{ px: number; down: boolean }>`
   position: absolute;
   top: 6rem;
-  left: 10rem;
+  left: calc(50% - 38px);
   transform: ${(p) =>
     `translate(${p.px}px, ${p.down ? `${5 - Math.abs(p.px) / 2}px` : "0px"})`};
   transition: transform 0.2s;
