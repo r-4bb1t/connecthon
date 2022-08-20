@@ -33,7 +33,7 @@ const New: NextPage = () => {
       <ButtonContainer>
         <SubmitButtonContainer>
           <SubmitButton onClick={() => setEmojiOpen((s) => !s)}>
-            등록
+            {emojiOpen ? "X" : "등록"}
           </SubmitButton>
           <AnimatePresence>
             {emojiOpen &&
@@ -110,9 +110,7 @@ const SubmitButton = styled.button`
   border-radius: 9999px;
   width: 3rem;
   height: 3rem;
-  position: absolute;
-  top: 0;
-  left: 0;
+  z-index: 2;
 `;
 
 const CancleButton = styled.button`
