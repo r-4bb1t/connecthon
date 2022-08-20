@@ -7,10 +7,12 @@ import styled, { css } from "styled-components";
 import Layout from "../../components/layout";
 import { THEME } from "../../constant/colors";
 import { Diary } from "../../constant/types";
+import { useToken } from "../../hooks/useTokenContext";
 
 const DiaryDetail = () => {
   const router = useRouter();
   const id = router.query.id;
+  const { token } = useToken();
 
   const [diary, setDiary] = useState(null as unknown as Diary);
   const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
@@ -23,8 +25,7 @@ const DiaryDetail = () => {
           `${process.env.NEXT_PUBLIC_API_HOST || "/api"}/diary/${id}`,
           {
             headers: {
-              Authorization:
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3R5cGUiOiJjaGlsZCIsInVzZXJfaWQiOiI2MzAwNmJjNzY5MjMxMDZlODU1NGIzYTgifQ.ysDkiIZJ1bpHvtQji_nNjtUwX4exrp_85MaqGKRHv5Q",
+              Authorization: token,
             },
           }
         )

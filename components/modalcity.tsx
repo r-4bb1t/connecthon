@@ -47,7 +47,7 @@ const Modalcity = ({
       let temp: any = [...selectedCity, current];
       setSelectedCity(temp);
     } else {
-      let temp: any = selectedCity.filter((e) => e !== current);
+      let temp: any = selectedCity.filter((e: string) => e !== current);
       setSelectedCity(temp);
     }
   };

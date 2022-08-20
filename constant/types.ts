@@ -11,3 +11,22 @@ export interface Diary {
   from_day: number;
   emotion: string;
 }
+
+export type ActivityTypes =
+  | "공원탐방"
+  | "교육체험"
+  | "전시관람"
+  | "문화행사"
+  | "농장체험"
+  | "키즈카페";
+
+export interface CardType {
+  image: string;
+  title: string;
+  description: string;
+  url: string;
+  location: string;
+  target: string;
+  activityType: ActivityTypes;
+  type?: "list" | "wishlist" | "history";
+}
