@@ -253,7 +253,7 @@ const LikedList = styled.ul`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   justify-items: center;
-  padding: 0;
+  padding: 0 20px;
   padding-bottom: 8rem;
 `;
 
