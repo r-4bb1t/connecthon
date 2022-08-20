@@ -381,7 +381,8 @@ const ActivityCards = styled.div`
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  padding: 4rem 0;
+  padding-top: 4rem;
+  padding-bottom: 6rem;
 `;
 
 const FreeColumn = styled.div`
