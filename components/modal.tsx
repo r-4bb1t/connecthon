@@ -3,8 +3,14 @@ import React, { useState } from "react";
 import Sheet from "react-modal-sheet";
 import styled from "styled-components";
 import Datepicker from "./datepicker/datepicker";
+import { ToggleIcon, ToggleIconToggled } from "./icons";
 
-const Modal = ({ isOpen, setOpen }: any) => {
+const Modal = ({
+  isOpen,
+  setOpen,
+  selectedCategory,
+  setSelectedCategory,
+}: any) => {
   const city = [
     "강남구",
     "강동구",
@@ -43,7 +49,6 @@ const Modal = ({ isOpen, setOpen }: any) => {
   ];
 
   const [selectedCity, setSelectedCity] = useState([] as string[]);
-  const [selectedCategory, setSelectedCategory] = useState([] as string[]);
 
   const handleSelectCity = (current: string) => {
     if (!selectedCity.includes(current)) {
@@ -66,22 +71,23 @@ const Modal = ({ isOpen, setOpen }: any) => {
   };
 
   return (
-    <Sheet isOpen={isOpen} onClose={() => setOpen(false)}>
+    <Sheet isOpen={isOpen} snapPoints={[550]} onClose={() => setOpen(false)}>
       <Sheet.Container>
         <Sheet.Header />
         <Sheet.Content>
-          <ThemesTitle>분류</ThemesTitle>
+          <ThemesTitle></ThemesTitle>
           <ThemesList>
             {category.map((each: string) => {
               if (selectedCategory.includes(each)) {
                 return (
-                  <SelectedTheme
+                  <Theme
                     onClick={() => {
                       handleSelectCategory(each);
                     }}
                   >
-                    {each}
-                  </SelectedTheme>
+                    <ThemeTitle key={each}>{each}</ThemeTitle>
+                    <ToggleIconToggled />
+                  </Theme>
                 );
               } else {
                 return (
@@ -89,15 +95,15 @@ const Modal = ({ isOpen, setOpen }: any) => {
                     onClick={() => {
                       handleSelectCategory(each);
                     }}
-                    key={each}
                   >
-                    {each}
+                    <ThemeTitle key={each}>{each}</ThemeTitle>
+                    <ToggleIcon />
                   </Theme>
                 );
               }
             })}
           </ThemesList>
-
+          {/* 
           <LocationsTitle>지역</LocationsTitle>
           <LocationsList>
             {city.map((each: string) => {
@@ -129,7 +135,16 @@ const Modal = ({ isOpen, setOpen }: any) => {
           <DatePicker>
             <DatePickerTitle>날짜 선택</DatePickerTitle>
             <Datepicker />
-          </DatePicker>
+          </DatePicker> */}
+          <ModalFooter>
+            <ModalButton
+              onClick={() => {
+                setOpen(false);
+              }}
+            >
+              적용하기
+            </ModalButton>
+          </ModalFooter>
         </Sheet.Content>
       </Sheet.Container>
       <Sheet.Backdrop />
@@ -138,57 +153,63 @@ const Modal = ({ isOpen, setOpen }: any) => {
 };
 
 const ThemesTitle = styled.p`
-  text-align: center;
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 600;
   font-size: 20px;
+  line-height: 24px;
+
+  color: #999999;
+  text-align: center;
 `;
 
 const ThemesList = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 10px;
+  flex-direction: column;
+  gap: 5px;
 `;
 
-const SelectedTheme = styled.div`
-  border: 1px solid black;
-  padding: 5px;
-  border-radius: 10px;
-  background-color: #fcba58;
+const ThemeTitle = styled.p`
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 21px;
+  display: flex;
+  align-items: center;
+
+  color: #3c3c3c;
 `;
 
 const Theme = styled.div`
-  border: 1px solid black;
-  padding: 5px;
-  border-radius: 10px;
-`;
-
-const LocationsTitle = styled.p`
-  text-align: center;
-  font-size: 20px;
-`;
-
-const LocationsList = styled.div`
+  width: 100vw;
   display: flex;
-  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+`;
+
+const ModalFooter = styled.div`
+  display: flex;
   align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
-  gap: 10px;
 `;
 
-const SelectedLocation = styled.div`
-  border: 1px solid black;
-  padding: 5px;
-  border-radius: 10px;
-  background-color: #fcba58;
-`;
-
-const Location = styled.div`
-  border: 1px solid black;
-  padding: 5px;
-  border-radius: 10px;
+const ModalButton = styled.div`
+  width: 139px;
+  height: 50px;
+  background: #fcba58;
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
 `;
 
 const DatePicker = styled.div``;

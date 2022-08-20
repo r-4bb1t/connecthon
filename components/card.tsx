@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Cafe, Culture, Education, Exhibition, Farm, Park } from "./category";
-import { PickedIcon } from "./icons";
+import { PickedIcon, PickedIconToggled } from "./icons";
 
 interface CardType {
   image: string;
@@ -16,7 +16,9 @@ const Card = ({ image, title, description }: CardType) => {
       <CardDetail>
         <CardDetailTop>
           <Cafe />
-          <PickedIcon />
+
+          {/* <PickedIcon /> */}
+          <PickedIconToggled />
         </CardDetailTop>
         <CardTitle>{title}</CardTitle>
         <CardDescription>

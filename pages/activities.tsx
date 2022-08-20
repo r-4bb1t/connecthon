@@ -10,10 +10,13 @@ import {
 } from "../components/icons";
 import Layout from "../components/layout";
 import Modal from "../components/modal";
+import { BottomSheet } from "react-spring-bottom-sheet";
+import "react-spring-bottom-sheet/dist/style.css";
 
 const Home: NextPage = () => {
   const [isOpen, setOpen] = useState(false);
   const [showFree, setShowFree] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState([] as string[]);
   const Data: any = [
     {
       id: "1",
@@ -71,8 +74,20 @@ const Home: NextPage = () => {
         <MenuFilter>
           {/* <MenuIcon /> */}
           {/* <MenuText>무료만 보기</MenuText> */}
-          <MenuOpen>
-            분류
+          <MenuOpen
+            onClick={() => {
+              setOpen(!isOpen);
+            }}
+          >
+            {selectedCategory.length > 1 ? (
+              <>
+                {selectedCategory[0]}외 {selectedCategory.length - 1}
+              </>
+            ) : selectedCategory.length == 1 ? (
+              <>{selectedCategory[0]}</>
+            ) : (
+              <>분류</>
+            )}
             <MenuIcon />
           </MenuOpen>
           <DateShow>2022.08.20</DateShow>
@@ -82,7 +97,7 @@ const Home: NextPage = () => {
         //   setOpen(!isOpen);
         // }}
         >
-          {showFree ? (
+          {!showFree ? (
             <span
               onClick={() => {
                 setShowFree(!showFree);
@@ -113,7 +128,13 @@ const Home: NextPage = () => {
           />
         ))}
       </ActivityCards>
-      <Modal isOpen={isOpen} setOpen={setOpen} />
+      <Modal
+        isOpen={isOpen}
+        setOpen={setOpen}
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
+      />
+      {/* <BottomSheet open={isOpen}>My awesome content here</BottomSheet> */}
     </Layout>
   );
 };
@@ -139,7 +160,8 @@ const MenuOpen = styled.div`
   display: flex;
   border: 1px solid #dedede;
   border-radius: 20px;
-  width: 75px;
+  width: auto;
+  padding: 10px;
   height: 34px;
   justify-content: center;
   align-items: center;
