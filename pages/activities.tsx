@@ -99,6 +99,7 @@ const Home: NextPage = () => {
             .filter((a) => realCategory.includes(a.type))
             .map((each: any) => (
               <Card
+                _id={each._id}
                 key={each.id}
                 image={each.image_url}
                 url={each.page_url}

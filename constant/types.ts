@@ -21,6 +21,7 @@ export type ActivityTypes =
   | "키즈카페";
 
 export interface CardType {
+  _id: string;
   image: string;
   title: string;
   description: string;

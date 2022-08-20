@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { THEME } from "../constant/colors";
 import { ActivityTypes, CardType } from "../constant/types";
 import { PickedIcon } from "./icons";
 
 const Card = ({
+  _id,
   image,
   title,
   url,
@@ -14,6 +15,25 @@ const Card = ({
   liked,
   type = "list",
 }: CardType) => {
+  const [localLiked, setLocalLiked] = useState(liked);
+
+  const like = async () => {
+    try {
+      await fetch(
+        `${process.env.NEXT_PUBLIC_API_HOST || "/api"}/activity/${_id}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization:
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3R5cGUiOiJjaGlsZCIsInVzZXJfaWQiOiI2MzAwNmJjNzY5MjMxMDZlODU1NGIzYTgiLCJvdGhlcl90eXBlIjoicGFyZW50Iiwib3RoZXJfaWQiOiI2MzAwNmYyZTVmNjU3MDIyYzZhZWVmMjYifQ.b4mlsM_a77N6lq8D3rC-rEPwEzFpLJ6tIvCcT3bqV_c",
+          },
+        }
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <CardContainer>
       <a href={url} rel="noreferrer" target="_blank">
@@ -23,7 +43,15 @@ const Card = ({
         <CardDetailTop>
           <ActivityType type={activityType}>{activityType}</ActivityType>
           {/* <PickedIcon /> */}
-          {!(type === "history") && <PickedIcon selected={liked} />}
+          {!(type === "history") && (
+            <PickedIcon
+              selected={localLiked}
+              onClick={() => {
+                setLocalLiked((s) => !s);
+                like();
+              }}
+            />
+          )}
         </CardDetailTop>
         <CardTitleContainer>
           <CardTitle dangerouslySetInnerHTML={{ __html: title }} />

@@ -1,9 +1,11 @@
 import type { NextPage } from "next";
+import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import Card from "../components/card";
 import Layout from "../components/layout";
 import { THEME } from "../constant/colors";
+import { useLoading } from "../hooks/useLoadingContext";
 import { useToken } from "../hooks/useTokenContext";
 const Data: any = [
   {
@@ -66,12 +68,16 @@ const Home: NextPage = () => {
   const [activities, setActivities] = useState([] as any[]);
   const [title, setTitle] = useState("즐거운 우리집");
   const { token } = useToken();
+  const { load } = useLoading();
+  const router = useRouter();
 
   const fetchData = useCallback(async () => {
     try {
       const result = await (
         await fetch(
-          `${process.env.NEXT_PUBLIC_API_HOST || "/api"}/activities`,
+          `${process.env.NEXT_PUBLIC_API_HOST || "/api"}/user/activities${
+            tab === TAB.history ? "?type=visited" : ""
+          }`,
           {
             headers: {
               Authorization: token,
@@ -83,7 +89,7 @@ const Home: NextPage = () => {
     } catch (e) {
       console.log(e);
     }
-  }, []);
+  }, [tab]);
 
   useEffect(() => {
     fetchData();
@@ -235,6 +241,8 @@ const Home: NextPage = () => {
           <LikedList>
             {activities.map((each: any) => (
               <Card
+                liked={each.is_liked}
+                _id={each._id}
                 key={each.id}
                 image={each.image_url}
                 url={each.page_url}
@@ -446,7 +454,14 @@ const Home: NextPage = () => {
               {["아직 찜한 활동이 없어요.", "아직 함께한 활동이 없어요."][tab]}
               <div>재미있는 활동을 찜해보세요!</div>
             </NoneTitle>
-            <NoneButton>활동 찜하러가기</NoneButton>
+            <NoneButton
+              onClick={() => {
+                load();
+                router.push("/activities");
+              }}
+            >
+              활동 찜하러가기
+            </NoneButton>
           </None>
         )}
       </Content>

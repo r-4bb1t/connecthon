@@ -445,7 +445,13 @@ export const ToggleIconToggled = () => (
   </svg>
 );
 
-export const PickedIcon = ({ selected }: { selected: boolean }) =>
+export const PickedIcon = ({
+  selected,
+  onClick,
+}: {
+  selected: boolean;
+  onClick: Function;
+}) =>
   selected ? (
     <svg
       width="20"
@@ -453,6 +459,7 @@ export const PickedIcon = ({ selected }: { selected: boolean }) =>
       viewBox="0 0 20 18"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      onClick={() => onClick()}
     >
       <g clipPath="url(#clip0_75_3556)">
         <path
@@ -474,6 +481,7 @@ export const PickedIcon = ({ selected }: { selected: boolean }) =>
       viewBox="0 0 20 18"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      onClick={() => onClick()}
     >
       <g clipPath="url(#clip0_75_3556)">
         <path
