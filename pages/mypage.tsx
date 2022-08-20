@@ -187,7 +187,7 @@ const Home: NextPage = () => {
             함께 했어요
           </TabItem>
         </Tab>
-        {activities.length < 0 ? (
+        {activities?.length < 0 ? (
           <LikedList>
             {activities.map((each: any) => (
               <Card
@@ -497,7 +497,7 @@ const GhostInput = styled.input`
   font-weight: 700;
   font-size: 1.2rem;
   border: none;
-  background: white;
+  background: transparent;
   text-align: right;
 `;
 
