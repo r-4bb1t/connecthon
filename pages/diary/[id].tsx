@@ -34,7 +34,7 @@ const DiaryDetail = () => {
           await fetch(
             `${
               process.env.NEXT_PUBLIC_API_HOST || "/api"
-            }/diary/${id}?type="open`
+            }/diary/${id}?type="open"`
           )
         ).json();
         setMessage(messageResult);
@@ -52,7 +52,7 @@ const DiaryDetail = () => {
   }, [diary]);
 
   return (
-    <Layout>
+    <Layout title="일기" hasBackButton>
       <Main>
         <Content>
           <TodayQuestion>

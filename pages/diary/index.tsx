@@ -22,7 +22,7 @@ const Diary: NextPage = () => {
   }, []);
 
   return (
-    <Layout>
+    <Layout title="일기">
       <DiaryList diaries={diaries} />
     </Layout>
   );

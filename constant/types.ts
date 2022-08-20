@@ -4,9 +4,9 @@ export interface Diary {
   question_content: string;
   is_read: boolean;
   child_answer: string;
-  from_days: number;
+  child_answered_at: string;
   is_parent_answered: boolean;
-  parent_answered_at: string;
+  from_day: number;
   emotion: string;
 }
 
