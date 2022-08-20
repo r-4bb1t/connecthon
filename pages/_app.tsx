@@ -1,14 +1,13 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
-
-declare global {
-  interface Window {
-    kakao: any;
-  }
-}
+import AlertContextProvider from "../contexts/alertContext";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+  return (
+    <AlertContextProvider>
+      <Component {...pageProps} />
+    </AlertContextProvider>
+  );
 }
 
 export default MyApp;
