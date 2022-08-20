@@ -3,6 +3,8 @@ import { useRouter } from "next/router";
 import styled from "styled-components";
 import Layout from "../components/layout";
 import { useAlertContext } from "../hooks/useAlertContext";
+import question from "../constant/question.json";
+import { useEffect } from "react";
 
 const New: NextPage = () => {
   const router = useRouter();
@@ -11,10 +13,17 @@ const New: NextPage = () => {
   };
   const { push } = useAlertContext();
 
+  const todayQuestion =
+    question[Math.floor(new Date().getTime() / 3600) % question.length];
+
   return (
     <Layout>
-      <div>New Diary</div>
-      <div>Issue 1</div>
+      <div>새 일기 쓰기</div>
+      <TodayQuestion>
+        오늘의 일기 주제
+        <QuestionTitle>{todayQuestion.title}</QuestionTitle>
+        <QuestionContent>{todayQuestion.content}</QuestionContent>
+      </TodayQuestion>
       <Textarea />
       <SubmitButton onClick={handleSubmit}>등록</SubmitButton>
       <CancleButton
@@ -29,7 +38,9 @@ const New: NextPage = () => {
             ),
             twoButton: true,
             buttonText: "삭제",
-            onClose: () => {},
+            onClose: () => {
+              router.back();
+            },
           });
         }}
       >
@@ -49,3 +60,12 @@ const Textarea = styled.textarea`
 const SubmitButton = styled.button``;
 
 const CancleButton = styled(SubmitButton)``;
+
+const TodayQuestion = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const QuestionTitle = styled.div``;
+
+const QuestionContent = styled.div``;
