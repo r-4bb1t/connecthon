@@ -76,7 +76,6 @@ const AlertContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.1);
   z-index: 20;
 `;

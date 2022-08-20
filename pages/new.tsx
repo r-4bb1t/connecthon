@@ -10,16 +10,20 @@ import { THEME } from "../constant/colors";
 import { Emoji } from "../components/icons";
 
 const New: NextPage = () => {
-  const router = useRouter();
-  const handleSubmit = (emoji: string) => {
-    router.back();
-  };
   const { push } = useAlertContext();
+  const router = useRouter();
+
+  const handleSubmit = (emoji: string) => {
+    push({
+      message: "일기를 작성했어요!",
+      onClose: () => router.back(),
+      buttonText: "확인",
+    });
+  };
 
   const todayQuestion = useTodayQuestion();
 
   const [emojiOpen, setEmojiOpen] = useState(false);
-  const [emojiLoading, setEmojiLoading] = useState(true);
 
   return (
     <Layout preventRouterChange title="일기쓰기">
@@ -98,6 +102,7 @@ export default New;
 const Main = styled.div`
   padding: 0 1rem;
   height: 100%;
+  background: white;
 `;
 
 const Content = styled.main`
@@ -114,9 +119,9 @@ const Textarea = styled.textarea`
     transparent,
     transparent 40px,
     #ededed 40px,
-    #ededed 42px,
-    transparent 42px,
-    transparent 46px,
+    #ededed 41px,
+    transparent 41px,
+    transparent 47px,
     #ededed 0
   );
   background-image: -webkit-linear-gradient(
@@ -170,7 +175,7 @@ const SubmitButton = styled.button`
   padding: 1rem 2rem;
   width: 9rem;
   border: none;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
 `;
 
 const TodayQuestion = styled.div`
