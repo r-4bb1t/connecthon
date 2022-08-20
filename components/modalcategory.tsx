@@ -10,34 +10,6 @@ const ModalCategory = ({
   selectedCategory,
   setSelectedCategory,
 }: any) => {
-  const city = [
-    "강남구",
-    "강동구",
-    "강북구",
-    "강서구",
-    "관악구",
-    "광진구",
-    "구로구",
-    "금천구",
-    "노원구",
-    "도봉구",
-    "동대문구",
-    "동작구",
-    "마포구",
-    "서대문구",
-    "서초구",
-    "성동구",
-    "성북구",
-    "송파구",
-    "양천구",
-    "영등포구",
-    "용산구",
-    "은평구",
-    "종로구",
-    "중구",
-    "중랑구",
-  ];
-
   const category = [
     "공원탐방",
     "교육체험",
@@ -46,18 +18,6 @@ const ModalCategory = ({
     "전시관람",
     "서울형키즈카페",
   ];
-
-  const [selectedCity, setSelectedCity] = useState([] as string[]);
-
-  const handleSelectCity = (current: string) => {
-    if (!selectedCity.includes(current)) {
-      let temp: any = [...selectedCity, current];
-      setSelectedCity(temp);
-    } else {
-      let temp: any = selectedCity.filter((e) => e !== current);
-      setSelectedCity(temp);
-    }
-  };
 
   const handleSelectCategory = (current: string) => {
     if (!selectedCategory.includes(current)) {
@@ -174,35 +134,3 @@ const ModalButton = styled.div`
 `;
 
 export default ModalCategory;
-{
-  /*
-                <LocationsTitle>지역</LocationsTitle>
-                <LocationsList>
-                  {city.map((each: string) => {
-                    if (selectedCity.includes(each)) {
-                      return (
-                        <SelectedLocation
-                          onClick={() => {
-                            handleSelectCity(each);
-                          }}
-                          key={each}
-                        >
-                          {each}
-                        </SelectedLocation>
-                      );
-                    } else {
-                      return (
-                        <Theme
-                          onClick={() => {
-                            handleSelectCity(each);
-                          }}
-                          key={each}
-                        >
-                          {each}
-                        </Theme>
-                      );
-                    }
-                  })}
-                </LocationsList>
-                 */
-}

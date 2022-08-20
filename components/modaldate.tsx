@@ -24,6 +24,15 @@ const Modaldate = ({
             <Datepicker startDate={startDate} setStartDate={setStartDate} />
           </DatePicker>
         </Sheet.Content>
+        <ModalFooter>
+          <ModalButton
+            onClick={() => {
+              setOpenDate(false);
+            }}
+          >
+            적용하기
+          </ModalButton>
+        </ModalFooter>
       </Sheet.Container>
       <Sheet.Backdrop />
     </Sheet>
@@ -35,6 +44,28 @@ const DatePicker = styled.div``;
 const DatePickerTitle = styled.p`
   text-align: center;
   font-size: 20px;
+`;
+
+const ModalFooter = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const ModalButton = styled.div`
+  width: 139px;
+  height: 50px;
+  background: #fcba58;
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  margin-bottom: 20px;
 `;
 
 export default Modaldate;
