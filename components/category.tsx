@@ -20,7 +20,6 @@ const ParkBackground = styled.div`
 `;
 
 const ParkText = styled.p`
-  font-family: "Pretendard";
   font-style: normal;
   font-weight: 600;
   font-size: 12px;
@@ -51,7 +50,6 @@ const EducationBackground = styled.div`
 `;
 
 const EducationText = styled.p`
-  font-family: "Pretendard";
   font-style: normal;
   font-weight: 600;
   font-size: 12px;
@@ -84,7 +82,6 @@ const CultureBackground = styled.div`
 `;
 
 const CultureText = styled.p`
-  font-family: "Pretendard";
   font-style: normal;
   font-weight: 600;
   font-size: 12px;
@@ -117,7 +114,6 @@ const FarmBackground = styled.div`
 `;
 
 const FarmText = styled.p`
-  font-family: "Pretendard";
   font-style: normal;
   font-weight: 600;
   font-size: 12px;
@@ -150,7 +146,6 @@ const ExhibitionBackground = styled.div`
 `;
 
 const ExhibitionText = styled.p`
-  font-family: "Pretendard";
   font-style: normal;
   font-weight: 600;
   font-size: 12px;
@@ -183,7 +178,6 @@ const CafeBackground = styled.div`
 `;
 
 const CafeText = styled.p`
-  font-family: "Pretendard";
   font-style: normal;
   font-weight: 600;
   font-size: 12px;

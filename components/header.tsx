@@ -2,7 +2,13 @@ import { useRouter } from "next/router";
 import styled from "styled-components";
 import { THEME } from "../constant/colors";
 
-const Header = ({ title }: { title?: string }) => {
+const Header = ({
+  title,
+  hasBackButton,
+}: {
+  title?: string;
+  hasBackButton: boolean;
+}) => {
   const router = useRouter();
   return (
     <Main>
@@ -21,22 +27,24 @@ const Header = ({ title }: { title?: string }) => {
         </svg>
       ) : (
         <>
-          <Back onClick={() => router.back()}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="32"
-              height="32"
-              viewBox="8 8 32 32"
-              fill="none"
-            >
-              <path
-                d="M28 16L20.3536 23.6464C20.1583 23.8417 20.1583 24.1583 20.3536 24.3536L28 32"
-                stroke="#3C3C3C"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-              />
-            </svg>
-          </Back>
+          {hasBackButton && (
+            <Back onClick={() => router.back()}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="32"
+                viewBox="8 8 32 32"
+                fill="none"
+              >
+                <path
+                  d="M28 16L20.3536 23.6464C20.1583 23.8417 20.1583 24.1583 20.3536 24.3536L28 32"
+                  stroke="#3C3C3C"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </Back>
+          )}
           {title}
         </>
       )}

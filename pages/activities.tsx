@@ -24,7 +24,7 @@ const Home: NextPage = () => {
     {
       id: "1",
       image: "https://picsum.photos/200",
-      title: "강릉 수영장",
+      title: "강릉 수영장장장장장자앚아자자자자자자자자자자장",
       description: "아이들과 부모들이 함꼐 즐길 수 있는 신나는 액티비티",
     },
     {
@@ -72,7 +72,7 @@ const Home: NextPage = () => {
   ];
   console.log(startDate);
   return (
-    <Layout>
+    <Layout title="활동">
       <Filters>
         <MenuFilter>
           <MenuOpen
@@ -207,7 +207,6 @@ const FreeColumn = styled.div`
 `;
 
 const ToggleText = styled.p`
-  font-family: "Pretendard";
   font-style: normal;
   font-weight: 500;
   font-size: 15px;
