@@ -3,26 +3,70 @@ import { useRouter } from "next/router";
 import styled from "styled-components";
 import Layout from "../components/layout";
 import { useAlertContext } from "../hooks/useAlertContext";
-import { useEffect, useState } from "react";
-import { useTodayQuestion } from "../hooks/useTodayQuestion";
+import { useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { THEME } from "../constant/colors";
 import { Emoji } from "../components/icons";
+import { useToken } from "../hooks/useTokenContext";
 
 const New: NextPage = () => {
   const { push } = useAlertContext();
+  const { token } = useToken();
   const router = useRouter();
 
-  const handleSubmit = (emoji: string) => {
-    push({
-      message: "일기를 작성했어요!",
-      onClose: () => router.back(),
-      buttonText: "확인",
-    });
+  const [question, setQuestion] = useState(null as any);
+  const [diaryId, setDiaryId] = useState("");
+
+  const fetchData = useCallback(async () => {
+    try {
+      const result = await (
+        await fetch(`${process.env.NEXT_PUBLIC_API_HOST || "/api"}/question`, {
+          headers: {
+            Authorization: token,
+          },
+        })
+      ).json();
+      setQuestion(result.data);
+      setDiaryId(result.diary_id);
+    } catch (e) {
+      console.log(e);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const handleSubmit = async (emoticon: string) => {
+    try {
+      const result = await (
+        await fetch(
+          `${process.env.NEXT_PUBLIC_API_HOST || "/api"}/diary/${diaryId}`,
+          {
+            method: "POST",
+            body: JSON.stringify({
+              emoticon: emoticon,
+              answer: answer,
+            }),
+            headers: {
+              Authorization:
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3R5cGUiOiJjaGlsZCIsInVzZXJfaWQiOiI2MzAwNmJjNzY5MjMxMDZlODU1NGIzYTgiLCJvdGhlcl90eXBlIjoicGFyZW50Iiwib3RoZXJfaWQiOiI2MzAwNmYyZTVmNjU3MDIyYzZhZWVmMjYifQ.b4mlsM_a77N6lq8D3rC-rEPwEzFpLJ6tIvCcT3bqV_c",
+            },
+          }
+        )
+      ).json();
+
+      push({
+        message: "일기를 작성했어요!",
+        onClose: () => router.push("/diary"),
+        buttonText: "확인",
+      });
+    } catch (e) {
+      console.log(e);
+    }
   };
 
-  const todayQuestion = useTodayQuestion();
-
+  const [answer, setAnswer] = useState("");
   const [emojiOpen, setEmojiOpen] = useState(false);
 
   return (
@@ -44,8 +88,11 @@ const New: NextPage = () => {
             </svg>
             오늘의 질문
           </TodayQuestion>
-          <QuestionContent>{todayQuestion.content}</QuestionContent>
-          <Textarea />
+          <QuestionContent>{question?.question_content}</QuestionContent>
+          <Textarea
+            value={answer}
+            onChange={(e) => setAnswer(e.target.value)}
+          />
           <ButtonContainer>
             <SubmitButtonContainer>
               <SubmitButton onClick={() => setEmojiOpen((s) => !s)}>
@@ -83,7 +130,7 @@ const New: NextPage = () => {
                         onClick={() => handleSubmit("surprised")}
                       />
                       <Emoji.neutral onClick={() => handleSubmit("newtral")} />
-                      <Emoji.worried onClick={() => handleSubmit("worried")} />
+                      <Emoji.sad onClick={() => handleSubmit("sad")} />
                       <Emoji.angry onClick={() => handleSubmit("angry")} />
                     </EmojiTable>
                   </EmojiMessage>

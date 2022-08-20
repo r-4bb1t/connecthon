@@ -17,7 +17,7 @@ export default function handler(req: any, res: any) {
         child_answer:
           "부모님이 잘하시는 김치볶음밥을 먹고 싶습니다이 잘하시는 김치볶음밥을 먹고 싶습니다",
         child_answered_at: "2022-08-19",
-        emotion: "worried",
+        emotion: "sad",
       },
       {
         id: "3",

@@ -6,15 +6,36 @@ import { CharacterImg } from "../components/characters";
 import { NewIcon } from "../components/icons";
 import Layout from "../components/layout";
 import { THEME } from "../constant/colors";
-import { useTodayQuestion } from "../hooks/useTodayQuestion";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useToken } from "../hooks/useTokenContext";
 
 const Home: NextPage = () => {
-  const todayQuestion = useTodayQuestion();
   const [level, setLevel] = useState(1);
   const [cIndex, setCIndex] = useState(0);
   const [exp, setExp] = useState(0);
   const [isAnimation, setIsAnimation] = useState(false);
+
+  const { token } = useToken();
+  const [question, setQuestion] = useState(null as any);
+
+  const fetchData = useCallback(async () => {
+    try {
+      const result = await (
+        await fetch(`${process.env.NEXT_PUBLIC_API_HOST || "/api"}/question`, {
+          headers: {
+            Authorization: token,
+          },
+        })
+      ).json();
+      setQuestion(result.data);
+    } catch (e) {
+      console.log(e);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   useEffect(() => {
     if (exp >= 100) {
@@ -65,13 +86,17 @@ const Home: NextPage = () => {
             fill="#D8D8D8"
           />
         </svg>
-        <QuestionContent>{todayQuestion.content}</QuestionContent>
-        <Link href="/new">
-          <NewDiary>
-            <NewIcon />
-            답변하기
-          </NewDiary>
-        </Link>
+        <QuestionContent>{question?.question_content}</QuestionContent>
+        {question?.is_child_answered ? (
+          "오늘의 질문에 답변했어요!"
+        ) : (
+          <Link href="/new">
+            <NewDiary>
+              <NewIcon />
+              답변하기
+            </NewDiary>
+          </Link>
+        )}
       </TodayQuestion>
     </Layout>
   );

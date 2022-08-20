@@ -14,6 +14,7 @@ import { BottomSheet } from "react-spring-bottom-sheet";
 import "react-spring-bottom-sheet/dist/style.css";
 import Modaldate from "../components/modaldate";
 import { ActivityTypes, CardType } from "../constant/types";
+import { useToken } from "../hooks/useTokenContext";
 
 const Home: NextPage = () => {
   const [isOpenCategory, setOpenCategory] = useState(false);
@@ -29,6 +30,7 @@ const Home: NextPage = () => {
   ] as string[]);
   const [startDate, setStartDate] = useState(new Date());
   const [activities, setActivities] = useState([] as any[]);
+  const { token } = useToken();
 
   const fetchData = useCallback(async () => {
     try {
@@ -37,8 +39,7 @@ const Home: NextPage = () => {
           `${process.env.NEXT_PUBLIC_API_HOST || "/api"}/activities`,
           {
             headers: {
-              Authorization:
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3R5cGUiOiJjaGlsZCIsInVzZXJfaWQiOiI2MzAwNmJjNzY5MjMxMDZlODU1NGIzYTgiLCJvdGhlcl90eXBlIjoicGFyZW50Iiwib3RoZXJfaWQiOiI2MzAwNmYyZTVmNjU3MDIyYzZhZWVmMjYifQ.b4mlsM_a77N6lq8D3rC-rEPwEzFpLJ6tIvCcT3bqV_c",
+              Authorization: token,
             },
           }
         )

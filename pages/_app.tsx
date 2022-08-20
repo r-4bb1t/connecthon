@@ -2,6 +2,7 @@ import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import AlertContextProvider from "../contexts/alertContext";
 import Head from "next/head";
+import TokenContextProvider from "../contexts/tokenContext";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -26,7 +27,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         />
       </Head>
       <AlertContextProvider>
-        <Component {...pageProps} />
+        <TokenContextProvider>
+          <Component {...pageProps} />
+        </TokenContextProvider>
       </AlertContextProvider>
     </>
   );
