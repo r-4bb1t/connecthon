@@ -411,6 +411,32 @@ export const ToggleIcon = () => (
   </svg>
 );
 
+export const ToggleIconToggled = () => (
+  <svg
+    width="23"
+    height="23"
+    viewBox="0 0 23 23"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <rect
+      x="1"
+      y="1"
+      width="21"
+      height="21"
+      rx="10.5"
+      stroke="#FCBA58"
+      stroke-width="2"
+    />
+    <path
+      d="M6.24314 11.0487L9.89319 15.2102C10.3031 15.6775 11.0355 15.6616 11.4247 15.1769L16.5856 8.74992"
+      stroke="#FCBA58"
+      stroke-width="2"
+      stroke-linecap="round"
+    />
+  </svg>
+);
+
 export const PickedIcon = () => (
   <svg
     width="25"

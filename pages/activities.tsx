@@ -2,13 +2,18 @@ import type { NextPage } from "next";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Card from "../components/card";
-import { FilterIcon, MenuIcon, ToggleIcon } from "../components/icons";
+import {
+  FilterIcon,
+  MenuIcon,
+  ToggleIcon,
+  ToggleIconToggled,
+} from "../components/icons";
 import Layout from "../components/layout";
 import Modal from "../components/modal";
 
 const Home: NextPage = () => {
   const [isOpen, setOpen] = useState(false);
-
+  const [showFree, setShowFree] = useState(false);
   const Data: any = [
     {
       id: "1",
@@ -73,11 +78,28 @@ const Home: NextPage = () => {
           <DateShow>2022.08.20</DateShow>
         </MenuFilter>
         <FreeColumn
-          onClick={() => {
-            setOpen(!isOpen);
-          }}
+        // onClick={() => {
+        //   setOpen(!isOpen);
+        // }}
         >
-          <ToggleIcon />
+          {showFree ? (
+            <span
+              onClick={() => {
+                setShowFree(!showFree);
+              }}
+            >
+              <ToggleIcon />
+            </span>
+          ) : (
+            <span
+              onClick={() => {
+                setShowFree(!showFree);
+              }}
+            >
+              <ToggleIconToggled />
+            </span>
+          )}
+
           <ToggleText>무료체험</ToggleText>
         </FreeColumn>
       </Filters>
