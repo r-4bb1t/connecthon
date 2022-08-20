@@ -25,7 +25,9 @@ const DiaryRow = ({ diary }: { diary: Diary }) => {
               </svg>
               <div>{diary.question_content}</div>
             </DiaryTitle>
-            <DiaryDate>{diary.from_day}일 전</DiaryDate>
+            <DiaryDate>
+              {diary.from_day}일 전<DiaryAlarm />
+            </DiaryDate>
           </DiaryDetailTop>
           <DiaryDescription>{diary.child_answer}</DiaryDescription>
         </DiaryDetail>
@@ -46,9 +48,8 @@ const Container = styled.div`
   display: grid;
   grid-template-columns: 90px 1fr;
   border: 2px solid #ededed;
-  border-radius: 20px;
+  border-radius: 24px;
   align-items: center;
-
   width: 90%;
 `;
 
@@ -81,8 +82,18 @@ const DiaryDetailTop = styled.div`
   grid-template-columns: 1fr 4rem;
 `;
 
-const DiaryTitle = styled.div`
-  width: 100%;
+const DiaryAlarm = styled.div`
+  background-color: #fcba58;
+  border-radius: 100%;
+  position: relative;
+  width: 6px;
+  height: 6px;
+  top: -15px;
+  right: -10px;
+`;
+
+const DiaryTitle = styled.p`
+  margin: 0;
   color: #999999;
   display: flex;
   align-items: center;
@@ -99,13 +110,14 @@ const DiaryTitle = styled.div`
 `;
 
 const DiaryDescription = styled.p`
-  margin-top: 5px;
+  margin-top: 10px;
   margin-bottom: 0;
   color: #515151;
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
+  font-size: 14px;
 `;
 
 export default DiaryRow;

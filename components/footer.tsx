@@ -65,12 +65,14 @@ const Footer = ({ preventRouterChange }: { preventRouterChange: boolean }) => {
 const Main = styled.footer`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+
   height: 6rem;
+
   position: fixed;
   z-index: 100000;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: 0px;
   background-color: white;
   border-radius: 10px 10px 0 0;
 `;

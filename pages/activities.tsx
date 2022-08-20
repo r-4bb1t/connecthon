@@ -2,13 +2,18 @@ import type { NextPage } from "next";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Card from "../components/card";
-import { FilterIcon, MenuIcon } from "../components/icons";
+import {
+  FilterIcon,
+  MenuIcon,
+  ToggleIcon,
+  ToggleIconToggled,
+} from "../components/icons";
 import Layout from "../components/layout";
 import Modal from "../components/modal";
 
 const Home: NextPage = () => {
   const [isOpen, setOpen] = useState(false);
-
+  const [showFree, setShowFree] = useState(false);
   const Data: any = [
     {
       id: "1",
@@ -62,25 +67,47 @@ const Home: NextPage = () => {
 
   return (
     <Layout>
-      <ActivityTitle>액티비티</ActivityTitle>
       <Filters>
         <MenuFilter>
-          <MenuIcon />
-          <MenuText>무료만 보기</MenuText>
+          {/* <MenuIcon /> */}
+          {/* <MenuText>무료만 보기</MenuText> */}
+          <MenuOpen>
+            분류
+            <MenuIcon />
+          </MenuOpen>
+          <DateShow>2022.08.20</DateShow>
         </MenuFilter>
-        <span
-          onClick={() => {
-            setOpen(!isOpen);
-          }}
+        <FreeColumn
+        // onClick={() => {
+        //   setOpen(!isOpen);
+        // }}
         >
-          <FilterIcon />
-        </span>
+          {showFree ? (
+            <span
+              onClick={() => {
+                setShowFree(!showFree);
+              }}
+            >
+              <ToggleIcon />
+            </span>
+          ) : (
+            <span
+              onClick={() => {
+                setShowFree(!showFree);
+              }}
+            >
+              <ToggleIconToggled />
+            </span>
+          )}
+
+          <ToggleText>무료체험</ToggleText>
+        </FreeColumn>
       </Filters>
       <ActivityCards>
         {Data.map((each: any) => (
           <Card
             key={each.id}
-            image={each.image}
+            image={`/images/dummy_activity.svg`}
             title={each.title}
             description={each.description}
           />
@@ -91,25 +118,44 @@ const Home: NextPage = () => {
   );
 };
 
-const ActivityTitle = styled.header`
-  font-size: 40px;
-  text-align: center;
-`;
-
 const Filters = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 0 20px;
+  position: fixed;
+  z-index: 100000;
+  background-color: #fbfbfb;
+  width: 100%;
+  padding: 0 25px;
 `;
 
 const MenuFilter = styled.div`
   display: flex;
   align-items: center;
+  gap: 10px;
 `;
 
-const MenuText = styled.p`
-  margin-left: 10px;
+const MenuOpen = styled.div`
+  display: flex;
+  border: 1px solid #dedede;
+  border-radius: 20px;
+  width: 75px;
+  height: 34px;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  color: #999999;
+`;
+
+const DateShow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #dedede;
+  border-radius: 20px;
+  height: 34px;
+  padding: 15px;
+  color: #999999;
 `;
 
 const ActivityCards = styled.div`
@@ -117,6 +163,25 @@ const ActivityCards = styled.div`
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+  padding: 4rem 0;
+`;
+
+const FreeColumn = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+`;
+
+const ToggleText = styled.p`
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 18px;
+  display: flex;
+  align-items: center;
+  color: #999999;
 `;
 
 export default Home;
