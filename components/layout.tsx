@@ -30,7 +30,6 @@ const Main = styled.div`
   width: 100%;
   height: 100%;
   min-height: 100vh;
-  background-color: ${THEME.background};
 `;
 
 const Children = styled.div`
@@ -39,4 +38,5 @@ const Children = styled.div`
   height: 100vh;
   display: flex;
   flex-direction: column;
+  background-color: ${THEME.background};
 `;
