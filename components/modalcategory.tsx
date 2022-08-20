@@ -75,7 +75,7 @@ const ModalCategory = ({
   );
 };
 
-const ThemesTitle = styled.div`
+const ThemesTitle = styled.p`
   font-family: "Pretendard";
   font-style: normal;
   font-weight: 600;
@@ -94,7 +94,7 @@ const ThemesList = styled.div`
   gap: 5px;
 `;
 
-const ThemeTitle = styled.div`
+const ThemeTitle = styled.p`
   font-family: "Pretendard";
   font-style: normal;
   font-weight: 600;
