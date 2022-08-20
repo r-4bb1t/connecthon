@@ -137,6 +137,7 @@ const CharacterContainer = styled.div`
   display: flex;
   justify-content: center;
   padding: 3rem 5rem;
+  margin-top: 2rem;
   :after {
     position: absolute;
     bottom: 0;

@@ -22,7 +22,7 @@ const New: NextPage = () => {
   const [emojiLoading, setEmojiLoading] = useState(true);
 
   return (
-    <Layout preventRouterChange>
+    <Layout preventRouterChange title="일기쓰기">
       <div>새 일기 쓰기</div>
       <TodayQuestion>
         오늘의 일기 주제

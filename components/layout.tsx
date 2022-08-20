@@ -6,14 +6,16 @@ import { THEME } from "../constant/colors";
 
 const Layout = ({
   preventRouterChange,
+  title,
   children,
 }: {
   preventRouterChange?: boolean;
+  title?: string;
   children: ReactNode;
 }) => {
   return (
     <Main>
-      <Header />
+      <Header title={title} />
       <Children>{children}</Children>
       <Footer preventRouterChange={preventRouterChange || false} />
     </Main>
