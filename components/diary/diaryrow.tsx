@@ -25,7 +25,9 @@ const DiaryRow = ({ diary }: { diary: Diary }) => {
               </svg>
               <div>{diary.question_content}</div>
             </DiaryTitle>
-            <DiaryDate>{diary.from_day}일 전</DiaryDate>
+            <DiaryDate>
+              {diary.from_today === 0 ? "오늘" : `${diary.from_today}일 전`}
+            </DiaryDate>
           </DiaryDetailTop>
           <DiaryDescription>{diary.child_answer}</DiaryDescription>
         </DiaryDetail>
@@ -63,6 +65,7 @@ const DiaryDate = styled.div`
   align-items: center;
   justify-content: center;
   margin: 0;
+  justify-self: end;
   color: #d2d2d2;
   flex-shrink: 0;
 `;
