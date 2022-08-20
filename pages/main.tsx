@@ -56,7 +56,7 @@ const Home: NextPage = () => {
             <Level>
               Lv.<span>{level}</span>
             </Level>
-            키우미
+            병아리
           </LevelContainer>
           <Exp>
             <span>{exp}</span> / 100
