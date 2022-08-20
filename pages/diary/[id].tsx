@@ -66,7 +66,9 @@ const DiaryDetail = () => {
             isOpened={diary?.is_child_read}
             onClick={() => setIsMessageModalOpen(true)}
           >
-            <img src="/assets/stamp.png" />
+            <img
+              src={`/assets/stamp${diary?.is_child_read ? "_read" : ""}.png`}
+            />
           </StampContainer>
         )}
       </Main>
@@ -187,8 +189,7 @@ const ModalBackground = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.1);
 `;
 
 const Modal = styled(motion.div)`
