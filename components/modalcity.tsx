@@ -132,7 +132,7 @@ const DatePicker = styled.div`
   width: 100vw;
 `;
 
-const ModalTitle = styled.p`
+const ModalTitle = styled.div`
   text-align: center;
   font-size: 20px;
   color: #999999;
@@ -145,7 +145,7 @@ const ModalColumns = styled.div`
   align-items: center;
 `;
 
-const ModalColumnTitle = styled.p`
+const ModalColumnTitle = styled.div`
   font-family: "Pretendard";
   font-style: normal;
   font-weight: 500;
@@ -179,7 +179,7 @@ const CityBoxToggled = styled.div`
   margin: 10px auto;
 `;
 
-const CityTitle = styled.p`
+const CityTitle = styled.div`
   font-family: "Pretendard";
   font-style: normal;
   font-weight: 500;

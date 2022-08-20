@@ -108,7 +108,7 @@ const CardTarget = styled.div`
   -webkit-line-clamp: 1;
 `;
 
-const CardLandmark = styled.p`
+const CardLandmark = styled.div`
   font-style: normal;
   font-weight: 600;
   font-size: 12px;

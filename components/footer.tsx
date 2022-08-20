@@ -9,7 +9,7 @@ import { ActivityIcon, ListIcon, MainIcon, NewIcon, MypageIcon } from "./icons";
 const Footer = ({ preventRouterChange }: { preventRouterChange: boolean }) => {
   const { push, alerts, close } = useAlertContext();
   const router = useRouter();
-  const { load } = useLoading();
+  const { load, endLoad } = useLoading();
   const goto = (href: string) => {
     if (preventRouterChange) {
       alerts.map((a) => close(a.id));
@@ -30,6 +30,7 @@ const Footer = ({ preventRouterChange }: { preventRouterChange: boolean }) => {
       });
     }
     if (!preventRouterChange) {
+      load();
       router.push(href);
     }
   };
