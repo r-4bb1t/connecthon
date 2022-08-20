@@ -49,7 +49,7 @@ const Login = () => {
       load();
       router.push("/main");
     }
-  }, []);
+  }, [token]);
 
   return (
     <Background>

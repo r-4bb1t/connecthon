@@ -7,7 +7,7 @@ import DiaryRow from "./diaryrow";
 const DiaryList = ({ diaries }: { diaries: Diary[] }) => {
   return (
     <>
-      {diaries.length > 0 ? (
+      {diaries?.length > 0 ? (
         <Content>
           {diaries.map((diary) => (
             <Link href={`/diary/${diary._id}`} key={diary._id}>
