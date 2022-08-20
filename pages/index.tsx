@@ -75,7 +75,7 @@ const LevelContainer = styled.div`
   display: grid;
   grid-template-columns: 4rem 1fr;
   font-size: 1.8rem;
-  color: ${THEME.black700};
+  color: ${THEME.black900};
   font-weight: 700;
 `;
 

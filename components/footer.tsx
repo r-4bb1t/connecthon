@@ -65,25 +65,25 @@ const Footer = ({ preventRouterChange }: { preventRouterChange: boolean }) => {
 const Main = styled.footer`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  height: 4rem;
+  height: 6rem;
   position: fixed;
   z-index: 100000;
   left: 0;
   right: 0;
   bottom: 0;
   background-color: white;
+  border-radius: 10px 10px 0 0;
 `;
 
 const FooterItem = styled.button<{ selected: boolean }>`
   text-align: center;
-  padding: 1rem 0;
   border: none;
   background: none;
-  border-radius: 10px 10px 0 0;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
+  height: 4rem;
   font-size: 0.8rem;
   color: ${(p) => (p.selected ? THEME.primary : THEME.black400)};
 `;

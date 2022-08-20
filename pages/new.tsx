@@ -24,7 +24,6 @@ const New: NextPage = () => {
   const todayQuestion = useTodayQuestion();
 
   const [emojiOpen, setEmojiOpen] = useState(false);
-  const [emojiLoading, setEmojiLoading] = useState(true);
 
   return (
     <Layout preventRouterChange title="일기쓰기">
@@ -176,7 +175,7 @@ const SubmitButton = styled.button`
   padding: 1rem 2rem;
   width: 9rem;
   border: none;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
 `;
 
 const TodayQuestion = styled.div`

@@ -165,7 +165,7 @@ const Answer = styled.textarea`
 const StampContainer = styled.div<{ isOpened: boolean }>`
   position: fixed;
   right: 1rem;
-  bottom: 4rem;
+  bottom: 6rem;
   @keyframes bounce2 {
     0%,
     20%,
