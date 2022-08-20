@@ -274,5 +274,6 @@ const ModalDate = styled.div`
   font-weight: 500;
   span {
     color: ${THEME.darker};
+    font-weight: 700;
   }
 `;
