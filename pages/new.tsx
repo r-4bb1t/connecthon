@@ -98,6 +98,7 @@ export default New;
 const Main = styled.div`
   padding: 0 1rem;
   height: 100%;
+  background: white;
 `;
 
 const Content = styled.main`
@@ -114,9 +115,9 @@ const Textarea = styled.textarea`
     transparent,
     transparent 40px,
     #ededed 40px,
-    #ededed 42px,
-    transparent 42px,
-    transparent 46px,
+    #ededed 41px,
+    transparent 41px,
+    transparent 47px,
     #ededed 0
   );
   background-image: -webkit-linear-gradient(
