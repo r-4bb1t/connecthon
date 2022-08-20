@@ -33,16 +33,16 @@ const Footer = ({ preventRouterChange }: { preventRouterChange: boolean }) => {
   return (
     <Main>
       <FooterItem onClick={() => goto("/")}>
-        <MainIcon />
+        <MainIcon selected={router.asPath === "/"} />
       </FooterItem>
       <FooterItem onClick={() => goto("/diary")}>
-        <ListIcon />
+        <ListIcon selected={router.asPath.startsWith("/diary")} />
       </FooterItem>
       <FooterItem onClick={() => goto("/activities")}>
-        <ActivityIcon />
+        <ActivityIcon selected={router.asPath === "/activities"} />
       </FooterItem>
       <FooterItem onClick={() => goto("/mypage")}>
-        <MypageIcon />
+        <MypageIcon selected={router.asPath === "/mypage"} />
       </FooterItem>
     </Main>
   );

@@ -14,7 +14,7 @@ const Layout = ({
     <Main>
       <Header />
       <Children>{children}</Children>
-      <Footer preventRouterChange={preventRouterChange} />
+      <Footer preventRouterChange={preventRouterChange || false} />
     </Main>
   );
 };

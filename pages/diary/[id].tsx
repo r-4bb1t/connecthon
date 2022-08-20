@@ -3,8 +3,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
 import styled, { css } from "styled-components";
-import Footer from "../../components/footer";
-import { MessageIcon } from "../../components/icons";
 import Layout from "../../components/layout";
 import { Diary } from "../../constant/types";
 
@@ -46,7 +44,35 @@ const DiaryDetail = () => {
               initial={{ opacity: 0, y: 100, scale: 0.9 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 100, scale: 0.9 }}
-            ></Modal>
+            >
+              울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~
+              넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^
+              울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~
+              넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^
+              울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~
+              넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^
+              울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~
+              넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^
+              울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~
+              넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^
+              울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~
+              넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^
+              울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~
+              넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^
+              울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~
+              넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^
+              울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~
+              넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^
+              울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~
+              넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^
+              울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~
+              넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^
+              울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~
+              넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^
+              울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~
+              넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^ 울딸~~ 넘잘햇어^^
+              <div>2022년 8월 21일</div>
+            </Modal>
           </ModalBackground>
         )}
       </AnimatePresence>
@@ -107,7 +133,9 @@ const ModalBackground = styled.div`
 `;
 
 const Modal = styled(motion.div)`
-  min-height: 100vh;
+  height: 100vh;
+  overflow-y: auto;
+  padding-bottom: 10rem;
   background-color: white;
   position: fixed;
   top: 5rem;
