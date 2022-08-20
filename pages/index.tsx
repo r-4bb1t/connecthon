@@ -44,12 +44,12 @@ const Login = () => {
     if (focus === "id") setPx(Math.min(username.length - 10, 10) * 0.5);
   }, [username, password, focus]);
 
-  useEffect(() => {
+  /*  useEffect(() => {
     if (token) {
       load();
       router.push("/main");
     }
-  }, [token]);
+  }, [token]); */
 
   return (
     <Background>
