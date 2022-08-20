@@ -16,7 +16,7 @@ const DiaryParents = () => {
   const [MoodCounts, setMoodCounts] = useState([0, 0, 0, 0, 0]);
   const [diaries, setDiaries] = useState([] as Diary[]);
 
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token") || "";
 
   const IncrementMoodCount = (id: any) => {
     let temp = Array.from(MoodCounts);

@@ -7,7 +7,7 @@ import { useToken } from "../../hooks/useTokenContext";
 
 const DiaryPage: NextPage = () => {
   const [diaries, setDiaries] = useState([] as Diary[]);
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token") || "";
   const fetchData = useCallback(async () => {
     try {
       const result = await (

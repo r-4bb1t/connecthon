@@ -14,7 +14,7 @@ const Home: NextPage = () => {
   const [exp, setExp] = useState(0);
   const [isAnimation, setIsAnimation] = useState(false);
 
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token") || "";
   const [question, setQuestion] = useState(null as any);
 
   const fetchData = useCallback(async () => {

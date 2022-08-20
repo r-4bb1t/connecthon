@@ -39,7 +39,7 @@ const Footer = ({ preventRouterChange }: { preventRouterChange: boolean }) => {
     <Main>
       <FooterItem
         onClick={() => goto("/main")}
-        selected={router.asPath === "/"}
+        selected={router.asPath === "/main"}
       >
         <MainIcon selected={router.asPath === "/main"} />
         메인
@@ -63,7 +63,7 @@ const Footer = ({ preventRouterChange }: { preventRouterChange: boolean }) => {
         selected={router.asPath === "/mypage"}
       >
         <MypageIcon selected={router.asPath === "/mypage"} />
-        마이름
+        마이룸
       </FooterItem>
     </Main>
   );

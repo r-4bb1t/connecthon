@@ -17,7 +17,7 @@ const Home: NextPage = () => {
   const [tab, setTab] = useState(TAB.wishlist);
   const [activities, setActivities] = useState([] as any[]);
   const [title, setTitle] = useState("즐거운 우리집");
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token") || "";
   const { load } = useLoading();
   const router = useRouter();
 
