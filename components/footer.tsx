@@ -3,11 +3,13 @@ import { useRouter } from "next/router";
 import styled from "styled-components";
 import { THEME } from "../constant/colors";
 import { useAlertContext } from "../hooks/useAlertContext";
+import { useLoading } from "../hooks/useLoadingContext";
 import { ActivityIcon, ListIcon, MainIcon, NewIcon, MypageIcon } from "./icons";
 
 const Footer = ({ preventRouterChange }: { preventRouterChange: boolean }) => {
   const { push, alerts, close } = useAlertContext();
   const router = useRouter();
+  const { load } = useLoading();
   const goto = (href: string) => {
     if (preventRouterChange) {
       alerts.map((a) => close(a.id));
@@ -22,6 +24,7 @@ const Footer = ({ preventRouterChange }: { preventRouterChange: boolean }) => {
         twoButton: true,
         buttonText: "삭제",
         onClose: () => {
+          load();
           router.push(href);
         },
       });
