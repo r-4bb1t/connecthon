@@ -95,7 +95,7 @@ const FooterItem = styled.button<{ selected: boolean }>`
   height: 4rem;
   gap: 4px;
   font-size: 0.8rem;
-  color: ${(p) => (p.selected ? THEME.primary : THEME.black400)};
+  color: ${(p) => (p.selected ? THEME.darker : THEME.black400)};
 `;
 
 export default Footer;
