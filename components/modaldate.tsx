@@ -9,6 +9,7 @@ const Modaldate = ({
   setOpenDate,
   startDate,
   setStartDate,
+  setRealStartDate,
 }: any) => {
   return (
     <Sheet
@@ -27,6 +28,7 @@ const Modaldate = ({
         <ModalFooter>
           <ModalButton
             onClick={() => {
+              setRealStartDate(startDate);
               setOpenDate(false);
             }}
           >

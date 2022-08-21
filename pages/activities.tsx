@@ -23,6 +23,7 @@ const Activities: NextPage = () => {
   const [selectedCategory, setSelectedCategory] = useState([] as string[]);
   const [realCategory, setRealCategory] = useState([] as string[]);
   const [startDate, setStartDate] = useState(new Date());
+  const [realStartDate, setRealStartDate] = useState(new Date());
   const [activities, setActivities] = useState([] as any[]);
   const { token } = useToken();
 
@@ -88,18 +89,18 @@ const Activities: NextPage = () => {
           (a) =>
             (realCategory.length === 0 || realCategory.includes(a.type)) &&
             new Date(a.event_start_date.substring(0, 10)).getTime() <=
-              new Date(startDate).getTime() &&
+              new Date(realStartDate).getTime() &&
             new Date(a.event_end_date.substring(0, 10)).getTime() >=
-              new Date(startDate).getTime()
+              new Date(realStartDate).getTime()
         ).length > 0 ? (
           activities
             .filter(
               (a) =>
                 (realCategory.length === 0 || realCategory.includes(a.type)) &&
                 new Date(a.event_start_date.substring(0, 10)).getTime() <=
-                  new Date(startDate).getTime() &&
+                  new Date(realStartDate).getTime() &&
                 new Date(a.event_end_date.substring(0, 10)).getTime() >=
-                  new Date(startDate).getTime()
+                  new Date(realStartDate).getTime()
             )
             .map((each: any) => (
               <Card
@@ -328,6 +329,7 @@ const Activities: NextPage = () => {
       <Modaldate
         startDate={startDate}
         setStartDate={setStartDate}
+        setRealStartDate={setRealStartDate}
         isOpenDate={isOpenDate}
         setOpenDate={setOpenDate}
       />
