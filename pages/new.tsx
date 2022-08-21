@@ -179,9 +179,14 @@ const New: NextPage = () => {
           />
           <ButtonContainer>
             <SubmitButtonContainer>
-              <SubmitButton onClick={() => setEmojiOpen((s) => !s)}>
-                {emojiOpen ? "닫기" : "작성완료"}
-              </SubmitButton>
+              {answer ? (
+                <SubmitButton onClick={() => setEmojiOpen((s) => !s)}>
+                  {emojiOpen ? "닫기" : "작성완료"}
+                </SubmitButton>
+              ) : (
+                <SubmitButtonDisabled>작성완료</SubmitButtonDisabled>
+              )}
+
               <AnimatePresence>
                 {emojiOpen && (
                   <EmojiMessage
@@ -303,6 +308,19 @@ const SubmitButton = styled.button`
   border-radius: 9999px;
   z-index: 2;
   background: ${THEME.darker};
+  font-size: 1.2rem;
+  color: white;
+  font-weight: 700;
+  padding: 1rem 2rem;
+  width: 9rem;
+  border: none;
+  margin-bottom: 3rem;
+`;
+
+const SubmitButtonDisabled = styled.button`
+  border-radius: 9999px;
+  z-index: 2;
+  background: #b7b7b7;
   font-size: 1.2rem;
   color: white;
   font-weight: 700;
