@@ -241,6 +241,10 @@ const Main = styled.div`
   padding: 0 1rem;
   height: 100%;
   background: white;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  flex-grow: 1;
 `;
 
 const Content = styled.main`
@@ -249,9 +253,11 @@ const Content = styled.main`
   display: flex;
   height: 100%;
   flex-direction: column;
+  flex-grow: 1;
 `;
 
 const Textarea = styled.textarea`
+  flex-grow: 1;
   background-color: white;
   background-image: -moz-linear-gradient(
     top,
