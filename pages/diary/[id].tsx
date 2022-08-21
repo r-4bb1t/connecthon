@@ -129,8 +129,11 @@ export default DiaryDetail;
 const Main = styled.div`
   position: relative;
   padding: 0 1rem;
+  flex-grow: 1;
   height: 100%;
-  padding-bottom: 1rem;
+  padding-bottom: 4rem;
+  display: flex;
+  flex-direction: column;
   background: white;
 `;
 
@@ -138,12 +141,14 @@ const Content = styled.main`
   border: 1.5px solid ${THEME.black200};
   border-radius: 20px;
   display: flex;
+  flex-grow: 1;
   height: 100%;
   padding-bottom: 6rem;
   flex-direction: column;
 `;
 
 const Answer = styled.div`
+  flex-grow: 1;
   background-color: white;
   background-image: -moz-linear-gradient(
     top,
@@ -166,6 +171,7 @@ const Answer = styled.div`
     #ededed 0
   );
 
+  display: ;
   height: 100%;
   width: 100%;
   background-attachment: local;
@@ -173,8 +179,6 @@ const Answer = styled.div`
   line-height: 48px;
   color: ${THEME.black900};
   font-weight: 600;
-  outline: none;
-  border: none;
   border-top: 1px solid #ededed;
   padding: 0 1rem;
 `;
