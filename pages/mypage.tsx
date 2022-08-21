@@ -503,6 +503,7 @@ const GhostInput = styled.input`
   border: none;
   background: transparent;
   text-align: right;
+  color: ${THEME.black900};
 `;
 
 const None = styled.div`
