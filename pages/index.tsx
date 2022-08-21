@@ -190,24 +190,7 @@ const ID = styled.input`
   }
 `;
 
-const PW = styled.input`
-  border: 2px solid #ececec;
-  border-radius: 31.5px;
-  box-sizing: border-box;
-  width: 320px;
-  height: 56px;
-  font-family: "Pretendard";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 19px;
-  opacity: 60%;
-  padding-left: 20px;
-  background: white;
-  :focus {
-    outline: none;
-    color: black;
-  }
+const PW = styled(ID)`
   margin-bottom: 30px;
 `;
 

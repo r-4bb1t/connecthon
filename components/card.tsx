@@ -120,6 +120,7 @@ const CardImage = styled.img`
   border-radius: 20px 20px 0 0;
   height: 8rem;
   object-fit: cover;
+  background: ${THEME.black200};
 `;
 
 const CardDetail = styled.div``;
@@ -156,6 +157,7 @@ const CardTitle = styled.div`
 const CardDescription = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
 `;
 
 const CardTarget = styled.div`
@@ -163,6 +165,7 @@ const CardTarget = styled.div`
   font-weight: 600;
   font-size: 12px;
   display: flex;
+  width: 100%;
   align-items: center;
   color: #999999;
   margin: 0;
