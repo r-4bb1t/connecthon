@@ -164,8 +164,8 @@ const CardTarget = styled.div`
   font-style: normal;
   font-weight: 600;
   font-size: 12px;
-  display: flex;
   width: 100%;
+  text-align: left;
   align-items: center;
   color: #999999;
   margin: 0;
