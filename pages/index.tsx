@@ -55,8 +55,10 @@ const Login = () => {
     <Background>
       <Header>
         <CharacterContainer>
-          <LogoCharacter src="/images/Logo.svg" />
-          <LogoEyes src="/assets/eyes.png" px={px} down={focus !== "none"} />
+          <LogoCharacter src="/images/LogoFrame.svg" />
+          <LogoFace src="/assets/face.png">
+            <LogoEyes src="/assets/eyes.gif" px={px} down={focus !== "none"} />
+          </LogoFace>
         </CharacterContainer>
       </Header>
       <BottomModal>
@@ -125,14 +127,56 @@ const CharacterContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  position: relative;
+  @keyframes bounce2 {
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+      transform: translateY(0);
+    }
+    40% {
+      transform: translateY(-15px);
+    }
+    60% {
+      transform: translateY(-10px);
+    }
+  }
+  animation: bounce2 2s ease infinite;
 `;
 
 const LogoCharacter = styled.img``;
 
+const LogoFace = styled.div<{ src: string }>`
+  background-image: url(${(p) => p.src});
+  width: 130px;
+  height: 90px;
+  position: absolute;
+  top: 50px;
+  left: calc(50% - 53px);
+  @keyframes bounce2 {
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+      transform: translateY(0);
+    }
+    40% {
+      transform: translateY(-10px);
+    }
+    60% {
+      transform: translateY(-5px);
+    }
+  }
+  animation: bounce2 2s 0.1s ease infinite;
+`;
+
 const LogoEyes = styled.img<{ px: number; down: boolean }>`
   position: absolute;
-  top: 6rem;
-  left: calc(50% - 38px);
+  top: 12px;
+  left: calc(50% - 46px);
   transform: ${(p) =>
     `translate(${p.px}px, ${p.down ? `${5 - Math.abs(p.px) / 2}px` : "0px"})`};
   transition: transform 0.2s;
