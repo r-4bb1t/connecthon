@@ -93,9 +93,10 @@ const DiaryDetail = () => {
             isOpened={diary?.is_child_read}
             onClick={() => setIsMessageModalOpen(true)}
           >
-            <img
+            {/* <img
               src={`/assets/stamp${diary?.is_child_read ? "_read" : ""}.png`}
-            />
+            /> */}
+            <img src={`/assets/stamp.png`} />
           </StampContainer>
         )}
       </Main>
