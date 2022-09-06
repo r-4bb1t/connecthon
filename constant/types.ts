@@ -13,6 +13,8 @@ export interface Diary {
   diary_type: "activity" | "answer";
 }
 
+export interface Question {}
+
 export type ActivityTypes =
   | "공원탐방"
   | "교육체험"
