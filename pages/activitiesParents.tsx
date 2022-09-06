@@ -13,32 +13,36 @@ import ModalCategory from "../components/modalcategory";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import "react-spring-bottom-sheet/dist/style.css";
 import Modaldate from "../components/modaldate";
-import { ActivityTypes, CardType } from "../constant/types";
-import { useToken } from "../hooks/useTokenContext";
 import Modalcity from "../components/modalcity";
 
-const Activities: NextPage = () => {
+const Home: NextPage = () => {
   const [isOpenCategory, setOpenCategory] = useState(false);
   const [isOpenDate, setOpenDate] = useState(false);
   const [isOpenCity, setOpenCity] = useState(false);
   const [showFree, setShowFree] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState([] as string[]);
   const [selectedCity, setSelectedCity] = useState([] as string[]);
-  const [realCategory, setRealCategory] = useState([] as string[]);
   const [startDate, setStartDate] = useState(new Date());
-  const [realStartDate, setRealStartDate] = useState(new Date());
   const [curColumn, setCurColumn] = useState(0);
   const [activities, setActivities] = useState([] as any[]);
-  const { token, user } = useToken();
-
+  const [realCategory, setRealCategory] = useState([
+    "공원탐방",
+    "교육체험",
+    "문화행사",
+    "농장체험",
+    "전시관람",
+    "키즈카페",
+  ] as string[]);
   const fetchData = useCallback(async () => {
+    const token = localStorage.getItem("token");
+
     try {
       const result = await (
         await fetch(
           `${process.env.NEXT_PUBLIC_API_HOST || "/api"}/activities`,
           {
             headers: {
-              Authorization: token,
+              Authorization: `${token}`,
             },
           }
         )
@@ -47,14 +51,16 @@ const Activities: NextPage = () => {
     } catch (e) {
       console.log(e);
     }
-  }, [token]);
+  }, []);
 
   useEffect(() => {
     fetchData();
-  }, [token]);
+    console.log(activities);
+  }, []);
 
+  console.log(startDate);
   return (
-    <Layout title="활동">
+    <Layout>
       <Filters>
         <OuterFilter>
           <MenuFilter>
@@ -74,25 +80,23 @@ const Activities: NextPage = () => {
               )}
               <MenuIcon />
             </MenuOpen>
-            {user?.user_type === "parent" && (
-              <MenuOpenCity
-                onClick={() => {
-                  setOpenCity(!isOpenCity);
-                  setCurColumn(0);
-                }}
-              >
-                {selectedCity.length > 1 ? (
-                  <>
-                    {selectedCity[0]}외 {selectedCity.length - 1}
-                  </>
-                ) : selectedCity.length == 1 ? (
-                  <>{selectedCity[0]}</>
-                ) : (
-                  <>지역구</>
-                )}
-                <MenuIcon />
-              </MenuOpenCity>
-            )}
+            <MenuOpenCity
+              onClick={() => {
+                setOpenCity(!isOpenCity);
+                setCurColumn(0);
+              }}
+            >
+              {selectedCity.length > 1 ? (
+                <>
+                  {selectedCity[0]}외 {selectedCity.length - 1}
+                </>
+              ) : selectedCity.length == 1 ? (
+                <>{selectedCity[0]}</>
+              ) : (
+                <>분류</>
+              )}
+              <MenuIcon />
+            </MenuOpenCity>
             <DateShow
               onClick={() => {
                 setOpenCity(!isOpenCity);
@@ -104,64 +108,47 @@ const Activities: NextPage = () => {
             </DateShow>
           </MenuFilter>
 
-          {user?.user_type === "parent" && (
-            <SecondRow>
-              <TotalNumText>
-                총 <span>45</span>개
-              </TotalNumText>
-              <FreeColumn>
-                {!showFree ? (
-                  <span
-                    onClick={() => {
-                      setShowFree(!showFree);
-                    }}
-                  >
-                    <ToggleIcon />
-                  </span>
-                ) : (
-                  <span
-                    onClick={() => {
-                      setShowFree(!showFree);
-                    }}
-                  >
-                    <ToggleIconToggled />
-                  </span>
-                )}
+          <SecondRow>
+            <TotalNumText>
+              총 <span>45</span>개
+            </TotalNumText>
+            <FreeColumn>
+              {!showFree ? (
+                <span
+                  onClick={() => {
+                    setShowFree(!showFree);
+                  }}
+                >
+                  <ToggleIcon />
+                </span>
+              ) : (
+                <span
+                  onClick={() => {
+                    setShowFree(!showFree);
+                  }}
+                >
+                  <ToggleIconToggled />
+                </span>
+              )}
 
-                <ToggleText>무료활동</ToggleText>
-              </FreeColumn>
-            </SecondRow>
-          )}
+              <ToggleText>무료체험</ToggleText>
+            </FreeColumn>
+          </SecondRow>
         </OuterFilter>
       </Filters>
       <ActivityCards>
-        {activities?.filter(
-          (a) =>
-            (realCategory.length === 0 || realCategory.includes(a.type)) &&
-            new Date(a.event_start_date.substring(0, 10)).getTime() <=
-              new Date(realStartDate).getTime() &&
-            new Date(a.event_end_date.substring(0, 10)).getTime() >=
-              new Date(realStartDate).getTime()
-        ).length > 0 ? (
+        {activities.filter((a) => realCategory.includes(a.type)).length > 0 ? (
           activities
-            .filter(
-              (a) =>
-                (realCategory.length === 0 || realCategory.includes(a.type)) &&
-                new Date(a.event_start_date.substring(0, 10)).getTime() <=
-                  new Date(realStartDate).getTime() &&
-                new Date(a.event_end_date.substring(0, 10)).getTime() >=
-                  new Date(realStartDate).getTime()
-            )
+            .filter((a) => realCategory.includes(a.type))
             .map((each: any) => (
               <Card
                 _id={each._id}
-                key={each._id}
+                key={each.id}
                 image={each.image_url}
                 url={each.page_url}
                 title={each.title}
                 activityType={each.type}
                 location={each.location}
-                liked={each.is_liked}
                 target={each.target}
                 description={each.description}
               />
@@ -374,12 +361,10 @@ const Activities: NextPage = () => {
         setOpenCategory={setOpenCategory}
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
-        setRealCategory={setRealCategory}
       />
       <Modaldate
         startDate={startDate}
         setStartDate={setStartDate}
-        setRealStartDate={setRealStartDate}
         isOpenDate={isOpenDate}
         setOpenDate={setOpenDate}
       />
@@ -397,15 +382,13 @@ const Activities: NextPage = () => {
   );
 };
 
-export default Activities;
-
 const Filters = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   position: fixed;
   z-index: 100000;
-  background-color: white;
+  background-color: #fbfbfb;
   width: 100%;
   padding: 0 25px;
 `;
@@ -414,31 +397,6 @@ const MenuFilter = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-top: 10px;
-`;
-
-const SecondRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100vw;
-  padding-right: 3rem;
-`;
-
-const TotalNumText = styled.p`
-  font-family: "Pretendard";
-  font-style: normal;
-  font-weight: 500;
-  font-size: 15px;
-  line-height: 18px;
-  display: flex;
-  align-items: center;
-
-  color: #999999;
-  span {
-    padding-left: 5px;
-    color: #515151;
-  }
 `;
 
 const MenuOpen = styled.div`
@@ -452,11 +410,6 @@ const MenuOpen = styled.div`
   align-items: center;
   gap: 5px;
   color: #999999;
-`;
-
-const OuterFilter = styled.div`
-  display: flex;
-  flex-direction: column;
 `;
 
 const MenuOpenCity = styled.div`
@@ -488,8 +441,7 @@ const ActivityCards = styled.div`
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  padding-top: 7rem;
-  padding-bottom: 6rem;
+  padding: 4rem 0;
 `;
 
 const FreeColumn = styled.div`
@@ -499,7 +451,8 @@ const FreeColumn = styled.div`
   gap: 10px;
 `;
 
-const ToggleText = styled.div`
+const ToggleText = styled.p`
+  font-family: "Pretendard";
   font-style: normal;
   font-weight: 500;
   font-size: 15px;
@@ -507,6 +460,35 @@ const ToggleText = styled.div`
   display: flex;
   align-items: center;
   color: #999999;
+`;
+
+const OuterFilter = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const SecondRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100vw;
+  padding-right: 3rem;
+`;
+
+const TotalNumText = styled.p`
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 18px;
+  display: flex;
+  align-items: center;
+
+  color: #999999;
+  span {
+    padding-left: 5px;
+    color: #515151;
+  }
 `;
 
 const None = styled.div`
@@ -556,3 +538,8 @@ const NoneTitle = styled.div`
     font-size: 17px;
   }
 `;
+
+export default Home;
+function setActivities(data: any) {
+  throw new Error("Function not implemented.");
+}
