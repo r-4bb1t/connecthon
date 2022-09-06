@@ -9,13 +9,13 @@ import {
   ToggleIconToggled,
 } from "../components/icons";
 import Layout from "../components/layout";
-import ModalCategory from "../components/modalcategory";
+import ModalCategory from "../components/filtermodal/modalcategory";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import "react-spring-bottom-sheet/dist/style.css";
-import Modaldate from "../components/modaldate";
+import Modaldate from "../components/filtermodal/modaldate";
 import { ActivityTypes, CardType } from "../constant/types";
 import { useToken } from "../hooks/useTokenContext";
-import Modalcity from "../components/modalcity";
+import Modalcity from "../components/filtermodal/modalcity";
 
 const Activities: NextPage = () => {
   const [isOpenCategory, setOpenCategory] = useState(false);
@@ -215,13 +215,13 @@ const Activities: NextPage = () => {
                 transform="rotate(14.022 121.467 55.4675)"
                 fill="white"
                 stroke="#979797"
-                stroke-width="4"
+                strokeWidth="4"
               />
               <path
                 d="M118.133 66.3477L115.189 77.2032"
                 stroke="#979797"
-                stroke-width="4"
-                stroke-linecap="round"
+                strokeWidth="4"
+                strokeLinecap="round"
               />
             </svg>
             <NoneTitle>
@@ -352,6 +352,8 @@ const ActivityCards = styled.div`
   flex-wrap: wrap;
   padding-top: 7rem;
   padding-bottom: 6rem;
+  height: 100%;
+  flex-grow: 1;
 `;
 
 const FreeColumn = styled.div`
@@ -372,8 +374,9 @@ const ToggleText = styled.div`
 `;
 
 const None = styled.div`
-  height: 100%;
   width: 100%;
+  height: 100%;
+
   display: flex;
   flex-direction: column;
   justify-content: center;

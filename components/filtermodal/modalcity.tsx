@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import Sheet from "react-modal-sheet";
-import styled from "styled-components";
-import Datepicker from "./datepicker/datepicker";
-import Divider from "./divider";
+import styled, { css } from "styled-components";
+import { THEME } from "../../constant/colors";
+import Datepicker from "../datepicker/datepicker";
+import Divider from "../divider";
 
 const Modalcity = ({
   isOpenCity,
@@ -65,6 +66,7 @@ const Modalcity = ({
           <Divider />
           <ModalColumns>
             <ModalColumnTitle
+              selected={curColumn === 0}
               onClick={() => {
                 setCurColumn(0);
               }}
@@ -72,6 +74,7 @@ const Modalcity = ({
               지역
             </ModalColumnTitle>
             <ModalColumnTitle
+              selected={curColumn === 1}
               onClick={() => {
                 setCurColumn(1);
               }}
@@ -84,25 +87,15 @@ const Modalcity = ({
             {curColumn === 0 ? (
               city.map((each) => (
                 <>
-                  {!selectedCity.includes(each) ? (
-                    <CityBox
-                      key={each}
-                      onClick={() => {
-                        handleSelectCity(each);
-                      }}
-                    >
-                      <CityTitle>{each}</CityTitle>
-                    </CityBox>
-                  ) : (
-                    <CityBoxToggled
-                      key={each}
-                      onClick={() => {
-                        handleSelectCity(each);
-                      }}
-                    >
-                      <CityTitle>{each}</CityTitle>
-                    </CityBoxToggled>
-                  )}
+                  <CityBox
+                    key={each}
+                    onClick={() => {
+                      handleSelectCity(each);
+                    }}
+                    selected={selectedCity.includes(each)}
+                  >
+                    <CityTitle>{each}</CityTitle>
+                  </CityBox>
                 </>
               ))
             ) : (
@@ -135,66 +128,81 @@ const DatePicker = styled.div`
 const ModalTitle = styled.div`
   text-align: center;
   font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 1rem;
   color: #999999;
 `;
 
 const ModalColumns = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
 `;
 
-const ModalColumnTitle = styled.div`
-  font-family: "Pretendard";
+const ModalColumnTitle = styled.div<{ selected: boolean }>`
   font-style: normal;
   font-weight: 500;
   font-size: 18px;
   line-height: 21px;
   color: #3c3c3c;
-  width: 50vw;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0;
+  position: relative;
+  ${(p) =>
+    p.selected &&
+    css`
+      ::after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        height: 3px;
+        border-radius: 9999px;
+        width: 30%;
+        background-color: ${THEME.darker};
+      }
+    `}
 `;
 
 const ModalCityContent = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
+  gap: 17px 14px;
+  margin-top: 20px;
   align-items: center;
 `;
 
-const CityBox = styled.div`
+const CityBox = styled.div<{ selected: boolean }>`
   width: 160px;
-  height: 60px;
-  border: 1px solid #ebebeb;
-  border-radius: 10px;
-  margin: 10px auto;
-`;
+  border: 1px solid ${(p) => (p.selected ? THEME.black800 : THEME.black500)};
+  color: ${(p) => (p.selected ? THEME.black900 : THEME.black700)};
 
-const CityBoxToggled = styled.div`
-  width: 160px;
-  height: 60px;
-  border: 1px solid black;
   border-radius: 10px;
-  margin: 10px auto;
+  padding: 1rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const CityTitle = styled.div`
-  font-family: "Pretendard";
   font-style: normal;
   font-weight: 500;
   font-size: 18px;
   line-height: 21px;
   text-align: center;
-  color: #999999;
 `;
 
 const ModalFooter = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100vw;
+  width: 100%;
   background-color: white;
+  padding: 2rem;
 `;
 
 const ModalButton = styled.div`
@@ -210,7 +218,6 @@ const ModalButton = styled.div`
   font-style: normal;
   font-weight: 700;
   font-size: 18px;
-  margin-bottom: 30px;
 `;
 
 export default Modalcity;
