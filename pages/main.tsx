@@ -63,26 +63,26 @@ const Home: NextPage = () => {
           {question?.is_parent_answered ? (
             question?.is_child_read ? (
               <>
-                병아리는 지금,
+                <span>병아리</span>는 지금,
                 <br />
                 사랑으로 잘 자라고 있어요!
               </>
             ) : (
               <>
-                병아리가
+                <span>병아리</span>가
                 <br />
                 부모님의 답장을 가져왔어요!
               </>
             )
           ) : question?.is_child_answered ? (
             <>
-              병아리는 지금,
+              <span>병아리</span>는 지금,
               <br />
               부모님의 답장을 기다려요!
             </>
           ) : (
             <>
-              병아리는 지금,
+              <span>병아리</span>는 지금,
               <br />
               일기를 기다리는 중이에요!
             </>
@@ -237,10 +237,14 @@ const TodayDate = styled.div`
 const TodayStatus = styled.div`
   font-size: 22px;
   font-weight: 700;
-  color: ${THEME.black900};
+  color: ${THEME.black700};
   position: relative;
   line-height: 1.5;
   margin-top: 10px;
+  span {
+    font-size: inherit;
+    color: ${THEME.black900};
+  }
 `;
 
 const StatusButton = styled.button`
