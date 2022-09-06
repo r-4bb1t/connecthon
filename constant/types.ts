@@ -35,3 +35,9 @@ export interface CardType {
   like?: ("child" | "parent")[];
   diaryId?: string;
 }
+
+export interface UserType {
+  user_type: "child" | "parent";
+  user_id: string;
+  other_id: string;
+}

@@ -172,7 +172,6 @@ const Answer = styled.div`
     #ededed 0
   );
 
-  display: ;
   height: 100%;
   width: 100%;
   background-attachment: local;
