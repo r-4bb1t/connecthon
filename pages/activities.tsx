@@ -345,7 +345,7 @@ const Filters = styled.div`
   justify-content: space-between;
   position: fixed;
   z-index: 100000;
-  background-color: #fbfbfb;
+  /* background-color: #fbfbfb; */
   width: 100%;
   padding: 0 25px;
   padding-bottom: 12px;
