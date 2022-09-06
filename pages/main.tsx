@@ -3,7 +3,7 @@ import Link from "next/link";
 import { format } from "date-fns";
 import styled, { css } from "styled-components";
 import { CharacterImg, CharacterMessage } from "../components/characters";
-import { NewIcon } from "../components/icons";
+import { DiaryIcon, LockIcon, NewIcon } from "../components/icons";
 import Layout from "../components/layout";
 import { THEME } from "../constant/colors";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -15,7 +15,7 @@ import { AnimatePresence, motion } from "framer-motion";
 const Home: NextPage = () => {
   const [isAnimation, setIsAnimation] = useState(false);
 
-  const { token } = useToken();
+  const { token, user } = useToken();
   const [question, setQuestion] = useState(null as any);
   const [isStatusOpen, setIsStatusOpen] = useState(false);
 
@@ -84,7 +84,8 @@ const Home: NextPage = () => {
             <>
               <span>병아리</span>는 지금,
               <br />
-              일기를 기다리는 중이에요!
+              {user?.user_type === "parent" ? "아이의 " : ""}일기를 기다리는
+              중이에요!
             </>
           )}
           <StatusButton onClick={() => setIsStatusOpen((s) => !s)}>
@@ -207,11 +208,39 @@ const Home: NextPage = () => {
           />
         </svg>
         <QuestionContent>{question?.question_content || ""}</QuestionContent>
-        {question?.is_child_answered ? (
-          "오늘의 질문에 답변했어요!"
+        {user?.user_type === "parent" ? (
+          question?.is_child_answered ? (
+            question?.is_parent_answered ? (
+              <Link href={`/${question.diary_id}`}>
+                <NewDiary isColored>
+                  <DiaryIcon />
+                  아이가 쓴 일기보기
+                </NewDiary>
+              </Link>
+            ) : (
+              <Link href={`/${question.diary_id}`}>
+                <NewDiary isColored>
+                  <NewIcon />
+                  아이 일기에 답장쓰기
+                </NewDiary>
+              </Link>
+            )
+          ) : (
+            <NewDiary>
+              <LockIcon />
+              아이의 일기를 기다려보세요.
+            </NewDiary>
+          )
+        ) : question?.is_child_answered ? (
+          <Link href={`/${question.diary_id}`}>
+            <NewDiary isColored>
+              <DiaryIcon />
+              내가 쓴 일기 보기
+            </NewDiary>
+          </Link>
         ) : (
           <Link href="/new">
-            <NewDiary>
+            <NewDiary isColored>
               <NewIcon />
               일기쓰기
             </NewDiary>
@@ -518,7 +547,7 @@ const QuestionContent = styled.div`
   font-weight: 500;
 `;
 
-const NewDiary = styled.a`
+const NewDiary = styled.a<{ isColored?: boolean }>`
   display: block;
   padding: 0.5rem;
   display: flex;
@@ -527,7 +556,7 @@ const NewDiary = styled.a`
   align-items: center;
   border-radius: 9999px;
   gap: 1rem;
-  color: ${THEME.darker};
+  color: ${(p) => (p.isColored ? THEME.darker : THEME.black700)};
   font-size: 1.2rem;
   font-weight: 700;
 `;
