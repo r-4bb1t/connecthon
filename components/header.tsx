@@ -76,6 +76,7 @@ const Main = styled.header`
   right: 0;
   padding: 1rem;
   /* background-color: #fbfbfb; */
+  background-color: white;
   display: flex;
   align-items: center;
   color: ${THEME.black900};
