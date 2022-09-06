@@ -82,6 +82,7 @@ const Main = styled.footer`
   bottom: 0px;
   background-color: white;
   border-radius: 10px 10px 0 0;
+  box-shadow: 0 -4px 36px rgba(0, 0, 0, 0.07);
 `;
 
 const FooterItem = styled.button<{ selected: boolean }>`
