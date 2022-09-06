@@ -4,15 +4,15 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
 import styled, { css } from "styled-components";
-import Layout from "../../components/layout";
-import { THEME } from "../../constant/colors";
-import { Diary } from "../../constant/types";
-import { useToken } from "../../hooks/useTokenContext";
+import Layout from "../../../components/layout";
+import { THEME } from "../../../constant/colors";
+import { Diary } from "../../../constant/types";
+import { useToken } from "../../../hooks/useTokenContext";
 
 const DiaryDetail = () => {
   const router = useRouter();
   const id = router.query.id;
-  const { token } = useToken();
+  const { token, user } = useToken();
 
   const [diary, setDiary] = useState(null as unknown as Diary);
   const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
@@ -87,15 +87,20 @@ const DiaryDetail = () => {
           </TodayQuestion>
           <QuestionContent>{diary?.question_content || ""}</QuestionContent>
           <Answer>{diary?.child_answer || ""}</Answer>
+
+          {user?.user_type === "parent" && !diary?.is_parent_answered && (
+            <ButtonContainer>
+              <Link href={`/diary/${id}/reply`}>
+                <Button>답장쓰기</Button>
+              </Link>
+            </ButtonContainer>
+          )}
         </Content>
         {diary?.is_parent_answered && (
           <StampContainer
-            isOpened={diary?.is_child_read}
+            isOpened={/* diary?.is_child_read */ false}
             onClick={() => setIsMessageModalOpen(true)}
           >
-            {/* <img
-              src={`/assets/stamp${diary?.is_child_read ? "_read" : ""}.png`}
-            /> */}
             <img src={`/assets/stamp.png`} />
           </StampContainer>
         )}
@@ -146,6 +151,7 @@ const Content = styled.main`
   height: 100%;
   padding-bottom: 6rem;
   flex-direction: column;
+  position: relative;
 `;
 
 const Answer = styled.div`
@@ -300,4 +306,26 @@ const ModalDate = styled.div`
     color: ${THEME.darker};
     font-weight: 700;
   }
+`;
+
+const ButtonContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  bottom: 1rem;
+`;
+
+const Button = styled.a`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: ${THEME.darker};
+  font-size: 1.125rem;
+  color: white;
+  font-weight: 700;
+  padding: 15px 24px;
+  width: 9rem;
+  border: none;
 `;
