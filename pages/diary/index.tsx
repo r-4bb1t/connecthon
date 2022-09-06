@@ -32,7 +32,7 @@ const DiaryPage: NextPage = () => {
   }, [token]);
 
   return (
-    <Layout title="일기">
+    <Layout title={`${user?.user_type === "parent" ? "아이의 " : ""} 일기`}>
       {user?.user_type === "parent" && (
         <MoodListContainer>
           <MoodList>
