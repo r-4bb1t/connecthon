@@ -164,6 +164,8 @@ const Activities: NextPage = () => {
                 liked={each.is_liked}
                 target={each.target}
                 description={each.description}
+                startDate={each.event_start_date}
+                endDate={each.event_end_date}
               />
             ))
         ) : (

@@ -244,6 +244,7 @@ const Main = styled.div`
   height: 100%;
   flex-direction: column;
   flex-grow: 1;
+  margin-top: 1rem;
 `;
 
 const Content = styled.main`

@@ -36,6 +36,8 @@ export interface CardType {
   type?: "list" | "wishlist" | "history";
   like?: ("child" | "parent")[];
   diaryId?: string;
+  startDate: string;
+  endDate: string;
 }
 
 export interface UserType {
