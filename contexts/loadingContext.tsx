@@ -66,7 +66,7 @@ const LoadingContainer = styled(motion.div)`
   justify-content: center;
   align-items: center;
   background: rgba(0, 0, 0, 0.1);
-  z-index: 20;
+  z-index: 20000000;
   img {
     @keyframes hithere {
       30% {
