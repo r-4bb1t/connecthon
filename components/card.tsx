@@ -22,6 +22,8 @@ const Card = ({
   diaryId,
   startDate,
   endDate,
+  reservationStartDate,
+  reservationEndDate,
 }: CardType) => {
   const [localLiked, setLocalLiked] = useState(liked);
   const { token } = useToken();
@@ -153,6 +155,10 @@ const Card = ({
               <li>
                 <b>운영기간:</b> {startDate.substring(0, 10)} ~{" "}
                 {endDate.substring(0, 10)}
+              </li>
+              <li>
+                <b>접수기간:</b> {reservationStartDate.substring(0, 10)} ~{" "}
+                {reservationEndDate.substring(0, 10)}
               </li>
             </DetailList>
             <ModalButton href={url} rel="noreferrer" target="_blank">

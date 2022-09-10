@@ -38,6 +38,8 @@ export interface CardType {
   diaryId?: string;
   startDate: string;
   endDate: string;
+  reservationStartDate: string;
+  reservationEndDate: string;
 }
 
 export interface UserType {

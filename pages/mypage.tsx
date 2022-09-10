@@ -204,6 +204,10 @@ const Home: NextPage = () => {
                 target={each.target}
                 description={each.description}
                 diaryId={each.diary_id}
+                startDate={each.event_start_date}
+                endDate={each.event_end_date}
+                reservationStartDate={each.reservation_start_date}
+                reservationEndDate={each.reservation_end_date}
                 type={["wishlist", "history"][tab] as CardType["type"]}
               />
             ))}
