@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
@@ -19,11 +20,17 @@ const Card = ({
   like = [],
   type = "list",
   diaryId,
+  startDate,
+  endDate,
+  reservationStartDate,
+  reservationEndDate,
 }: CardType) => {
   const [localLiked, setLocalLiked] = useState(liked);
   const { token } = useToken();
   const router = useRouter();
   const { load } = useLoading();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isImageOpen, setIsImageOpen] = useState(false);
 
   const toggleLike = async () => {
     try {
@@ -46,64 +53,121 @@ const Card = ({
   }, [liked]);
 
   return (
-    <CardContainer>
-      <a href={url} rel="noreferrer" target="_blank">
+    <>
+      <CardContainer onClick={() => setIsModalOpen(true)}>
         <CardImage src={image} />
-      </a>
-      <CardDetail>
-        <CardDetailTop>
-          {!(type === "list") ? (
-            <LikerList>
-              {like.map((l: "child" | "parent", i) => (
-                <Liker type={l} key={i}>
-                  {{ child: "아이", parent: "부모" }[l]}
-                </Liker>
-              ))}
-            </LikerList>
-          ) : (
-            <ActivityType type={activityType}>{activityType}</ActivityType>
-          )}
-          {!(type === "history") && (
-            <PickedIcon
-              selected={localLiked}
-              onClick={() => {
-                setLocalLiked((s) => !s);
-                toggleLike();
-              }}
+        <CardDetail>
+          <CardDetailTop>
+            {!(type === "list") ? (
+              <LikerList>
+                {like.map((l: "child" | "parent", i) => (
+                  <Liker type={l} key={i}>
+                    {{ child: "아이", parent: "부모" }[l]}
+                  </Liker>
+                ))}
+              </LikerList>
+            ) : (
+              <ActivityType type={activityType}>{activityType}</ActivityType>
+            )}
+            {!(type === "history") && (
+              <PickedIcon
+                selected={localLiked}
+                onClick={() => {
+                  setLocalLiked((s) => !s);
+                  toggleLike();
+                }}
+              />
+            )}
+          </CardDetailTop>
+          <CardTitleContainer>
+            <CardTitle dangerouslySetInnerHTML={{ __html: title }} />
+          </CardTitleContainer>
+          <CardDescription>
+            <CardTarget>{target}</CardTarget>
+            <CardLandmark>{location}</CardLandmark>
+          </CardDescription>
+          <ButtonContainer>
+            {type === "wishlist" && (
+              <WishlistButton
+                onClick={() => {
+                  load();
+                  router.push(`/new?activity_id=${_id}&activity_name=${title}`);
+                }}
+              >
+                다녀왔어요
+              </WishlistButton>
+            )}
+            {type === "history" && (
+              <HistoryButton
+                onClick={() => {
+                  load();
+                  router.push(`/diary/${diaryId}`);
+                }}
+              >
+                일기보기
+              </HistoryButton>
+            )}
+          </ButtonContainer>
+        </CardDetail>
+      </CardContainer>
+      {isModalOpen && (
+        <ModalContainer>
+          <Modal>
+            <ModalCloseButtonContainer>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24px"
+                height="24px"
+                viewBox="0 0 24 24"
+                onClick={() => {
+                  setIsModalOpen(false);
+                  setIsImageOpen(false);
+                }}
+              >
+                <g data-name="Layer 2">
+                  <g data-name="close">
+                    <rect
+                      width="24"
+                      height="24"
+                      transform="rotate(180 12 12)"
+                      opacity="0"
+                    />
+                    <path d="M13.41 12l4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l4.29-4.3 4.29 4.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z" />
+                  </g>
+                </g>
+              </svg>
+            </ModalCloseButtonContainer>
+
+            <ModalCardImage
+              src={image}
+              onClick={() => setIsImageOpen((s) => !s)}
+              isFull={isImageOpen}
             />
-          )}
-        </CardDetailTop>
-        <CardTitleContainer>
-          <CardTitle dangerouslySetInnerHTML={{ __html: title }} />
-        </CardTitleContainer>
-        <CardDescription>
-          <CardTarget>{target}</CardTarget>
-          <CardLandmark>{location}</CardLandmark>
-        </CardDescription>
-        <ButtonContainer>
-          {type === "wishlist" && (
-            <WishlistButton
-              onClick={() => {
-                load();
-                router.push(`/new?activity_id=${_id}&activity_name=${title}`);
-              }}
-            >
-              다녀왔어요
-            </WishlistButton>
-          )}
-          {type === "history" && (
-            <HistoryButton
-              onClick={() => {
-                load();
-                router.push(`/diary/${diaryId}`);
-              }}
-            >
-              일기보기
-            </HistoryButton>
-          )}
-        </ButtonContainer>
-      </CardDetail>
-    </CardContainer>
+            <ModalTitle dangerouslySetInnerHTML={{ __html: title }} />
+            <ActivityType type={activityType}>{activityType}</ActivityType>
+            <DetailList>
+              <li>
+                <b>대상:</b> {target}
+              </li>
+              <li>
+                <b>지역:</b> {location}
+              </li>
+              <li>
+                <b>운영기간:</b> {startDate.substring(0, 10)} ~{" "}
+                {endDate.substring(0, 10)}
+              </li>
+              <li>
+                <b>접수기간:</b> {reservationStartDate.substring(0, 10)} ~{" "}
+                {reservationEndDate.substring(0, 10)}
+              </li>
+            </DetailList>
+            <ModalButton href={url} rel="noreferrer" target="_blank">
+              예약하기
+            </ModalButton>
+          </Modal>
+        </ModalContainer>
+      )}
+    </>
   );
 };
 
@@ -262,6 +326,73 @@ const Liker = styled.div<{ type: "child" | "parent" }>`
   font-weight: 600;
   font-size: 12px;
   line-height: 137%;
+`;
+
+const ModalContainer = styled.div`
+  position: fixed;
+  inset: 0;
+  z-index: 1000000000;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+`;
+
+const Modal = styled.div`
+  width: 100%;
+  border-radius: 20px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 20px;
+`;
+
+const ModalCloseButtonContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 0;
+`;
+
+const ModalCardImage = styled.img<{ isFull: boolean }>`
+  width: 100%;
+  height: auto;
+  max-height: ${(p) => (p.isFull ? "20rem" : "10rem")};
+  object-fit: cover;
+  transition: 0.2s ease;
+`;
+
+const ModalTitle = styled.div`
+  font-weight: 700;
+  font-size: 1.25rem;
+  margin: 1rem 0;
+`;
+
+const ModalButton = styled.a`
+  place-self: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 9999px;
+  z-index: 2;
+  background: ${THEME.darker};
+  font-size: 1.2rem;
+  color: white;
+  font-weight: 700;
+  padding: 1rem 2rem;
+  width: 9rem;
+  margin-bottom: 2rem;
+  border: none;
+`;
+
+const DetailList = styled.ul`
+  list-style-type: none;
+  padding: 0;
+  li {
+    margin: 5px 0;
+  }
 `;
 
 export default Card;

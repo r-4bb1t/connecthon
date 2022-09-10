@@ -72,6 +72,7 @@ const MoodList = styled.div`
   align-items: center;
   color: ${THEME.black700};
   font-weight: 600;
+  margin-top: 1rem;
   font-size: 1.25rem;
   svg {
     width: 30px;

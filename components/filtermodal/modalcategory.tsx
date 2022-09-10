@@ -2,7 +2,7 @@ import React, { useState } from "react";
 //@ts-ignore
 import Sheet from "react-modal-sheet";
 import styled from "styled-components";
-import { ToggleIcon, ToggleIconToggled } from "./icons";
+import { ToggleIcon, ToggleIconToggled } from "../icons";
 
 const ModalCategory = ({
   isOpenCategory,

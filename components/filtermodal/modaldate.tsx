@@ -1,8 +1,7 @@
 import React from "react";
 import Sheet from "react-modal-sheet";
 import styled from "styled-components";
-import Datepicker from "./datepicker/datepicker";
-import { ToggleIcon, ToggleIconToggled } from "./icons";
+import Datepicker from "../datepicker/datepicker";
 
 const Modaldate = ({
   isOpenDate,

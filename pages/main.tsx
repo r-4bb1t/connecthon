@@ -2,22 +2,29 @@ import type { NextPage } from "next";
 import Link from "next/link";
 import { format } from "date-fns";
 import styled, { css } from "styled-components";
-import { CharacterImg } from "../components/characters";
-import { NewIcon } from "../components/icons";
+import { CharacterImg, CharacterMessage } from "../components/characters";
+import { DiaryIcon, LockIcon, NewIcon } from "../components/icons";
 import Layout from "../components/layout";
 import { THEME } from "../constant/colors";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useToken } from "../hooks/useTokenContext";
 import { useGame } from "../hooks/useGameContext";
+import { Question } from "../constant/types";
+import { AnimatePresence, motion } from "framer-motion";
 
 const Home: NextPage = () => {
   const [isAnimation, setIsAnimation] = useState(false);
 
-  const { token } = useToken();
+  const { token, user } = useToken();
   const [question, setQuestion] = useState(null as any);
+  const [isStatusOpen, setIsStatusOpen] = useState(false);
 
   const { exp, gainExp, level, levelUp } = useGame();
   const [cIndex, setCIndex] = useState(level - 1);
+
+  useEffect(() => {
+    setTimeout(() => setCIndex(level - 1), 500);
+  }, [level]);
 
   const fetchData = useCallback(async () => {
     try {
@@ -29,6 +36,7 @@ const Home: NextPage = () => {
         })
       ).json();
       setQuestion(result.data);
+      console.log(result.data);
     } catch (e) {
       console.log(e);
     }
@@ -43,33 +51,148 @@ const Home: NextPage = () => {
       gainExp(-100);
       levelUp();
       setIsAnimation(true);
-      setTimeout(() => setCIndex(level), 500);
       setTimeout(() => setIsAnimation(false), 1000);
     }
   }, [exp]);
 
   return (
     <Layout>
-      <StatusContainer>
-        <BetweenEnd>
-          <LevelContainer>
-            <Level>
-              Lv.<span>{level}</span>
-            </Level>
-            병아리
-          </LevelContainer>
-          <Exp>
-            <span>{exp}</span> / 100
-          </Exp>
-        </BetweenEnd>
-        <ExpGage percent={exp / 100}></ExpGage>
-      </StatusContainer>
-      <Today>{format(new Date(), "yyyy . MM . dd")}</Today>
+      <TodayContainer>
+        <TodayDate>오늘은 {format(new Date(), "M월 d일")}</TodayDate>
+        <TodayStatus>
+          {question?.is_parent_answered ? (
+            question?.is_child_read ? (
+              <>
+                <span>병아리</span>는 지금,
+                <br />
+                사랑으로 잘 자라고 있어요!
+              </>
+            ) : (
+              <>
+                <span>병아리</span>가
+                <br />
+                부모님의 답장을 가져왔어요!
+              </>
+            )
+          ) : question?.is_child_answered ? (
+            <>
+              <span>병아리</span>는 지금,
+              <br />
+              부모님의 답장을 기다려요!
+            </>
+          ) : (
+            <>
+              <span>병아리</span>는 지금,
+              <br />
+              {user?.user_type === "parent" ? "아이의 " : ""}일기를 기다리는
+              중이에요!
+            </>
+          )}
+          <StatusButton onClick={() => setIsStatusOpen((s) => !s)}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="40"
+              height="40"
+              viewBox="0 0 40 40"
+              fill="none"
+            >
+              <rect
+                x="9"
+                y="9"
+                width="22"
+                height="22"
+                rx="11"
+                stroke="#FCBA58"
+                strokeWidth="2"
+              />
+              <path
+                d="M21.5039 13.3594H18.4961L18.75 23.2617H21.25L21.5039 13.3594ZM18.3789 26.0352C18.3594 26.9434 19.1016 27.6758 20.0195 27.6758C20.8887 27.6758 21.6406 26.9434 21.6406 26.0352C21.6406 25.1367 20.8887 24.4043 20.0195 24.4141C19.1016 24.4043 18.3594 25.1367 18.3789 26.0352Z"
+                fill="#FCBA58"
+              />
+            </svg>
+          </StatusButton>
+          <AnimatePresence>
+            {isStatusOpen && (
+              <StatusContainer
+                initial={{ scale: 0.7, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.7, opacity: 0, transition: { duration: 0.2 } }}
+              >
+                <BetweenEnd>
+                  <LevelContainer>
+                    <Level>
+                      Lv.<span>{level}</span>
+                    </Level>
+                    <Name>병아리</Name>
+                  </LevelContainer>
+                  <Exp>
+                    <span>{exp}</span> / 100
+                  </Exp>
+                </BetweenEnd>
+                <ExpGage percent={exp / 100}></ExpGage>
+              </StatusContainer>
+            )}
+          </AnimatePresence>
+        </TodayStatus>
+      </TodayContainer>
       <CharacterContainer isAnimation={isAnimation} onClick={() => gainExp(10)}>
         {isAnimation && <ChangeImage src={`/assets/change.gif?${level}`} />}
-        <div>
+        <CharacterAnimation>
           <CharacterImg level={cIndex} />
-        </div>
+        </CharacterAnimation>
+        {question?.is_parent_answered && !question?.is_child_read && (
+          <>
+            <MessageAnimation>
+              <CharacterMessage level={cIndex} />
+            </MessageAnimation>
+            <div>
+              <Particle />
+              <Particle />
+              <Particle />
+              <Particle />
+            </div>
+          </>
+        )}
+        {question?.is_child_read && (
+          <>
+            <div>
+              <HeartParticle>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="52"
+                  height="53"
+                  viewBox="0 0 52 53"
+                  fill="none"
+                >
+                  <path
+                    d="M30.3664 39.0876L30.3645 39.0867C25.635 36.9665 21.8334 35.2603 18.9876 33.4371C16.1607 31.626 14.4498 29.8046 13.7121 27.5388L13.712 27.5386C13.427 26.6638 13.3163 25.7425 13.3858 24.8288C13.4553 23.9153 13.7036 23.0285 14.1149 22.2202C14.5261 21.4119 15.0921 20.6982 15.7787 20.1199C16.4652 19.5417 17.2593 19.1099 18.1144 18.8491L18.1223 18.8467L18.1302 18.8442C19.1619 18.5147 20.2537 18.4112 21.3342 18.5411C22.4148 18.6711 23.4604 19.0318 24.4018 19.601L25.6408 20.3502L26.2012 19.0152C26.627 18.0008 27.2598 17.0936 28.0567 16.3524C28.8535 15.6112 29.797 15.0521 30.8249 14.711L30.8328 14.7084L30.8406 14.7057C31.6853 14.4129 32.5814 14.2944 33.4768 14.3576C34.3722 14.4208 35.2499 14.6645 36.0582 15.0757C36.8665 15.4869 37.5893 16.0575 38.1834 16.755C38.7775 17.4526 39.2304 18.2625 39.5151 19.1374L39.5152 19.1376C40.2542 21.4073 39.9439 23.8889 38.726 27.0198C37.5001 30.1712 35.4335 33.7912 32.8617 38.2957C32.8614 38.2962 32.8611 38.2967 32.8608 38.2973L32.8602 38.2985L31.9836 39.8159L30.3664 39.0876Z"
+                    fill="#FCBA58"
+                    stroke="#FCBA58"
+                    strokeWidth="2.5"
+                  />
+                </svg>
+              </HeartParticle>
+              <HeartParticle>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="32"
+                  height="31"
+                  viewBox="0 0 32 31"
+                  fill="none"
+                >
+                  <g opacity="0.5">
+                    <path
+                      d="M12.3908 23.8488L12.3896 23.847C10.0598 20.0806 8.19859 17.0681 7.06473 14.4284C5.94001 11.81 5.61331 9.73873 6.15469 7.82145L6.15474 7.82125C6.36354 7.08133 6.7133 6.39007 7.18265 5.78793C7.65196 5.18584 8.23064 4.68592 8.88341 4.31595C9.53608 3.94605 10.2496 3.7135 10.9819 3.6298C11.7142 3.54611 12.4517 3.61274 13.1521 3.82498L13.1601 3.8274L13.1681 3.82971C14.0239 4.0766 14.8173 4.50756 15.4961 5.09558C16.175 5.68369 16.725 6.4165 17.1077 7.24755L17.72 8.57698L18.9373 7.76415C19.6982 7.25603 20.5502 6.91908 21.4364 6.77293C22.3226 6.6268 23.2242 6.67447 24.0827 6.91162L24.0907 6.91384L24.0988 6.91595C24.8068 7.10139 25.4702 7.43037 26.0505 7.88467C26.6309 8.33903 27.1175 8.91044 27.4803 9.56709C27.8431 10.2238 28.0749 10.9526 28.16 11.7112C28.2451 12.4699 28.1816 13.242 27.9726 13.9819L27.9725 13.9821C27.4302 15.9028 26.0676 17.4989 23.7388 19.1446C21.3914 20.8034 18.2294 22.4001 14.273 24.3973C14.272 24.3978 14.2711 24.3982 14.2702 24.3987L13.0917 24.9861L12.3908 23.8488Z"
+                      fill="#FCBA58"
+                      stroke="#FCBA58"
+                      strokeWidth="2.5"
+                    />
+                  </g>
+                </svg>
+              </HeartParticle>
+            </div>
+          </>
+        )}
       </CharacterContainer>
       <TodayQuestion>
         <svg
@@ -85,13 +208,41 @@ const Home: NextPage = () => {
           />
         </svg>
         <QuestionContent>{question?.question_content || ""}</QuestionContent>
-        {question?.is_child_answered ? (
-          "오늘의 질문에 답변했어요!"
+        {user?.user_type === "parent" ? (
+          question?.is_child_answered ? (
+            question?.is_parent_answered ? (
+              <Link href={`/${question.diary_id}`}>
+                <NewDiary isColored>
+                  <DiaryIcon />
+                  아이가 쓴 일기보기
+                </NewDiary>
+              </Link>
+            ) : (
+              <Link href={`/${question.diary_id}`}>
+                <NewDiary isColored>
+                  <NewIcon />
+                  아이 일기에 답장쓰기
+                </NewDiary>
+              </Link>
+            )
+          ) : (
+            <NewDiary>
+              <LockIcon />
+              아이의 일기를 기다려보세요.
+            </NewDiary>
+          )
+        ) : question?.is_child_answered ? (
+          <Link href={`/${question.diary_id}`}>
+            <NewDiary isColored>
+              <DiaryIcon />
+              내가 쓴 일기 보기
+            </NewDiary>
+          </Link>
         ) : (
           <Link href="/new">
-            <NewDiary>
+            <NewDiary isColored>
               <NewIcon />
-              답변하기
+              일기쓰기
             </NewDiary>
           </Link>
         )}
@@ -102,37 +253,79 @@ const Home: NextPage = () => {
 
 export default Home;
 
-const StatusContainer = styled.div`
-  padding: 2rem;
+const TodayContainer = styled.div`
+  padding: 30px;
+`;
+
+const TodayDate = styled.div`
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: ${THEME.black600};
+`;
+
+const TodayStatus = styled.div`
+  font-size: 22px;
+  font-weight: 700;
+  color: ${THEME.black700};
+  position: relative;
+  line-height: 1.5;
+  margin-top: 10px;
+  span {
+    font-size: inherit;
+    color: ${THEME.black900};
+  }
+`;
+
+const StatusButton = styled.button`
+  background: none;
+  border: none;
+  outline: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+`;
+
+const StatusContainer = styled(motion.div)`
+  padding: 1rem 2rem;
+  border-radius: 1rem;
   gap: 0.5rem;
   display: flex;
   flex-direction: column;
+  position: absolute;
+  top: 0;
+  right: 50px;
+  left: -2px;
+  box-shadow: 0 0 25px 15px rgba(0, 0, 0, 0.03);
+  background-color: white;
+  transform-origin: right top;
 `;
 
 const BetweenEnd = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: baseline;
 `;
 
 const LevelContainer = styled.div`
   display: flex;
-  gap: 1rem;
-  font-size: 1.8rem;
-  color: ${THEME.black900};
-  font-weight: 700;
+  gap: 10px;
+  align-items: baseline;
 `;
 
 const Level = styled.div`
   color: ${THEME.black400};
   font-weight: 500;
-  font-size: 1.8rem;
+  font-size: 20px;
   span {
-    font-size: inherit;
+    font-size: 20px;
     color: ${THEME.darker};
-    font-size: 1.8rem;
-    font-size: 24px;
   }
+`;
+
+const Name = styled.div`
+  font-size: 17px;
+  color: ${THEME.black900};
+  font-weight: 700;
 `;
 
 const Exp = styled.div`
@@ -171,31 +364,12 @@ const ExpGage = styled.div<{ percent: number }>`
   }
 `;
 
-const Today = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: 500;
-  font-size: 1.2rem;
-  color: ${THEME.black600};
-  width: 100%;
-  gap: 0.5rem;
-  :before,
-  :after {
-    content: "";
-    background: ${THEME.primary};
-    width: 6px;
-    height: 6px;
-    border-radius: 9999px;
-  }
-`;
-
 const CharacterContainer = styled.div<{ isAnimation: boolean }>`
   position: relative;
   display: flex;
   justify-content: center;
   padding: 3rem 5rem;
-  div,
+  > div,
   :after {
     transition: transform 0.2s;
   }
@@ -203,7 +377,7 @@ const CharacterContainer = styled.div<{ isAnimation: boolean }>`
   ${(p) =>
     p.isAnimation &&
     css`
-      div,
+      div:first-child,
       :after {
         transform: scale(0.5);
       }
@@ -233,7 +407,7 @@ const CharacterContainer = styled.div<{ isAnimation: boolean }>`
     }
     animation: shadow 1s infinite;
   }
-  svg {
+  > div:first-child {
     @keyframes gelatine {
       from,
       to {
@@ -253,6 +427,24 @@ const CharacterContainer = styled.div<{ isAnimation: boolean }>`
   }
 `;
 
+const CharacterAnimation = styled.div``;
+
+const MessageAnimation = styled.div`
+  position: absolute;
+  bottom: 20%;
+  right: 20%;
+  @keyframes message {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-15px);
+    }
+  }
+  animation: message 1s infinite;
+`;
+
 const ChangeImage = styled.img`
   position: absolute;
   z-index: 2;
@@ -269,6 +461,84 @@ const TodayQuestion = styled.div`
   margin-top: 3rem;
 `;
 
+const Particle = styled.div`
+  @keyframes particle {
+    0% {
+      transform: translateY(0);
+      opacity: 0.2;
+    }
+    20% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-30px);
+      opacity: 0;
+    }
+  }
+  border-radius: 9999px;
+  animation: particle 2s ease infinite;
+  position: absolute;
+  :nth-child(1) {
+    background-color: rgba(253, 170, 61, 0.2);
+    bottom: 10%;
+    left: 10%;
+    width: 11px;
+    height: 11px;
+  }
+  :nth-child(2) {
+    background-color: rgba(253, 170, 61, 0.5);
+    bottom: 5%;
+    left: 15%;
+    width: 14px;
+    height: 14px;
+    animation-delay: 0.2s;
+  }
+  :nth-child(3) {
+    background-color: rgba(253, 170, 61, 0.5);
+    top: 35%;
+    right: 15%;
+    width: 11px;
+    height: 11px;
+    animation-delay: 0.1s;
+  }
+  :nth-child(4) {
+    background-color: rgba(253, 170, 61, 1);
+    top: 45%;
+    right: 20%;
+    width: 14px;
+    height: 14px;
+    animation-delay: 0.4s;
+  }
+`;
+
+const HeartParticle = styled.div`
+  @keyframes particle {
+    0% {
+      transform: translateY(0);
+      opacity: 0.2;
+    }
+    20% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-30px);
+      opacity: 0;
+    }
+  }
+  animation: particle 2s ease infinite;
+  position: absolute;
+
+  :nth-child(1) {
+    bottom: 10%;
+    left: 10%;
+  }
+  :nth-child(2) {
+    top: 35%;
+    right: 15%;
+    animation-delay: 0.2s;
+  }
+`;
+
 const QuestionContent = styled.div`
   font-size: 1.2rem;
   color: ${THEME.black900};
@@ -277,7 +547,7 @@ const QuestionContent = styled.div`
   font-weight: 500;
 `;
 
-const NewDiary = styled.a`
+const NewDiary = styled.a<{ isColored?: boolean }>`
   display: block;
   padding: 0.5rem;
   display: flex;
@@ -286,7 +556,7 @@ const NewDiary = styled.a`
   align-items: center;
   border-radius: 9999px;
   gap: 1rem;
-  color: ${THEME.darker};
+  color: ${(p) => (p.isColored ? THEME.darker : THEME.black700)};
   font-size: 1.2rem;
   font-weight: 700;
 `;
