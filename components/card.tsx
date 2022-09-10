@@ -117,7 +117,10 @@ const Card = ({
                 width="24px"
                 height="24px"
                 viewBox="0 0 24 24"
-                onClick={() => setIsModalOpen(false)}
+                onClick={() => {
+                  setIsModalOpen(false);
+                  setIsImageOpen(false);
+                }}
               >
                 <g data-name="Layer 2">
                   <g data-name="close">
@@ -133,7 +136,11 @@ const Card = ({
               </svg>
             </ModalCloseButtonContainer>
 
-            <ModalCardImage src={image} onClick={() => setIsImageOpen(true)} />
+            <ModalCardImage
+              src={image}
+              onClick={() => setIsImageOpen((s) => !s)}
+              isFull={isImageOpen}
+            />
             <ModalTitle dangerouslySetInnerHTML={{ __html: title }} />
             <ActivityType type={activityType}>{activityType}</ActivityType>
             <DetailList>
@@ -343,10 +350,12 @@ const ModalCloseButtonContainer = styled.div`
   padding: 10px 0;
 `;
 
-const ModalCardImage = styled.img`
+const ModalCardImage = styled.img<{ isFull: boolean }>`
   width: 100%;
-  height: 10rem;
+  height: auto;
+  max-height: ${(p) => (p.isFull ? "20rem" : "10rem")};
   object-fit: cover;
+  transition: 0.2s ease;
 `;
 
 const ModalTitle = styled.div`
