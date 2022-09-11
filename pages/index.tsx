@@ -95,6 +95,13 @@ const Login = () => {
             }}
           ></PW>
           <LoginButton>로그인</LoginButton>
+          <SignupButton
+            onClick={() => {
+              router.push("/onboard");
+            }}
+          >
+            회원가입
+          </SignupButton>
         </LowerModal>
       </BottomModal>
     </Background>
@@ -239,6 +246,23 @@ const PW = styled(ID)`
 `;
 
 const LoginButton = styled.button`
+  width: 320px;
+  height: 56px;
+  background: #fcba58;
+  border-radius: 31.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 21px;
+  border: none;
+  color: #ffffff;
+`;
+
+const SignupButton = styled.div`
   width: 320px;
   height: 56px;
   background: #fcba58;
