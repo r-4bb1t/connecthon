@@ -63,12 +63,12 @@ a {
 }
 
 .react-datepicker__day-name {
-  margin: 10px 16px !important;
+  margin: 10px 3vw !important;
   text-align: center !important;
 }
 
 .react-datepicker__day {
-  margin: 10px 16px !important;
+  margin: 10px 3vw !important;
 }
 
 .react-datepicker__input-container > input:focus {

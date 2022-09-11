@@ -3,11 +3,13 @@ import { useRouter } from "next/router";
 import styled from "styled-components";
 import { THEME } from "../constant/colors";
 import { useAlertContext } from "../hooks/useAlertContext";
+import { useLoading } from "../hooks/useLoadingContext";
 import { ActivityIcon, ListIcon, MainIcon, NewIcon, MypageIcon } from "./icons";
 
 const Footer = ({ preventRouterChange }: { preventRouterChange: boolean }) => {
   const { push, alerts, close } = useAlertContext();
   const router = useRouter();
+  const { load } = useLoading();
   const goto = (href: string) => {
     if (preventRouterChange) {
       alerts.map((a) => close(a.id));
@@ -22,19 +24,24 @@ const Footer = ({ preventRouterChange }: { preventRouterChange: boolean }) => {
         twoButton: true,
         buttonText: "삭제",
         onClose: () => {
+          load();
           router.push(href);
         },
       });
     }
     if (!preventRouterChange) {
+      load();
       router.push(href);
     }
   };
 
   return (
     <Main>
-      <FooterItem onClick={() => goto("/")} selected={router.asPath === "/"}>
-        <MainIcon selected={router.asPath === "/"} />
+      <FooterItem
+        onClick={() => goto("/main")}
+        selected={router.asPath === "/main"}
+      >
+        <MainIcon selected={router.asPath === "/main"} />
         메인
       </FooterItem>
       <FooterItem
@@ -56,7 +63,7 @@ const Footer = ({ preventRouterChange }: { preventRouterChange: boolean }) => {
         selected={router.asPath === "/mypage"}
       >
         <MypageIcon selected={router.asPath === "/mypage"} />
-        마이름
+        마이홈
       </FooterItem>
     </Main>
   );
@@ -75,6 +82,7 @@ const Main = styled.footer`
   bottom: 0px;
   background-color: white;
   border-radius: 10px 10px 0 0;
+  box-shadow: 0 -4px 36px rgba(0, 0, 0, 0.07);
 `;
 
 const FooterItem = styled.button<{ selected: boolean }>`
@@ -86,8 +94,9 @@ const FooterItem = styled.button<{ selected: boolean }>`
   justify-content: flex-end;
   align-items: center;
   height: 4rem;
+  gap: 4px;
   font-size: 0.8rem;
-  color: ${(p) => (p.selected ? THEME.primary : THEME.black400)};
+  color: ${(p) => (p.selected ? THEME.darker : THEME.black400)};
 `;
 
 export default Footer;

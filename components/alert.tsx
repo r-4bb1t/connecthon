@@ -26,8 +26,8 @@ export function Alert({
   return (
     <AlertCard
       initial={{ opacity: 0, y: 100, scale: 0.7 }}
-      animate={{ opacity: 1, y: 50, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.7 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: 100, scale: 0.7 }}
     >
       {children}
       <ButtonContainer>

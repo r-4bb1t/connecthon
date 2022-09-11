@@ -2,6 +2,9 @@ import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import AlertContextProvider from "../contexts/alertContext";
 import Head from "next/head";
+import TokenContextProvider from "../contexts/tokenContext";
+import LoadingContextProvider from "../contexts/loadingContext";
+import GameContextProvider from "../contexts/gameContext";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -14,7 +17,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta name="description" content="KIDS DIARY" />
         <meta name="format-detection" content="telephone=no" />
         <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="msapplication-TileColor" content="#FCDE58" />
+        <meta name="msapplication-TileColor" content="#FBFBFB" />
         <meta name="msapplication-tap-highlight" content="no" />
         <meta name="theme-color" content="#FCDE58" />
         <link rel="apple-touch-icon" href="/icon.png" />
@@ -26,7 +29,13 @@ function MyApp({ Component, pageProps }: AppProps) {
         />
       </Head>
       <AlertContextProvider>
-        <Component {...pageProps} />
+        <LoadingContextProvider>
+          <TokenContextProvider>
+            <GameContextProvider>
+              <Component {...pageProps} />
+            </GameContextProvider>
+          </TokenContextProvider>
+        </LoadingContextProvider>
       </AlertContextProvider>
     </>
   );

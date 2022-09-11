@@ -18,6 +18,7 @@ interface IAlertContext {
   alerts: IAlertsWithId[];
   push(alert: IAlert): void;
   close(id: number): void;
+  closeAll: () => void;
 }
 
 const doNothing = () => null;
@@ -26,6 +27,7 @@ export const AlertContext = createContext<IAlertContext>({
   alerts: [],
   push: doNothing,
   close: doNothing,
+  closeAll: doNothing,
 });
 
 const AlertContextProvider = ({ children }: { children: ReactNode }) => {
@@ -35,6 +37,7 @@ const AlertContextProvider = ({ children }: { children: ReactNode }) => {
     setAlerts((prev) => [...prev, { id: +new Date(), ...alert }]);
   const close = (id: number) =>
     setAlerts((prev) => prev.filter((a) => a.id !== id));
+  const closeAll = () => setAlerts([]);
 
   return (
     <AlertContext.Provider
@@ -42,6 +45,7 @@ const AlertContextProvider = ({ children }: { children: ReactNode }) => {
         alerts,
         push,
         close,
+        closeAll,
       }}
     >
       <aside>
