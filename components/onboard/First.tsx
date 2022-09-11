@@ -31,7 +31,7 @@ export const First = ({ name, setName, setPage }: FirstProps) => {
       </OnboardFirstBody>
       <OnboardFirstFooter>
         <FirstFooterButton
-          active={name.length}
+          disabled={name.length <= 0 || !/^[가-힣]*$/.test(name)}
           onClick={() => {
             setPage(2);
           }}
@@ -113,7 +113,7 @@ const OnboardFirstFooter = styled.div`
 `;
 
 const FirstFooterButton = styled.button`
-  background: ${(props) => (props.active ? "#FCBA58" : "#B7B7B7")};
+  background: ${(props) => (props.disabled ? "#B7B7B7" : "#FCBA58")};
   border-radius: 31.5px;
   width: 20rem;
   height: 3rem;
