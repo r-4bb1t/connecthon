@@ -95,13 +95,16 @@ const Login = () => {
             }}
           ></PW>
           <LoginButton>로그인</LoginButton>
-          <SignupButton
-            onClick={() => {
-              router.push("/onboard");
-            }}
-          >
-            회원가입
-          </SignupButton>
+          <SignupText>
+            아직 회원이 아니시라면,{" "}
+            <span
+              onClick={() => {
+                router.push("/onboard");
+              }}
+            >
+              회원가입하기
+            </span>
+          </SignupText>
         </LowerModal>
       </BottomModal>
     </Background>
@@ -262,21 +265,23 @@ const LoginButton = styled.button`
   color: #ffffff;
 `;
 
-const SignupButton = styled.div`
-  width: 320px;
-  height: 56px;
-  background: #fcba58;
-  border-radius: 31.5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+const SignupText = styled.p`
   font-family: "Pretendard";
   font-style: normal;
-  font-weight: 700;
-  font-size: 18px;
-  line-height: 21px;
-  border: none;
-  color: #ffffff;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 18px;
+  text-align: center;
+  color: #b7b7b7;
+  span {
+    font-family: "Pretendard";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 18px;
+    text-align: center;
+    color: #ffb23f;
+  }
 `;
 
 export default Login;
