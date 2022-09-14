@@ -1,18 +1,24 @@
+import { useRouter } from "next/router";
+import React from "react";
 import styled from "styled-components";
-import { THEME } from "../../constant/constant";
-import { SleepingCharacter, StepActive, StepInactive } from "../icons";
+import { THEME } from "../../constant/colors";
+import { StepActive, StepInactive } from "../icons";
 
-type FirstProps = {
-  name: string;
-  setName: Function;
+type SignupProps = {
+  id: string;
+  setId: Function;
+  pw: string;
+  setPw: Function;
   setPage: Function;
 };
 
-export const First = ({ name, setName, setPage }: FirstProps) => {
+const Signup = ({ id, setId, pw, setPw, setPage }: SignupProps) => {
+  const router = useRouter();
+
   return (
-    <OnboardFirstContainer>
+    <SignupContainer>
       <Header>
-        <Back onClick={() => setPage(0)}>
+        <Back onClick={() => router.push("/")}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="32"
@@ -29,41 +35,47 @@ export const First = ({ name, setName, setPage }: FirstProps) => {
           </svg>
         </Back>
       </Header>
-      <OnboardFirstHeader>
+      <SignupHeader>
         <Steps>
           <StepActive />
-          <StepActive />
+          <StepInactive />
           <StepInactive />
         </Steps>
-        <HeaderTitle>특별한 이름을 정해서 캐릭터를 깨워주세요!</HeaderTitle>
-      </OnboardFirstHeader>
-      <OnboardFirstBody>
-        <NameInput
-          value={name}
+        <HeaderTitle>사용하실 아이디와 비밀번호를 설정해주세요!</HeaderTitle>
+      </SignupHeader>
+      <SignupBody>
+        <IdInput
+          placeholder="아이디 입력"
+          value={id}
           onChange={(e) => {
-            if (e.target.value.length <= 6) {
-              setName(e.target.value);
-            }
+            setId(e.target.value);
           }}
-          placeholder="한글만 입력해주세요(최대 6자)"
-        />
-        <SleepingCharacter width={"16rem"} height={"16rem"} />
-      </OnboardFirstBody>
-      <OnboardFirstFooter>
-        <FirstFooterButton
-          active={Number(name.length)}
+        ></IdInput>
+        <PwInput
+          placeholder="비밀번호 입력"
+          value={pw}
+          onChange={(e) => {
+            setPw(e.target.value);
+          }}
+          type="password"
+        ></PwInput>
+      </SignupBody>
+      <SignupFooter>
+        <FooterButton
+          active={Number(id.length) && Number(pw.length)}
           onClick={() => {
-            if (Number(name.length)) {
-              setPage(2);
+            if (Number(id.length) && Number(pw.length)) {
+              setPage(1);
             }
           }}
         >
-          캐릭터 깨우기
-        </FirstFooterButton>
-      </OnboardFirstFooter>
-    </OnboardFirstContainer>
+          계정 생성하기
+        </FooterButton>
+      </SignupFooter>
+    </SignupContainer>
   );
 };
+
 const Header = styled.header`
   height: 4rem;
   position: fixed;
@@ -89,11 +101,12 @@ const Back = styled.button`
   border: none;
   padding: 0;
 `;
-const OnboardFirstContainer = styled.div`
+
+const SignupContainer = styled.div`
   padding: 3rem 0;
 `;
 
-const OnboardFirstHeader = styled.div`
+const SignupHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -118,10 +131,10 @@ const HeaderTitle = styled.p`
   line-height: 2rem;
   text-align: center;
   color: #3c3c3c;
-  width: 11rem;
+  width: 15rem;
 `;
 
-const OnboardFirstBody = styled.div`
+const SignupBody = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -129,27 +142,50 @@ const OnboardFirstBody = styled.div`
   flex-direction: column;
 `;
 
-const NameInput = styled.input`
+const IdInput = styled.input`
   font-family: "Pretendard";
   font-style: normal;
   font-weight: 700;
   font-size: 0.9rem;
   line-height: 2rem;
   color: black;
-  text-align: center;
+  text-align: left;
   border: none;
   border-bottom: 2px solid #d2d2d2;
-  width: 11.5rem;
+  width: 18rem;
   ::placeholder {
     color: #d2d2d2;
+    text-align: left;
   }
   &:focus {
     outline: none;
   }
-  margin-bottom: 3.5rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 `;
 
-const OnboardFirstFooter = styled.div`
+const PwInput = styled.input`
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 0.9rem;
+  line-height: 2rem;
+  color: black;
+  text-align: left;
+  border: none;
+  border-bottom: 2px solid #d2d2d2;
+  width: 18rem;
+  ::placeholder {
+    color: #d2d2d2;
+    text-align: left;
+  }
+  &:focus {
+    outline: none;
+  }
+  margin-bottom: 2rem;
+`;
+
+const SignupFooter = styled.div`
   position: fixed;
   width: 100vw;
   display: flex;
@@ -159,7 +195,7 @@ const OnboardFirstFooter = styled.div`
   height: 5rem;
 `;
 
-const FirstFooterButton = styled.button`
+const FooterButton = styled.button`
   background: ${(props) => (props.active ? "#FCBA58" : "#B7B7B7")};
   border-radius: 31.5px;
   width: 20rem;
@@ -173,3 +209,5 @@ const FirstFooterButton = styled.button`
   color: #ffffff;
   border: none;
 `;
+
+export default Signup;
