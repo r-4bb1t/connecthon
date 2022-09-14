@@ -34,6 +34,7 @@ export const Second = ({ setPage, name }: SecondProps) => {
           <Steps>
             <StepActive />
             <StepActive />
+            <StepActive />
           </Steps>
           <HeaderTitle>
             <span>{name}</span>가
