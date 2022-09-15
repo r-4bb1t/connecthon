@@ -11,6 +11,7 @@ import { useToken } from "../hooks/useTokenContext";
 import { useGame } from "../hooks/useGameContext";
 import { Question } from "../constant/types";
 import { AnimatePresence, motion } from "framer-motion";
+import { useLoading } from "../hooks/useLoadingContext";
 
 const Home: NextPage = () => {
   const [isAnimation, setIsAnimation] = useState(false);

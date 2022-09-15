@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useRouter } from "next/router";
 import { useLoading } from "../hooks/useLoadingContext";
 import { useToken } from "../hooks/useTokenContext";
+import { useAlertContext } from "../hooks/useAlertContext";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -12,13 +13,15 @@ const Login = () => {
   const [focus, setFocus] = useState("none" as "none" | "id" | "pw");
   const [px, setPx] = useState(0);
 
-  const { load } = useLoading();
+  const { load, endLoad } = useLoading();
+  const { push } = useAlertContext();
 
   const router = useRouter();
   const { token, storeToken } = useToken();
 
   const fetchToken = async (e: any) => {
     e.preventDefault();
+    load();
     try {
       const result = await axios.post(
         `${process.env.NEXT_PUBLIC_API_HOST}/user/sign-in`,
@@ -32,8 +35,21 @@ const Login = () => {
         storeToken(result.data.data);
         load();
         router.push("/main");
+      } else {
+        endLoad();
+        push({
+          message: "아이디와 비밀번호를 확인해주세요.",
+          buttonText: "확인",
+          onClose: () => {},
+        });
       }
     } catch (e) {
+      endLoad();
+      push({
+        message: "아이디와 비밀번호를 확인해주세요.",
+        buttonText: "확인",
+        onClose: () => {},
+      });
       console.log(e);
     }
   };
