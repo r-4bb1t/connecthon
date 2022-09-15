@@ -183,6 +183,7 @@ const Answer = styled.div`
   background-attachment: local;
   background-size: 100% 48px;
   line-height: 48px;
+  font-size: 16px !important;
   color: ${THEME.black900};
   font-weight: 600;
   border-top: 1px solid #ededed;
@@ -288,6 +289,7 @@ const ModalContent = styled.div`
   background-attachment: local;
   background-size: 100% 48px;
   line-height: 48px;
+  font-size: 16px !important;
   color: ${THEME.black900};
   font-weight: 600;
   outline: none;
