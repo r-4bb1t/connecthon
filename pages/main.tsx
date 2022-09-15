@@ -373,7 +373,6 @@ const CharacterContainer = styled.div<{ isAnimation: boolean }>`
   :after {
     transition: transform 0.2s;
   }
-  margin-top: 2rem;
   ${(p) =>
     p.isAnimation &&
     css`
