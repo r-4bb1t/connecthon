@@ -142,7 +142,12 @@ const Textarea = styled.textarea`
   background-attachment: local;
   background-size: 100% 48px;
   line-height: 48px;
-  font-size: 16px !important;
+
+  text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  -moz-text-size-adjust: none;
+  -ms-text-size-adjust: none;
+
   color: ${THEME.black900};
   font-weight: 600;
   outline: none;
