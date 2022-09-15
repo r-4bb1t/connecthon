@@ -62,7 +62,7 @@ const Signup = ({ id, setId, pw, setPw, setPage }: SignupProps) => {
       </SignupBody>
       <SignupFooter>
         <FooterButton
-          disabled={!Number(id.length) || !!Number(pw.length)}
+          disabled={!Number(id.length) || !Number(pw.length)}
           onClick={() => {
             if (Number(id.length) && Number(pw.length)) {
               setPage(1);
