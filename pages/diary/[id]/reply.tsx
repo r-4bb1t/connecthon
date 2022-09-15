@@ -8,6 +8,7 @@ import { THEME } from "../../../constant/colors";
 import { useToken } from "../../../hooks/useTokenContext";
 import { useLoading } from "../../../hooks/useLoadingContext";
 import { useGame } from "../../../hooks/useGameContext";
+import Head from "next/head";
 
 const Reply: NextPage = () => {
   const { push } = useAlertContext();
@@ -67,28 +68,37 @@ const Reply: NextPage = () => {
   if (user?.user_type !== "parent") return null;
 
   return (
-    <Layout preventRouterChange={answer !== ""} title="답장쓰기" hasBackButton>
-      <Main>
-        <Content>
-          <Title>To.아이에게</Title>
-          <Textarea
-            value={answer}
-            onChange={(e) => setAnswer(e.target.value)}
-          />
-          <ButtonContainer>
-            <SubmitButtonContainer>
-              {answer ? (
-                <SubmitButton onClick={() => handleSubmit()}>
-                  보내기
-                </SubmitButton>
-              ) : (
-                <SubmitButtonDisabled>보내기</SubmitButtonDisabled>
-              )}
-            </SubmitButtonContainer>
-          </ButtonContainer>
-        </Content>
-      </Main>
-    </Layout>
+    <>
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
+      <Layout
+        preventRouterChange={answer !== ""}
+        title="답장쓰기"
+        hasBackButton
+      >
+        <Main>
+          <Content>
+            <Title>To.아이에게</Title>
+            <Textarea
+              value={answer}
+              onChange={(e) => setAnswer(e.target.value)}
+            />
+            <ButtonContainer>
+              <SubmitButtonContainer>
+                {answer ? (
+                  <SubmitButton onClick={() => handleSubmit()}>
+                    보내기
+                  </SubmitButton>
+                ) : (
+                  <SubmitButtonDisabled>보내기</SubmitButtonDisabled>
+                )}
+              </SubmitButtonContainer>
+            </ButtonContainer>
+          </Content>
+        </Main>
+      </Layout>
+    </>
   );
 };
 
