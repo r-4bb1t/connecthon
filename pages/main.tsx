@@ -370,6 +370,7 @@ const CharacterContainer = styled.div<{ isAnimation: boolean }>`
   display: flex;
   justify-content: center;
   padding: 3rem 5rem;
+  transform: scale(0.7);
   > div,
   :after {
     transition: transform 0.2s;
