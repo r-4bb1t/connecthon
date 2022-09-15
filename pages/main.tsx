@@ -458,8 +458,8 @@ const TodayQuestion = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
-  margin-top: 3rem;
+  gap: 0.5em;
+  margin-top: 1rem;
 `;
 
 const Particle = styled.div`
