@@ -62,7 +62,7 @@ const Signup = ({ id, setId, pw, setPw, setPage }: SignupProps) => {
       </SignupBody>
       <SignupFooter>
         <FooterButton
-          active={Number(id.length) && Number(pw.length)}
+          disabled={!Number(id.length) || !!Number(pw.length)}
           onClick={() => {
             if (Number(id.length) && Number(pw.length)) {
               setPage(1);
@@ -196,7 +196,7 @@ const SignupFooter = styled.div`
 `;
 
 const FooterButton = styled.button`
-  background: ${(props) => (props.active ? "#FCBA58" : "#B7B7B7")};
+  background: #fcba58;
   border-radius: 31.5px;
   width: 20rem;
   height: 3rem;
@@ -208,6 +208,9 @@ const FooterButton = styled.button`
   text-align: center;
   color: #ffffff;
   border: none;
+  :disabled {
+    background: #b7b7b7;
+  }
 `;
 
 export default Signup;
