@@ -30,12 +30,20 @@ const Activities: NextPage = () => {
   const [curColumn, setCurColumn] = useState(0);
   const [activities, setActivities] = useState([] as any[]);
   const { token, user } = useToken();
+  const [types, setTypes] = useState([
+    "공원탐방",
+    "교육체험",
+    "전시관람",
+    "문화행사",
+    "농장체험",
+    "키즈카페",
+  ]);
 
   const fetchData = useCallback(async () => {
     try {
       const result = await (
         await fetch(
-          `${process.env.NEXT_PUBLIC_API_HOST || "/api"}/activities`,
+          `${process.env.NEXT_PUBLIC_API_HOST || "/api"}/v1/activities`,
           {
             headers: {
               Authorization: token,
@@ -159,7 +167,7 @@ const Activities: NextPage = () => {
                 image={each.image_url}
                 url={each.page_url}
                 title={each.title}
-                activityType={each.type}
+                activityType={types[each.activity_category_id]}
                 location={each.location}
                 liked={each.is_liked}
                 target={each.target}
