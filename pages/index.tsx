@@ -24,9 +24,9 @@ const Login = () => {
     load();
     try {
       const result = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_HOST}/user/sign-in`,
+        `${process.env.NEXT_PUBLIC_API_HOST}/v1/user/sign-in`,
         {
-          id: username,
+          account: username,
           password: password,
         }
       );

@@ -23,6 +23,8 @@ const Home: NextPage = () => {
   const { exp, gainExp, level, levelUp } = useGame();
   const [cIndex, setCIndex] = useState(level - 1);
 
+  const [nickname, setNickname] = useState("병아리");
+
   useEffect(() => {
     setTimeout(() => setCIndex(level - 1), 500);
   }, [level]);
@@ -30,13 +32,17 @@ const Home: NextPage = () => {
   const fetchData = useCallback(async () => {
     try {
       const result = await (
-        await fetch(`${process.env.NEXT_PUBLIC_API_HOST || "/api"}/question`, {
-          headers: {
-            Authorization: `${token}`,
-          },
-        })
+        await fetch(
+          `${process.env.NEXT_PUBLIC_API_HOST || "/api"}/v1/user/diary`,
+          {
+            headers: {
+              Authorization: `${token}`,
+            },
+          }
+        )
       ).json();
       setQuestion(result.data);
+      setNickname(result.data.nickname);
       console.log(result.data);
     } catch (e) {
       console.log(e);
@@ -64,26 +70,26 @@ const Home: NextPage = () => {
           {question?.is_parent_answered ? (
             question?.is_child_read ? (
               <>
-                <span>병아리</span>는 지금,
+                <span>{nickname}</span>는 지금,
                 <br />
                 사랑으로 잘 자라고 있어요!
               </>
             ) : (
               <>
-                <span>병아리</span>가
+                <span>{nickname}</span>가
                 <br />
                 부모님의 답장을 가져왔어요!
               </>
             )
           ) : question?.is_child_answered ? (
             <>
-              <span>병아리</span>는 지금,
+              <span>{nickname}</span>는 지금,
               <br />
               부모님의 답장을 기다려요!
             </>
           ) : (
             <>
-              <span>병아리</span>는 지금,
+              <span>{nickname}</span>는 지금,
               <br />
               {user?.user_type === "parent" ? "아이의 " : ""}일기를 기다리는
               중이에요!
@@ -124,7 +130,7 @@ const Home: NextPage = () => {
                     <Level>
                       Lv.<span>{level}</span>
                     </Level>
-                    <Name>병아리</Name>
+                    <Name>{nickname}</Name>
                   </LevelContainer>
                   <Exp>
                     <span>{exp}</span> / 100
