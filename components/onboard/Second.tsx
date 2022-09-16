@@ -1,18 +1,20 @@
+import { Dispatch, SetStateAction } from "react";
 import styled, { css } from "styled-components";
 import { THEME } from "../../constant/colors";
 import { CharacterImg } from "../characters";
 import { StepActive, StepInactive } from "../icons";
 
 type SecondProps = {
-  setPage: Function;
+  setPage: Dispatch<SetStateAction<number>>;
   name: string;
 };
 
 export const Second = ({ setPage, name }: SecondProps) => {
+  const handleLogin = () => {};
   return (
     <>
       <Header>
-        <Back onClick={() => setPage(1)}>
+        <Back onClick={() => setPage((p) => p - 1)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="32"
@@ -34,6 +36,7 @@ export const Second = ({ setPage, name }: SecondProps) => {
           <Steps>
             <StepActive />
             <StepActive />
+            <StepActive />
           </Steps>
           <HeaderTitle>
             <span>{name}</span>가
@@ -51,7 +54,7 @@ export const Second = ({ setPage, name }: SecondProps) => {
         <OnboardSecondFooter>
           <SecondFooterButton
             onClick={() => {
-              setPage(3);
+              handleLogin();
             }}
           >
             일기장 만들기
