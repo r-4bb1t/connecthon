@@ -11,6 +11,7 @@ import { useToken } from "../hooks/useTokenContext";
 import { useGame } from "../hooks/useGameContext";
 import { Question } from "../constant/types";
 import { AnimatePresence, motion } from "framer-motion";
+import { useLoading } from "../hooks/useLoadingContext";
 
 const Home: NextPage = () => {
   const [isAnimation, setIsAnimation] = useState(false);
@@ -369,11 +370,11 @@ const CharacterContainer = styled.div<{ isAnimation: boolean }>`
   display: flex;
   justify-content: center;
   padding: 3rem 5rem;
+  transform: scale(0.7);
   > div,
   :after {
     transition: transform 0.2s;
   }
-  margin-top: 2rem;
   ${(p) =>
     p.isAnimation &&
     css`
@@ -457,8 +458,8 @@ const TodayQuestion = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
-  margin-top: 3rem;
+  gap: 0.5em;
+  margin-top: 1rem;
 `;
 
 const Particle = styled.div`

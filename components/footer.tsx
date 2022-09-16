@@ -73,7 +73,7 @@ const Main = styled.footer`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
 
-  height: 6rem;
+  height: 5rem;
 
   position: fixed;
   z-index: 100000;

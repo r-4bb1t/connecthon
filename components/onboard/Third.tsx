@@ -67,7 +67,10 @@ export const Third = ({ userType, setUserType, setPage }: ThirdProps) => {
         </Card>
       </ThirdBody>
       <ThirdFooter>
-        <FooterButton active={Number(userType.length)} onClick={handleLogin}>
+        <FooterButton
+          disabled={Number(userType.length) === 0}
+          onClick={handleLogin}
+        >
           다음
         </FooterButton>
       </ThirdFooter>
@@ -143,7 +146,7 @@ const ThirdBody = styled.div`
   gap: 2rem;
 `;
 
-const Card = styled.div`
+const Card = styled.div<{ active: boolean }>`
   border: 2px solid ${(props) => (props.active ? "#FCBA58" : "#DEDEDE")};
   border-radius: 10px;
   width: 10rem;
@@ -155,7 +158,7 @@ const Card = styled.div`
   position: relative;
 `;
 
-const CardText = styled.p`
+const CardText = styled.p<{ active: boolean }>`
   position: absolute;
   width: 6rem;
   left: 50%;
@@ -183,7 +186,7 @@ const ThirdFooter = styled.div`
 `;
 
 const FooterButton = styled.button`
-  background: ${(props) => (props.active ? "#FCBA58" : "#B7B7B7")};
+  background: #fcba58;
   border-radius: 31.5px;
   width: 20rem;
   height: 3rem;
@@ -195,4 +198,7 @@ const FooterButton = styled.button`
   text-align: center;
   color: #ffffff;
   border: none;
+  :disabled {
+    background: #b7b7b7;
+  }
 `;
