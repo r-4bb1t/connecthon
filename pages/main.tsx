@@ -439,7 +439,6 @@ const CharacterContainer = styled.div<{
         animation: shadow 1s infinite;
       }
     `}
- {
   ${(p) =>
     !p.isSleeping &&
     css`
