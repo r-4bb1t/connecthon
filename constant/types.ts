@@ -32,7 +32,7 @@ export interface CardType {
   location: string;
   liked?: boolean;
   target: string;
-  activityType: ActivityTypes;
+  activityType: string;
   type?: "list" | "wishlist" | "history";
   like?: ("child" | "parent")[];
   diaryId?: string;

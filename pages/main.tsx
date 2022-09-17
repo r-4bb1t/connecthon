@@ -167,7 +167,7 @@ const Home: NextPage = () => {
                     <Level>
                       Lv.<span>{level}</span>
                     </Level>
-                    <Name>병아리</Name>
+                    <Name>{nickname}</Name>
                   </LevelContainer>
                   <Exp>
                     <span>{exp}</span> / 100

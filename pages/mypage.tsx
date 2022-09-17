@@ -26,9 +26,7 @@ const Home: NextPage = () => {
     try {
       const result = await (
         await fetch(
-          `${process.env.NEXT_PUBLIC_API_HOST || "/api"}/user/activities${
-            tab == TAB.history ? "?type=visited" : ""
-          }`,
+          `${process.env.NEXT_PUBLIC_API_HOST || "/api"}/v1/user/likes`,
           {
             headers: {
               Authorization: `${token}`,
@@ -36,6 +34,7 @@ const Home: NextPage = () => {
           }
         )
       ).json();
+      console.log(result);
       setActivities(result.data);
     } catch (e) {
       console.log(e);
