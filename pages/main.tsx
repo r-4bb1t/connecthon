@@ -26,6 +26,7 @@ const Home: NextPage = () => {
   const [isStatusOpen, setIsStatusOpen] = useState(false);
 
   const [inviteToken, setInviteToken] = useState("");
+  const [nickname, setNickname] = useState("병아리");
 
   const { exp, gainExp, level, levelUp } = useGame();
   const [cIndex, setCIndex] = useState(level - 1);
@@ -37,27 +38,36 @@ const Home: NextPage = () => {
   const fetchData = useCallback(async () => {
     try {
       const result = await (
-        await fetch(`${process.env.NEXT_PUBLIC_API_HOST || "/api"}/question`, {
-          headers: {
-            Authorization: `${token}`,
-          },
-        })
-      ).json();
-      setQuestion(result.data);
-      console.log(result.data);
-
-      const invite = await (
         await fetch(
-          `${process.env.NEXT_PUBLIC_API_HOST || "/api"}/user/invite`,
+          `${process.env.NEXT_PUBLIC_API_HOST || "/api"}/user/diary`,
           {
-            method: "POST",
             headers: {
               Authorization: `${token}`,
             },
           }
         )
       ).json();
-      if (invite.data) setInviteToken(invite.data);
+      setQuestion(result.data);
+      setNickname(result.data.nickname);
+    } catch (e) {
+      console.log(e);
+    }
+
+    try {
+      if (user?.user_type === "parent") {
+        const invite = await (
+          await fetch(
+            `${process.env.NEXT_PUBLIC_API_HOST || "/api"}/user/invite`,
+            {
+              method: "POST",
+              headers: {
+                Authorization: `${token}`,
+              },
+            }
+          )
+        ).json();
+        if (invite.data) setInviteToken(invite.data);
+      }
     } catch (e) {
       console.log(e);
     }
@@ -81,36 +91,7 @@ const Home: NextPage = () => {
       <TodayContainer>
         <TodayDate>오늘은 {format(new Date(), "M월 d일")}</TodayDate>
         <TodayStatus>
-          {user?.user_type === "parent" && user?.other_id ? (
-            question?.is_parent_answered ? (
-              question?.is_child_read ? (
-                <>
-                  <span>병아리</span>는 지금,
-                  <br />
-                  사랑으로 잘 자라고 있어요!
-                </>
-              ) : (
-                <>
-                  <span>병아리</span>가
-                  <br />
-                  부모님의 답장을 가져왔어요!
-                </>
-              )
-            ) : question?.is_child_answered ? (
-              <>
-                <span>병아리</span>는 지금,
-                <br />
-                부모님의 답장을 기다려요!
-              </>
-            ) : (
-              <>
-                <span>병아리</span>는 지금,
-                <br />
-                {user?.user_type === "parent" ? "아이의 " : ""}일기를 기다리는
-                중이에요!
-              </>
-            )
-          ) : (
+          {user?.user_type === "parent" && !user?.other_id ? (
             <>
               아직 캐릭터가 깨어나지 않았어요.
               <br />
@@ -119,6 +100,33 @@ const Home: NextPage = () => {
                 <br />
                 <Colored>초대 코드: {inviteToken}</Colored>
               </small>
+            </>
+          ) : question?.is_parent_answered ? (
+            question?.is_child_read ? (
+              <>
+                <span>{nickname}</span>는 지금,
+                <br />
+                사랑으로 잘 자라고 있어요!
+              </>
+            ) : (
+              <>
+                <span>{nickname}</span>가
+                <br />
+                부모님의 답장을 가져왔어요!
+              </>
+            )
+          ) : question?.is_child_answered ? (
+            <>
+              <span>{nickname}</span>는 지금,
+              <br />
+              부모님의 답장을 기다려요!
+            </>
+          ) : (
+            <>
+              <span>{nickname}</span>는 지금,
+              <br />
+              {user?.user_type === "parent" ? "아이의 " : ""}일기를 기다리는
+              중이에요!
             </>
           )}
           {user?.user_type === "child" ||
@@ -178,10 +186,10 @@ const Home: NextPage = () => {
       >
         {isAnimation && <ChangeImage src={`/assets/change.gif?${level}`} />}
         <CharacterAnimation>
-          {user?.user_type === "parent" && user?.other_id ? (
-            <CharacterImg level={cIndex} />
-          ) : (
+          {user?.user_type === "parent" && !user?.other_id ? (
             <SleepingCharacter width="100%" height="100%" />
+          ) : (
+            <CharacterImg level={cIndex} />
           )}
         </CharacterAnimation>
         {question?.is_parent_answered && !question?.is_child_read && (

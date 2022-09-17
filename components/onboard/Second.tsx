@@ -4,6 +4,7 @@ import { Dispatch, SetStateAction, useState } from "react";
 import styled, { css } from "styled-components";
 import { THEME } from "../../constant/colors";
 import { useAlertContext } from "../../hooks/useAlertContext";
+import { useLoading } from "../../hooks/useLoadingContext";
 import { CharacterImg } from "../characters";
 import { StepActive, StepInactive } from "../icons";
 
@@ -16,30 +17,36 @@ type SecondProps = {
 
 export const Second = ({ setPage, name, id, pw }: SecondProps) => {
   const { push } = useAlertContext();
-  const [code, setCode] = useState("");
+  const [inviteCode, setInviteCode] = useState("");
   const router = useRouter();
+  const { load, endLoad } = useLoading();
+
   const handleLogin = async () => {
     push({
       message: (
         <Message>
           부모님이 알려주신 초대 코드를 입력해주세요!
-          <Input value={code} onChange={(e) => setCode(e.target.value)} />
+          <Input onChange={(e) => setInviteCode(e.target.value)} />
         </Message>
       ),
       buttonText: "확인",
       onClose: async () => {
-        if (code) {
+        console.log(inviteCode);
+        if (inviteCode) {
           try {
+            load();
             const result = await axios.post(
-              `${process.env.NEXT_PUBLIC_API_HOST}/user/sign-up?token=${code}`,
+              `${process.env.NEXT_PUBLIC_API_HOST}/user/sign-up?token=${inviteCode}`,
               {
-                type: "child",
-                user_type: "first",
+                type: "mother",
+                user_type: "child",
                 account: id,
                 password: pw,
                 nickname: id,
+                character_name: name,
               }
             );
+            endLoad();
 
             if (result.data.detail === "success") {
               push({
@@ -57,12 +64,12 @@ export const Second = ({ setPage, name, id, pw }: SecondProps) => {
               });
             }
           } catch (e) {
+            endLoad();
             push({
               message: "잘못된 코드이거나, 오류가 발생했습니다.",
               buttonText: "확인",
               onClose: () => {},
             });
-            console.log(e);
           }
         }
       },

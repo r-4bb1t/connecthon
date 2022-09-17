@@ -31,7 +31,7 @@ const Login = () => {
         }
       );
 
-      if (result.data.data.length > 0) {
+      if (result.data.data) {
         storeToken(result.data.data);
         load();
         router.push("/main");
@@ -46,7 +46,7 @@ const Login = () => {
     } catch (e) {
       endLoad();
       push({
-        message: "아이디와 비밀번호를 확인해주세요.",
+        message: "아이디와 비밀번호를 확인해주세요",
         buttonText: "확인",
         onClose: () => {},
       });
