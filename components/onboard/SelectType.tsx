@@ -68,11 +68,7 @@ export const SelectType = ({ userType, setUserType, setPage }: ThirdProps) => {
         <FooterButton
           disabled={Number(userType.length) === 0}
           onClick={() => {
-            if (userType === "parent") {
-              setPage((p) => p + 1);
-            } else if (userType === "child") {
-              setPage((p) => p + 2);
-            }
+            setPage((p) => p + 1);
           }}
         >
           다음

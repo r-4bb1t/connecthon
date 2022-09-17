@@ -12,9 +12,10 @@ type SignupProps = {
   pw: string;
   setPw: Function;
   setPage: Dispatch<SetStateAction<number>>;
+  userType: string;
 };
 
-const Signup = ({ id, setId, pw, setPw, setPage }: SignupProps) => {
+const Signup = ({ id, setId, pw, setPw, setPage, userType }: SignupProps) => {
   const router = useRouter();
   const { push } = useAlertContext();
   const handleParentLogin = async () => {
@@ -105,7 +106,8 @@ const Signup = ({ id, setId, pw, setPw, setPage }: SignupProps) => {
           disabled={!Number(id.length) || !Number(pw.length)}
           onClick={() => {
             if (Number(id.length) && Number(pw.length)) {
-              handleParentLogin();
+              if (userType === "parent") handleParentLogin();
+              else setPage((p) => p + 1);
             }
           }}
         >

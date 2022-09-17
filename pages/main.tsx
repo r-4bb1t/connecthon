@@ -25,6 +25,8 @@ const Home: NextPage = () => {
   const [question, setQuestion] = useState(null as any);
   const [isStatusOpen, setIsStatusOpen] = useState(false);
 
+  const [inviteToken, setInviteToken] = useState("");
+
   const { exp, gainExp, level, levelUp } = useGame();
   const [cIndex, setCIndex] = useState(level - 1);
 
@@ -43,6 +45,19 @@ const Home: NextPage = () => {
       ).json();
       setQuestion(result.data);
       console.log(result.data);
+
+      const invite = await (
+        await fetch(
+          `${process.env.NEXT_PUBLIC_API_HOST || "/api"}/user/invite`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `${token}`,
+            },
+          }
+        )
+      ).json();
+      if (invite.data) setInviteToken(invite.data);
     } catch (e) {
       console.log(e);
     }
@@ -99,7 +114,11 @@ const Home: NextPage = () => {
             <>
               아직 캐릭터가 깨어나지 않았어요.
               <br />
-              <small>아이가 가입하면 캐릭터가 깨어나요.</small>
+              <small>
+                아이가 가입하면 캐릭터가 깨어나요.
+                <br />
+                <Colored>초대 코드: {inviteToken}</Colored>
+              </small>
             </>
           )}
           {user?.user_type === "child" ||
@@ -485,6 +504,10 @@ const ChangeImage = styled.img`
   z-index: 2;
   width: 80%;
   bottom: 1rem;
+`;
+
+const Colored = styled.span`
+  color: ${THEME.darker};
 `;
 
 const TodayQuestion = styled.div`
