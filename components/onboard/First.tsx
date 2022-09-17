@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from "react";
 import styled from "styled-components";
 import { THEME } from "../../constant/constant";
 import { SleepingCharacter, StepActive, StepInactive } from "../icons";
@@ -5,14 +6,14 @@ import { SleepingCharacter, StepActive, StepInactive } from "../icons";
 type FirstProps = {
   name: string;
   setName: Function;
-  setPage: Function;
+  setPage: Dispatch<SetStateAction<number>>;
 };
 
 export const First = ({ name, setName, setPage }: FirstProps) => {
   return (
     <OnboardFirstContainer>
       <Header>
-        <Back onClick={() => setPage(0)}>
+        <Back onClick={() => setPage((p) => p - 1)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="32"
@@ -54,7 +55,7 @@ export const First = ({ name, setName, setPage }: FirstProps) => {
           disabled={name.length <= 0 || !/^[가-힣]*$/.test(name)}
           onClick={() => {
             if (Number(name.length)) {
-              setPage(2);
+              setPage((p) => p + 1);
             }
           }}
         >

@@ -1,18 +1,85 @@
+import axios from "axios";
+import { useRouter } from "next/router";
+import { Dispatch, SetStateAction, useState } from "react";
 import styled, { css } from "styled-components";
 import { THEME } from "../../constant/colors";
+import { useAlertContext } from "../../hooks/useAlertContext";
+import { useLoading } from "../../hooks/useLoadingContext";
 import { CharacterImg } from "../characters";
 import { StepActive, StepInactive } from "../icons";
 
 type SecondProps = {
-  setPage: Function;
+  setPage: Dispatch<SetStateAction<number>>;
   name: string;
+  id: string;
+  pw: string;
 };
 
-export const Second = ({ setPage, name }: SecondProps) => {
+export const Second = ({ setPage, name, id, pw }: SecondProps) => {
+  const { push } = useAlertContext();
+  const [inviteCode, setInviteCode] = useState("");
+  const router = useRouter();
+  const { load, endLoad } = useLoading();
+
+  const handleLogin = async () => {
+    push({
+      message: (
+        <Message>
+          부모님이 알려주신 초대 코드를 입력해주세요!
+          <Input onChange={(e) => setInviteCode(e.target.value)} />
+        </Message>
+      ),
+      buttonText: "확인",
+      onClose: async () => {
+        console.log(inviteCode);
+        if (inviteCode) {
+          try {
+            load();
+            const result = await axios.post(
+              `${process.env.NEXT_PUBLIC_API_HOST}/user/sign-up?token=${inviteCode}`,
+              {
+                type: "mother",
+                user_type: "child",
+                account: id,
+                password: pw,
+                nickname: id,
+                character_name: name,
+              }
+            );
+            endLoad();
+
+            if (result.data.detail === "success") {
+              push({
+                message: "회원가입이 완료되었습니다. 로그인해주세요.",
+                buttonText: "확인",
+                onClose: () => {
+                  router.push("/");
+                },
+              });
+            } else {
+              push({
+                message: "잘못된 코드이거나, 오류가 발생했습니다.",
+                buttonText: "확인",
+                onClose: () => {},
+              });
+            }
+          } catch (e) {
+            endLoad();
+            push({
+              message: "잘못된 코드이거나, 오류가 발생했습니다.",
+              buttonText: "확인",
+              onClose: () => {},
+            });
+          }
+        }
+      },
+    });
+  };
+
   return (
     <>
       <Header>
-        <Back onClick={() => setPage(1)}>
+        <Back onClick={() => setPage((p) => p - 1)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="32"
@@ -52,7 +119,7 @@ export const Second = ({ setPage, name }: SecondProps) => {
         <OnboardSecondFooter>
           <SecondFooterButton
             onClick={() => {
-              setPage(3);
+              handleLogin();
             }}
           >
             일기장 만들기
@@ -220,4 +287,31 @@ const SecondFooterButton = styled.button`
   text-align: center;
   color: #ffffff;
   border: none;
+`;
+
+const Message = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+`;
+
+const Input = styled.input`
+  border: 2px solid #ececec;
+  border-radius: 31.5px;
+  box-sizing: border-box;
+  width: 320px;
+  height: 56px;
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 19px;
+  opacity: 60%;
+  background: white;
+  padding-left: 20px;
+  :focus {
+    outline: none;
+    color: black;
+  }
 `;

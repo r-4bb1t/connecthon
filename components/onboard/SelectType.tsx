@@ -1,23 +1,21 @@
 import { useRouter } from "next/router";
+import { Dispatch, SetStateAction, useCallback, useState } from "react";
 import styled from "styled-components";
 import { THEME } from "../../constant/colors";
+import { useAlertContext } from "../../hooks/useAlertContext";
 import { ChildCharacter, ParentCharacter } from "../icons";
 
 type ThirdProps = {
   userType: string;
   setUserType: Function;
-  setPage: Function;
+  setPage: Dispatch<SetStateAction<number>>;
 };
 
-export const Third = ({ userType, setUserType, setPage }: ThirdProps) => {
-  const router = useRouter();
-  const handleLogin = () => {
-    router.push("/main");
-  };
+export const SelectType = ({ userType, setUserType, setPage }: ThirdProps) => {
   return (
     <ThirdContainer>
       <Header>
-        <Back onClick={() => setPage(2)}>
+        <Back onClick={() => setPage((p) => p - 1)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="32"
@@ -69,7 +67,9 @@ export const Third = ({ userType, setUserType, setPage }: ThirdProps) => {
       <ThirdFooter>
         <FooterButton
           disabled={Number(userType.length) === 0}
-          onClick={handleLogin}
+          onClick={() => {
+            setPage((p) => p + 1);
+          }}
         >
           다음
         </FooterButton>

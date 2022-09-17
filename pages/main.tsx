@@ -3,7 +3,12 @@ import Link from "next/link";
 import { format } from "date-fns";
 import styled, { css } from "styled-components";
 import { CharacterImg, CharacterMessage } from "../components/characters";
-import { DiaryIcon, LockIcon, NewIcon } from "../components/icons";
+import {
+  DiaryIcon,
+  LockIcon,
+  NewIcon,
+  SleepingCharacter,
+} from "../components/icons";
 import Layout from "../components/layout";
 import { THEME } from "../constant/colors";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -20,10 +25,11 @@ const Home: NextPage = () => {
   const [question, setQuestion] = useState(null as any);
   const [isStatusOpen, setIsStatusOpen] = useState(false);
 
+  const [inviteToken, setInviteToken] = useState("");
+  const [nickname, setNickname] = useState("병아리");
+
   const { exp, gainExp, level, levelUp } = useGame();
   const [cIndex, setCIndex] = useState(level - 1);
-
-  const [nickname, setNickname] = useState("병아리");
 
   useEffect(() => {
     setTimeout(() => setCIndex(level - 1), 500);
@@ -33,7 +39,7 @@ const Home: NextPage = () => {
     try {
       const result = await (
         await fetch(
-          `${process.env.NEXT_PUBLIC_API_HOST || "/api"}/v1/user/diary`,
+          `${process.env.NEXT_PUBLIC_API_HOST || "/api"}/user/diary`,
           {
             headers: {
               Authorization: `${token}`,
@@ -43,7 +49,25 @@ const Home: NextPage = () => {
       ).json();
       setQuestion(result.data);
       setNickname(result.data.nickname);
-      console.log(result.data);
+    } catch (e) {
+      console.log(e);
+    }
+
+    try {
+      if (user?.user_type === "parent") {
+        const invite = await (
+          await fetch(
+            `${process.env.NEXT_PUBLIC_API_HOST || "/api"}/user/invite`,
+            {
+              method: "POST",
+              headers: {
+                Authorization: `${token}`,
+              },
+            }
+          )
+        ).json();
+        if (invite.data) setInviteToken(invite.data);
+      }
     } catch (e) {
       console.log(e);
     }
@@ -67,7 +91,17 @@ const Home: NextPage = () => {
       <TodayContainer>
         <TodayDate>오늘은 {format(new Date(), "M월 d일")}</TodayDate>
         <TodayStatus>
-          {question?.is_parent_answered ? (
+          {user?.user_type === "parent" && !user?.other_id ? (
+            <>
+              아직 캐릭터가 깨어나지 않았어요.
+              <br />
+              <small>
+                아이가 가입하면 캐릭터가 깨어나요.
+                <br />
+                <Colored>초대 코드: {inviteToken}</Colored>
+              </small>
+            </>
+          ) : question?.is_parent_answered ? (
             question?.is_child_read ? (
               <>
                 <span>{nickname}</span>는 지금,
@@ -95,29 +129,32 @@ const Home: NextPage = () => {
               중이에요!
             </>
           )}
-          <StatusButton onClick={() => setIsStatusOpen((s) => !s)}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="40"
-              height="40"
-              viewBox="0 0 40 40"
-              fill="none"
-            >
-              <rect
-                x="9"
-                y="9"
-                width="22"
-                height="22"
-                rx="11"
-                stroke="#FCBA58"
-                strokeWidth="2"
-              />
-              <path
-                d="M21.5039 13.3594H18.4961L18.75 23.2617H21.25L21.5039 13.3594ZM18.3789 26.0352C18.3594 26.9434 19.1016 27.6758 20.0195 27.6758C20.8887 27.6758 21.6406 26.9434 21.6406 26.0352C21.6406 25.1367 20.8887 24.4043 20.0195 24.4141C19.1016 24.4043 18.3594 25.1367 18.3789 26.0352Z"
-                fill="#FCBA58"
-              />
-            </svg>
-          </StatusButton>
+          {user?.user_type === "child" ||
+            (user?.other_id && (
+              <StatusButton onClick={() => setIsStatusOpen((s) => !s)}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="40"
+                  height="40"
+                  viewBox="0 0 40 40"
+                  fill="none"
+                >
+                  <rect
+                    x="9"
+                    y="9"
+                    width="22"
+                    height="22"
+                    rx="11"
+                    stroke="#FCBA58"
+                    strokeWidth="2"
+                  />
+                  <path
+                    d="M21.5039 13.3594H18.4961L18.75 23.2617H21.25L21.5039 13.3594ZM18.3789 26.0352C18.3594 26.9434 19.1016 27.6758 20.0195 27.6758C20.8887 27.6758 21.6406 26.9434 21.6406 26.0352C21.6406 25.1367 20.8887 24.4043 20.0195 24.4141C19.1016 24.4043 18.3594 25.1367 18.3789 26.0352Z"
+                    fill="#FCBA58"
+                  />
+                </svg>
+              </StatusButton>
+            ))}
           <AnimatePresence>
             {isStatusOpen && (
               <StatusContainer
@@ -142,10 +179,18 @@ const Home: NextPage = () => {
           </AnimatePresence>
         </TodayStatus>
       </TodayContainer>
-      <CharacterContainer isAnimation={isAnimation} onClick={() => gainExp(10)}>
+      <CharacterContainer
+        isAnimation={isAnimation}
+        onClick={() => gainExp(10)}
+        isSleeping={user?.user_type === "parent" && !user?.other_id}
+      >
         {isAnimation && <ChangeImage src={`/assets/change.gif?${level}`} />}
         <CharacterAnimation>
-          <CharacterImg level={cIndex} />
+          {user?.user_type === "parent" && !user?.other_id ? (
+            <SleepingCharacter width="100%" height="100%" />
+          ) : (
+            <CharacterImg level={cIndex} />
+          )}
         </CharacterAnimation>
         {question?.is_parent_answered && !question?.is_child_read && (
           <>
@@ -371,7 +416,10 @@ const ExpGage = styled.div<{ percent: number }>`
   }
 `;
 
-const CharacterContainer = styled.div<{ isAnimation: boolean }>`
+const CharacterContainer = styled.div<{
+  isAnimation: boolean;
+  isSleeping?: boolean;
+}>`
   position: relative;
   display: flex;
   justify-content: center;
@@ -389,49 +437,57 @@ const CharacterContainer = styled.div<{ isAnimation: boolean }>`
         transform: scale(0.5);
       }
     `}
-  :after {
-    position: absolute;
-    bottom: 0;
-    width: 6rem;
-    content: "";
-    background: ${THEME.black300};
-    height: 1rem;
-    border-radius: 50%;
-    @keyframes shadow {
-      from,
-      to {
-        transform: scale(1, 1);
+  ${(p) =>
+    !p.isSleeping &&
+    css`
+      :after {
+        position: absolute;
+        bottom: 0;
+        width: 6rem;
+        content: "";
+        background: ${THEME.black300};
+        height: 1rem;
+        border-radius: 50%;
+        @keyframes shadow {
+          from,
+          to {
+            transform: scale(1, 1);
+          }
+          25% {
+            transform: scale(0.9, 1);
+          }
+          50% {
+            transform: scale(1.1, 1);
+          }
+          75% {
+            transform: scale(0.95, 1);
+          }
+        }
+        animation: shadow 1s infinite;
       }
-      25% {
-        transform: scale(0.9, 1);
+    `}
+  ${(p) =>
+    !p.isSleeping &&
+    css`
+      > div:first-child {
+        @keyframes gelatine {
+          from,
+          to {
+            transform: scale(1, 1) translateY(0);
+          }
+          25% {
+            transform: scale(0.9, 1.1);
+          }
+          50% {
+            transform: scale(1.1, 0.9) translateY(30px);
+          }
+          75% {
+            transform: scale(0.95, 1.05) translateY(-20px);
+          }
+        }
+        animation: gelatine 1s infinite;
       }
-      50% {
-        transform: scale(1.1, 1);
-      }
-      75% {
-        transform: scale(0.95, 1);
-      }
-    }
-    animation: shadow 1s infinite;
-  }
-  > div:first-child {
-    @keyframes gelatine {
-      from,
-      to {
-        transform: scale(1, 1) translateY(0);
-      }
-      25% {
-        transform: scale(0.9, 1.1);
-      }
-      50% {
-        transform: scale(1.1, 0.9) translateY(30px);
-      }
-      75% {
-        transform: scale(0.95, 1.05) translateY(-20px);
-      }
-    }
-    animation: gelatine 1s infinite;
-  }
+    `}
 `;
 
 const CharacterAnimation = styled.div``;
@@ -449,7 +505,6 @@ const MessageAnimation = styled.div`
       transform: translateY(-15px);
     }
   }
-  animation: message 1s infinite;
 `;
 
 const ChangeImage = styled.img`
@@ -457,6 +512,10 @@ const ChangeImage = styled.img`
   z-index: 2;
   width: 80%;
   bottom: 1rem;
+`;
+
+const Colored = styled.span`
+  color: ${THEME.darker};
 `;
 
 const TodayQuestion = styled.div`

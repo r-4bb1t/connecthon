@@ -1,7 +1,9 @@
+import axios from "axios";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import styled from "styled-components";
 import { THEME } from "../../constant/colors";
+import { useAlertContext } from "../../hooks/useAlertContext";
 import { StepActive, StepInactive } from "../icons";
 
 type SignupProps = {
@@ -9,16 +11,55 @@ type SignupProps = {
   setId: Function;
   pw: string;
   setPw: Function;
-  setPage: Function;
+  setPage: Dispatch<SetStateAction<number>>;
+  userType: string;
 };
 
-const Signup = ({ id, setId, pw, setPw, setPage }: SignupProps) => {
+const Signup = ({ id, setId, pw, setPw, setPage, userType }: SignupProps) => {
   const router = useRouter();
+  const { push } = useAlertContext();
+  const handleParentLogin = async () => {
+    try {
+      const result = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_HOST}/user/sign-up`,
+        {
+          type: "mother",
+          user_type: "parent",
+          account: id,
+          password: pw,
+          nickname: id,
+        }
+      );
+
+      if (result.data.detail === "success") {
+        push({
+          message: "회원가입이 완료되었습니다. 로그인해주세요.",
+          buttonText: "확인",
+          onClose: () => {
+            router.push("/");
+          },
+        });
+      } else {
+        push({
+          message: "회원가입에 실패했습니다.",
+          buttonText: "확인",
+          onClose: () => {},
+        });
+      }
+    } catch (e) {
+      push({
+        message: "회원가입에 실패했습니다.",
+        buttonText: "확인",
+        onClose: () => {},
+      });
+      console.log(e);
+    }
+  };
 
   return (
     <SignupContainer>
       <Header>
-        <Back onClick={() => router.push("/")}>
+        <Back onClick={() => setPage((p) => p - 1)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="32"
@@ -65,11 +106,12 @@ const Signup = ({ id, setId, pw, setPw, setPage }: SignupProps) => {
           disabled={!Number(id.length) || !Number(pw.length)}
           onClick={() => {
             if (Number(id.length) && Number(pw.length)) {
-              setPage(1);
+              if (userType === "parent") handleParentLogin();
+              else setPage((p) => p + 1);
             }
           }}
         >
-          계정 생성하기
+          다음
         </FooterButton>
       </SignupFooter>
     </SignupContainer>

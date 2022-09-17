@@ -81,5 +81,5 @@ const AlertContainer = styled.div`
   justify-content: center;
   align-items: center;
   background: rgba(0, 0, 0, 0.1);
-  z-index: 20;
+  z-index: 200000;
 `;

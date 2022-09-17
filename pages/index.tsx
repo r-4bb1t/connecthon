@@ -31,7 +31,7 @@ const Login = () => {
         }
       );
 
-      if (result.data.data.length > 0) {
+      if (result.data.data) {
         storeToken(result.data.data);
         load();
         router.push("/main");
