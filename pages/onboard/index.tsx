@@ -11,7 +11,6 @@ import Signup from "../../components/onboard/Signup";
 import { SelectType } from "../../components/onboard/SelectType";
 import { useAlertContext } from "../../hooks/useAlertContext";
 import { useRouter } from "next/router";
-import { Third } from "../../components/onboard/Third";
 
 const Onboard = () => {
   const [page, setPage] = useState(0);
