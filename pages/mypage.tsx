@@ -26,7 +26,7 @@ const Home: NextPage = () => {
     try {
       const result = await (
         await fetch(
-          `${process.env.NEXT_PUBLIC_API_HOST || "/api"}/v1/user/likes`,
+          `${process.env.NEXT_PUBLIC_API_HOST || "/api"}/user/likes`,
           {
             headers: {
               Authorization: `${token}`,
