@@ -43,7 +43,7 @@ const Activities: NextPage = () => {
     try {
       const result = await (
         await fetch(
-          `${process.env.NEXT_PUBLIC_API_HOST || "/api"}/v1/activities`,
+          `${process.env.NEXT_PUBLIC_API_HOST || "/api"}/activities`,
           {
             headers: {
               Authorization: token,
