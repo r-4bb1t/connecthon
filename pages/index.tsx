@@ -32,7 +32,7 @@ const Login = () => {
       );
 
       if (result.data.data) {
-        storeToken(result.data.data);
+        storeToken(result.data.data.token);
         load();
         router.push("/main");
       } else {

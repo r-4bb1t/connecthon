@@ -1,4 +1,5 @@
 import axios from "axios";
+import { randomUUID } from "crypto";
 import { useRouter } from "next/router";
 import { Dispatch, SetStateAction, useState } from "react";
 import styled, { css } from "styled-components";
@@ -7,6 +8,7 @@ import { useAlertContext } from "../../hooks/useAlertContext";
 import { useLoading } from "../../hooks/useLoadingContext";
 import { CharacterImg } from "../characters";
 import { StepActive, StepInactive } from "../icons";
+import uuid from "react-uuid";
 
 type SecondProps = {
   setPage: Dispatch<SetStateAction<number>>;
@@ -42,7 +44,7 @@ export const Second = ({ setPage, name, id, pw }: SecondProps) => {
                 user_type: "child",
                 account: id,
                 password: pw,
-                nickname: id,
+                nickname: uuid().slice(0, 8),
                 character_name: name,
               }
             );

@@ -25,21 +25,78 @@ const Home: NextPage = () => {
   const [question, setQuestion] = useState(null as any);
   const [isStatusOpen, setIsStatusOpen] = useState(false);
 
-  const [inviteToken, setInviteToken] = useState("");
+  const [invitationCode, setInvitationCode] = useState("---");
   const [nickname, setNickname] = useState("병아리");
 
   const { exp, gainExp, level, levelUp } = useGame();
   const [cIndex, setCIndex] = useState(level - 1);
 
+  const [invited, setInvited] = useState(false);
+
   useEffect(() => {
     setTimeout(() => setCIndex(level - 1), 500);
   }, [level]);
 
-  const fetchData = useCallback(async () => {
+  const getQuestion = useCallback(async () => {
+    try {
+      const result = await (
+        await fetch(`${process.env.NEXT_PUBLIC_API_HOST || "/api"}/question`, {
+          headers: {
+            Authorization: `${token}`,
+          },
+        })
+      ).json();
+
+      setQuestion(result.data);
+      setNickname(result.data.character_name);
+    } catch (e) {
+      console.log(e);
+    }
+  }, [token]);
+
+  const getInvitationCode = useCallback(async () => {
+    try {
+      if (user?.user_type === "parent") {
+        const invite = await (
+          await fetch(
+            `${process.env.NEXT_PUBLIC_API_HOST || "/api"}/user/invite`,
+            {
+              headers: {
+                Authorization: `${token}`,
+              },
+            }
+          )
+        ).json();
+        if (invite.data.invitation_code)
+          setInvitationCode(invite.data.invitation_code);
+        else {
+          const invites = await (
+            await fetch(
+              `${process.env.NEXT_PUBLIC_API_HOST || "/api"}/user/invite`,
+              {
+                method: "POST",
+                headers: {
+                  Authorization: `${token}`,
+                },
+              }
+            )
+          ).json();
+          if (invites.data.invitation_code)
+            setInvited(invites.data.invitation_code);
+        }
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }, [token]);
+
+  const checkInvited = useCallback(async () => {
     try {
       const result = await (
         await fetch(
-          `${process.env.NEXT_PUBLIC_API_HOST || "/api"}/user/diary`,
+          `${
+            process.env.NEXT_PUBLIC_API_HOST || "/api"
+          }/user/invite/${invitationCode}`,
           {
             headers: {
               Authorization: `${token}`,
@@ -47,35 +104,21 @@ const Home: NextPage = () => {
           }
         )
       ).json();
-      setQuestion(result.data);
-      setNickname(result.data.nickname);
+      if (result.data) setInvited(true);
+      //invited
     } catch (e) {
       console.log(e);
     }
+  }, [invitationCode]);
 
-    try {
-      if (user?.user_type === "parent") {
-        const invite = await (
-          await fetch(
-            `${process.env.NEXT_PUBLIC_API_HOST || "/api"}/user/invite`,
-            {
-              method: "POST",
-              headers: {
-                Authorization: `${token}`,
-              },
-            }
-          )
-        ).json();
-        if (invite.data) setInviteToken(invite.data);
-      }
-    } catch (e) {
-      console.log(e);
-    }
+  useEffect(() => {
+    getQuestion();
+    if (user?.user_type === "parent") getInvitationCode();
   }, [token]);
 
   useEffect(() => {
-    fetchData();
-  }, [token]);
+    if (user?.user_type === "parent" && invitationCode) checkInvited();
+  }, [invitationCode]);
 
   useEffect(() => {
     if (exp >= 100) {
@@ -91,14 +134,14 @@ const Home: NextPage = () => {
       <TodayContainer>
         <TodayDate>오늘은 {format(new Date(), "M월 d일")}</TodayDate>
         <TodayStatus>
-          {user?.user_type === "parent" && !user?.other_id ? (
+          {user?.user_type === "parent" && !invited ? (
             <>
               아직 캐릭터가 깨어나지 않았어요.
               <br />
               <small>
                 아이가 가입하면 캐릭터가 깨어나요.
                 <br />
-                <Colored>초대 코드: {inviteToken}</Colored>
+                <Colored>초대 코드: {invitationCode}</Colored>
               </small>
             </>
           ) : question?.is_parent_answered ? (
@@ -129,32 +172,31 @@ const Home: NextPage = () => {
               중이에요!
             </>
           )}
-          {user?.user_type === "child" ||
-            (user?.other_id && (
-              <StatusButton onClick={() => setIsStatusOpen((s) => !s)}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="40"
-                  height="40"
-                  viewBox="0 0 40 40"
-                  fill="none"
-                >
-                  <rect
-                    x="9"
-                    y="9"
-                    width="22"
-                    height="22"
-                    rx="11"
-                    stroke="#FCBA58"
-                    strokeWidth="2"
-                  />
-                  <path
-                    d="M21.5039 13.3594H18.4961L18.75 23.2617H21.25L21.5039 13.3594ZM18.3789 26.0352C18.3594 26.9434 19.1016 27.6758 20.0195 27.6758C20.8887 27.6758 21.6406 26.9434 21.6406 26.0352C21.6406 25.1367 20.8887 24.4043 20.0195 24.4141C19.1016 24.4043 18.3594 25.1367 18.3789 26.0352Z"
-                    fill="#FCBA58"
-                  />
-                </svg>
-              </StatusButton>
-            ))}
+          {(user?.user_type === "child" || invited) && (
+            <StatusButton onClick={() => setIsStatusOpen((s) => !s)}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="40"
+                height="40"
+                viewBox="0 0 40 40"
+                fill="none"
+              >
+                <rect
+                  x="9"
+                  y="9"
+                  width="22"
+                  height="22"
+                  rx="11"
+                  stroke="#FCBA58"
+                  strokeWidth="2"
+                />
+                <path
+                  d="M21.5039 13.3594H18.4961L18.75 23.2617H21.25L21.5039 13.3594ZM18.3789 26.0352C18.3594 26.9434 19.1016 27.6758 20.0195 27.6758C20.8887 27.6758 21.6406 26.9434 21.6406 26.0352C21.6406 25.1367 20.8887 24.4043 20.0195 24.4141C19.1016 24.4043 18.3594 25.1367 18.3789 26.0352Z"
+                  fill="#FCBA58"
+                />
+              </svg>
+            </StatusButton>
+          )}
           <AnimatePresence>
             {isStatusOpen && (
               <StatusContainer
@@ -182,11 +224,11 @@ const Home: NextPage = () => {
       <CharacterContainer
         isAnimation={isAnimation}
         onClick={() => gainExp(10)}
-        isSleeping={user?.user_type === "parent" && !user?.other_id}
+        isSleeping={user?.user_type === "parent" && !invited}
       >
         {isAnimation && <ChangeImage src={`/assets/change.gif?${level}`} />}
         <CharacterAnimation>
-          {user?.user_type === "parent" && !user?.other_id ? (
+          {user?.user_type === "parent" && !invited ? (
             <SleepingCharacter width="100%" height="100%" />
           ) : (
             <CharacterImg level={cIndex} />
@@ -259,7 +301,7 @@ const Home: NextPage = () => {
             fill="#D8D8D8"
           />
         </svg>
-        <QuestionContent>{question?.question_content || ""}</QuestionContent>
+        <QuestionContent>{question?.content || ""}</QuestionContent>
         {user?.user_type === "parent" ? (
           question?.is_child_answered ? (
             question?.is_parent_answered ? (
