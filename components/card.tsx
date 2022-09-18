@@ -287,12 +287,12 @@ const activityTypes = {
   키즈카페: { background: "#d3daf7", color: "#31469b" },
 };
 
-const ActivityType = styled.div<{ type: ActivityTypes }>`
-  //@ts-ignore
+const ActivityType = styled.div<{ type: string }>`
   background: ${(p) =>
+    //@ts-ignore
     p.type in activityTypes ? activityTypes[p.type].background : "#fefefe"};
-  //@ts-ignore
   color: ${(p) =>
+    //@ts-ignore
     p.type in activityTypes ? activityTypes[p.type].color : "#777777"};
   border-radius: 12px;
   display: flex;
