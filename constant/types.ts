@@ -47,4 +47,5 @@ export interface UserType {
   detailed_type: string;
   user_id: string;
   character_name: string;
+  other_id?: string;
 }
