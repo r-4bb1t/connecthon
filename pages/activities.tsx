@@ -169,7 +169,7 @@ const Activities: NextPage = () => {
                 title={each.title}
                 activityType={types[each.activity_category_id]}
                 location={each.location}
-                liked={each.is_liked}
+                liked={each.liked}
                 target={each.target}
                 description={each.description}
                 startDate={each.event_start_date}
@@ -289,6 +289,7 @@ const MenuFilter = styled.div`
   align-items: center;
   gap: 10px;
   margin-top: 10px;
+  margin-bottom: 10px;
 `;
 
 const SecondRow = styled.div`
@@ -297,6 +298,7 @@ const SecondRow = styled.div`
   align-items: center;
   width: 100vw;
   padding-right: 3rem;
+  margin-top: -10px;
 `;
 
 const TotalNumText = styled.p`

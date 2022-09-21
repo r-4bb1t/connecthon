@@ -21,13 +21,16 @@ const TokenContextProvider = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
 
   useEffect(() => {
+    console.log(localStorage.getItem("token"));
     if (localStorage.getItem("token") !== null) {
       setToken(localStorage.getItem("token")!);
+      console.log(jwt_decode(localStorage.getItem("token")!));
       setUser(jwt_decode(localStorage.getItem("token")!));
     }
   }, [, router]);
 
   const storeToken = (t: string) => {
+    console.log(t);
     localStorage.setItem("token", t);
     setUser(jwt_decode(token));
     setToken(t);

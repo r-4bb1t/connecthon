@@ -1,4 +1,5 @@
 import axios from "axios";
+import uuid from "react-uuid";
 import { useRouter } from "next/router";
 import React, { Dispatch, SetStateAction } from "react";
 import styled from "styled-components";
@@ -27,7 +28,7 @@ const Signup = ({ id, setId, pw, setPw, setPage, userType }: SignupProps) => {
           user_type: "parent",
           account: id,
           password: pw,
-          nickname: id,
+          nickname: uuid().slice(0, 8),
         }
       );
 
