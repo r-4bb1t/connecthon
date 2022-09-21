@@ -15,11 +15,16 @@ const DiaryPage: NextPage = () => {
   const fetchData = useCallback(async () => {
     try {
       const result = await (
-        await fetch(`${process.env.NEXT_PUBLIC_API_HOST || "/api"}/diaries`, {
-          headers: {
-            Authorization: `${token}`,
-          },
-        })
+        await fetch(
+          `${
+            process.env.NEXT_PUBLIC_API_HOST || "/api"
+          }/user/diaries?child_id=${user?.user_id}`,
+          {
+            headers: {
+              Authorization: `${token}`,
+            },
+          }
+        )
       ).json();
       setDiaries(result.data);
     } catch (e) {

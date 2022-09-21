@@ -43,7 +43,7 @@ export interface CardType {
 }
 
 export interface UserType {
-  user_id: string;
+  user_id: number;
   user_type: "child" | "parent";
   detailed_type: string;
 }

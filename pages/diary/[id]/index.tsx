@@ -23,7 +23,9 @@ const DiaryDetail = () => {
     try {
       const result = await (
         await fetch(
-          `${process.env.NEXT_PUBLIC_API_HOST || "/api"}/diary/${id}`,
+          `${
+            process.env.NEXT_PUBLIC_API_HOST || "/api"
+          }/user/diary?diary_id=${id}&?child_id=${user?.user_id}`,
           {
             headers: {
               Authorization: `${token}`,
