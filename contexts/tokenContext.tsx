@@ -30,9 +30,9 @@ const TokenContextProvider = ({ children }: { children: ReactNode }) => {
   }, [, router]);
 
   const storeToken = (t: string) => {
-    console.log(t);
+    console.log("token:::", t);
     localStorage.setItem("token", t);
-    setUser(jwt_decode(token));
+    setUser(jwt_decode(t));
     setToken(t);
   };
 
